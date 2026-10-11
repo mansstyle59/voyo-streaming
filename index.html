@@ -210,7 +210,7 @@ body{background:#07080d;letter-spacing:.005em}
 </div>
 </header>
 <main class="main">
-<section class="hero" id="hero">
+<section class="hero" id="hero" hidden>
 <div class="hero-copy">
 <div class="eyebrow">Le choix du moment sur VOYO</div>
 <h1 id="heroTitle">Le Dernier Signal</h1>
@@ -221,7 +221,7 @@ body{background:#07080d;letter-spacing:.005em}
 </div>
 </section>
 <div class="content" id="content">
-<div class="notice">Catalogue de démonstration : les titres et visuels sont fictifs. Aucun flux vidéo ou chaîne réelle n’est connecté à cette version.</div>
+<div class="notice">Connexion au catalogue de films et séries…</div>
 <div id="genreBar" class="genres" aria-label="Filtrer par genre"><button class="genre active" data-genre="Tous">Tous les genres</button><button class="genre" data-genre="Action">Action</button><button class="genre" data-genre="Aventure">Aventure</button><button class="genre" data-genre="Comédie">Comédie</button><button class="genre" data-genre="Documentaire">Documentaire</button><button class="genre" data-genre="Drame">Drame</button><button class="genre" data-genre="Science-fiction">Science-fiction</button><button class="genre" data-genre="Thriller">Thriller</button></div>
 <div id="sections"></div>
 <div id="addonExternalSections"></div>
@@ -432,7 +432,7 @@ function render(skipAddonFetch){const tv=view==="tv";$("tvPage").hidden=!tv;$("s
 function chooseView(v){if(v==="films"){view="home";render();$("search").focus();$("search").classList.add("has-text");return}else{view=v;}genre="Tous";document.querySelectorAll("[data-genre]").forEach(b=>b.classList.toggle("active",b.dataset.genre==="Tous"));$("search").value="";$("search").classList.remove("has-text");$("profileMenu").classList.remove("open");render();window.scrollTo({top:0,behavior:"smooth"})}
 function openDetail(id){const t=byId(id);activeTitle=t;$("detailTitle").textContent=t.title;$("modalArt").style.setProperty("--c1",t.c1);$("modalArt").style.setProperty("--c2",t.c2);$("detailMeta").innerHTML='<span class="match">'+t.score+' % pour vous</span><span>'+t.year+'</span><span class="rating">'+esc(t.age)+'</span><span>'+esc(t.duration)+'</span><span>'+esc(t.kind)+'</span>'; $("detailSynopsis").textContent=t.summary;$("detailFacts").innerHTML='<div><strong>Genres :</strong> '+esc(t.genre)+'</div><div><strong>Distribution :</strong> '+esc(t.cast)+'</div><div><strong>Audio et sous-titres :</strong> configurables quand une source vidéo compatible sera connectée.</div>';$("detailList").textContent=isSaved(t)?"✓ Dans ma liste":"＋ Ma liste";$("rateUp").dataset.rate=t.id;$("rateDown").dataset.rate=t.id;$("rateUp").textContent=ratings[t.id]==="up"?"👍 Tu aimes":"👍 J’aime";$("rateDown").textContent=ratings[t.id]==="down"?"👎 Noté":"👎 Pas pour moi";$("detailModal").classList.add("open")}
 function openMessage(title,text,actions){$("messageTitle").textContent=title;$("messageText").textContent=text;$("messageActions").innerHTML=actions||"";$("messageModal").classList.add("open")}
-function playTitle(id){const t=byId(id);openMessage(t.title,"Cette fiche fait partie du catalogue de démonstration VOYO. Aucun fichier vidéo ni flux de diffusion n’est associé à ce titre pour le moment. Le lecteur pourra être activé lorsque tu ajouteras une source vidéo autorisée.",'<button class="btn btn-white" data-close>Compris</button><button class="btn btn-soft" data-detail="'+t.id+'">Voir la fiche</button>')}
+function playTitle(id){const t=byId(id);if(t&&t.isLive){const link=t.externalUrl?'<a class="btn btn-white" href="'+esc(t.externalUrl)+'" target="_blank" rel="noopener noreferrer">Voir la fiche IMDb ↗</a>':'<button class="btn btn-white" data-close>Compris</button>';openMessage(t.title,"Catalogue réel : VOYO affiche les informations du titre, mais aucune source vidéo autorisée n’est associée automatiquement. Consulte les options légales de visionnage dans ta région.",link);return}openMessage(t.title,"Aucune source vidéo autorisée n’est associée à ce titre.",'<button class="btn btn-white" data-close>Compris</button>')}
 function toggleSaved(id){if(userList.includes(id))userList=userList.filter(x=>x!==id);else userList.unshift(id);persist();render();if($("detailModal").classList.contains("open")){$("detailList").textContent=isSaved(activeTitle)?"✓ Dans ma liste":"＋ Ma liste"};$("heroAdd").textContent=isSaved(activeTitle)?"✓ Dans ma liste":"＋ Ma liste"}
 document.addEventListener("click",function(e){
 const viewButton=e.target.closest("[data-view]");if(viewButton){chooseView(viewButton.dataset.view);return}
@@ -515,7 +515,6 @@ async function loadRealCatalog(){
   const tv=$("tvGrid");if(tv)tv.innerHTML='<div class="empty-state">Le catalogue TV réel est indisponible.</div>';
  }
 }
-render();
 loadRealCatalog();
 })();
 </script>
