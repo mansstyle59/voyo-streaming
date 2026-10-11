@@ -61,7 +61,23 @@ jobs:
           }
           a:focus, button:focus, input:focus, select:focus, textarea:focus,
           .focusable:focus, .focused, .selected, [aria-selected="true"] {
-            outline-color: #4d8dff !important;
+            outline-color: #438bff !important;
+          }
+          /* Keep the recognizable VOYO cyan-blue-violet gradient on selected and primary controls. */
+          .home-nav-item.selected,
+          .modern-sidebar-nav-item.selected,
+          .library-picker-option.focused,
+          .button-primary, .primary-button, .btn-primary,
+          button.primary, a.primary, [data-variant="primary"] {
+            background: linear-gradient(105deg, #2de0df 0%, #438bff 48%, #762dff 100%) !important;
+            border-color: transparent !important;
+            color: #08090d !important;
+          }
+          .home-poster-card.focused .home-poster-frame,
+          .search-result-card.focused .search-result-poster-wrap,
+          .seeall-card.focused .seeall-card-poster-wrap {
+            border-color: #438bff !important;
+            box-shadow: 0 0 0 2px #438bff !important;
           }
           CSS
       - name: Prepare GitHub Pages files
@@ -89,6 +105,7 @@ jobs:
         with:
           path: site
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
