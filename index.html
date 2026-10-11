@@ -220,8 +220,13 @@ async function initializeFeaturedAddon(){let list=readConnectedAddons();let foun
 function renderAddonState(message,error){const host=$("addonExternalSections");if(!host)return;host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><span class="section-caption">Sources externes</span></div><div class="addon-connection-state '+(error?"error":"")+'">'+escapeExternal(message)+' <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>'}
 async function renderConnectedAddonCatalogs(force){
  const host=$("addonExternalSections");if(!host)return;
- let addons=readConnectedAddons().filter(a=>a&&a.enabled&&a.url);
- if(!addons.length){host.innerHTML="";return}
+ let savedAddons=readConnectedAddons();
+ if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
+  savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
+  writeConnectedAddons(savedAddons);
+ }
+ let addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
+ if(!addons.length){host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
  const rows=[];
  for(let i=0;i<addons.length;i++){
