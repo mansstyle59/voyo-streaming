@@ -189,13 +189,13 @@ VOYO est un projet indépendant. Le dépôt public de référence NuvioTV indiqu
 
 ## Intégration NuvioTVSmart avec les couleurs VOYO — 11 octobre 2026
 
-La branche `integrate/nuvio-tvsmart-voyo-theme` prépare une compilation reproductible de l'application web officielle [NuvioTVSmart](https://github.com/NuvioMedia/NuvioTVSmart). Le workflow GitHub Actions récupère le dépôt amont à la compilation, installe ses dépendances avec `npm ci`, lance `npm run build), puis prépare les fichiers statiques à publier avec une surcharge de thème VOYO cyan → bleu → violet.
+La branche `integrate/nuvio-tvsmart-voyo-theme` prépare une compilation reproductible de l'application web officielle [NuvioTVSmart](https://github.com/NuvioMedia/NuvioTVSmart). Le workflow GitHub Actions récupère le dépôt amont à la compilation, installe ses dépendances avec `npm ci`, lance `npm run build`, puis prépare les fichiers statiques à publier avec une surcharge de thème VOYO cyan → bleu → violet.
 
 Le build publié conserve la licence GPL-3.0 et la documentation amont dans les fichiers de publication, avec attribution explicite. VOYO n'est pas une distribution officielle de Nuvio.
 
 **Compatibilité :** NuvioTVSmart cible principalement les téléviseurs Samsung Tizen et LG webOS. Certaines fonctions utilisent des API et services locaux spécifiques à ces plateformes ; même si la compilation web réussit, elles peuvent ne pas fonctionner dans un navigateur ordinaire ou sur iPhone.
 
-**Statut de publication :** cette intégration reste sur une branche dédiée. Le workflow de cette branche publierait sur la même cible GitHub Pages lorsqu'il s'exécute ; valider le build et les écrans publiés avant de fusionner ou d'activer cette version en production. L'application existante et la page de gestion des addons n'ont pas été supprimées dans cette branche.
+**Statut de publication :** l’intégration NuvioTVSmart et le thème VOYO sont maintenant fusionnés dans `main`. Le workflow de production compile puis publie le site sur GitHub Pages ; le workflow historique de l’interface VOYO effectue uniquement des tests et ne publie plus par-dessus Nuvio.
 
 
 ## Déploiement Nuvio avec l’identité visuelle VOYO — 11 octobre 2026
@@ -229,3 +229,10 @@ Le workflow de publication ajoute désormais une couche CSS responsive au build 
 - **Accessibilité** : respecte la préférence de réduction des animations.
 
 Le CSS est appliqué au fichier compilé `dist/css/bundle.css` pendant le workflow ; il ne modifie pas les fichiers sources amont. Les interfaces précises de connexion varient selon les écrans Nuvio : vérifier sur un vrai iPhone et sur la cible TV, notamment les écrans d'appairage et les commandes D-pad.
+
+
+## Mise à jour mobile / Smart TV — suivi du déploiement
+
+La couche responsive a été ajoutée au workflow de production et le README a été corrigé pour refléter l'état réel du projet. Le dernier build a réussi les étapes de compilation, de validation des fichiers, d'application du thème et de préparation des fichiers publiés. La vérification finale du déploiement GitHub Pages est consultable dans [GitHub Actions](https://github.com/mansstyle59/voyo-streaming/actions).
+
+**À tester sur appareils réels :** iPhone Safari (portrait et paysage), Android si disponible, et Smart TV avec télécommande. La règle responsive vise à réduire les débordements de l'écran d'appairage, mais les écrans d'authentification exacts peuvent dépendre du code applicatif amont et des API propres à chaque téléviseur.
