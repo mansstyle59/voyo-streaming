@@ -1,0 +1,96 @@
+name: Build NuvioTVSmart with VOYO branding
+on:
+  push:
+    branches: [main, integrate/nuvio-tvsmart-voyo-theme]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout VOYO
+        uses: actions/checkout@v4
+      - name: Checkout upstream NuvioTVSmart
+        uses: actions/checkout@v4
+        with:
+          repository: NuvioMedia/NuvioTVSmart
+          ref: main
+          path: nuvio-source
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: nuvio-source/package-lock.json
+      - name: Install dependencies
+        working-directory: nuvio-source
+        run: npm ci
+      - name: Build Nuvio web app
+        working-directory: nuvio-source
+        run: npm run build
+      - name: Validate Nuvio build output
+        run: |
+          test -s nuvio-source/dist/index.html
+          test -s nuvio-source/dist/app.bundle.js
+          test -s nuvio-source/dist/css/themes.css
+          test -s nuvio-source/LICENSE
+          test -s nuvio-source/README.md
+      - name: Apply VOYO theme to compiled Nuvio UI
+        run: |
+          cat >> nuvio-source/dist/css/themes.css <<'CSS'
+
+          /* VOYO brand override — custom theme on the NuvioTVSmart build. */
+          :root {
+            --focus-color: #4d8dff;
+            --focus-color-rgb: 77 141 255;
+            --focus-bg: #13233e;
+            --secondary-color: #4d8dff;
+            --secondary-color-rgb: 77 141 255;
+            --secondary-variant: #a78bfa;
+            --on-secondary: #08090d;
+          }
+          a:focus, button:focus, input:focus, select:focus, textarea:focus,
+          .focusable:focus, .focused, .selected, [aria-selected="true"] {
+            outline-color: #4d8dff !important;
+          }
+          CSS
+      - name: Prepare GitHub Pages files
+        run: |
+          rm -rf site
+          mkdir -p site
+          cp -a nuvio-source/dist/. site/
+          cp nuvio-source/LICENSE site/LICENSE-NUVIO-GPL-3.0
+          cp nuvio-source/README.md site/README-NUVIO-UPSTREAM.md
+          cp README.md site/README-VOYO.md
+          cat > site/VOYO-ATTRIBUTION.txt <<'EOF'
+          VOYO branded build of NuvioTVSmart
+          Upstream source: https://github.com/NuvioMedia/NuvioTVSmart
+          License: GNU GPL v3. See LICENSE-NUVIO-GPL-3.0.
+          VOYO theme modifications are documented in the VOYO repository.
+          This build is independent and is not an official Nuvio release.
+          EOF
+          test -s site/index.html
+          test -s site/app.bundle.js
+          test -s site/css/themes.css
+          grep -q '#2de0df' site/css/themes.css
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
