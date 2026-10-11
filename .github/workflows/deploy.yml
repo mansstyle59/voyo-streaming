@@ -32,6 +32,10 @@ jobs:
           PY
           node --check /tmp/index-1.js
           node --check /tmp/addons-1.js
+      - name: Install DOM smoke-test dependency
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund jsdom@26.1.0
+      - name: Test homepage, add-ons and error handling
+        run: node tests/smoke.mjs
       - name: Probe configured Stremio manifest (diagnostic)
         continue-on-error: true
         run: |
@@ -60,7 +64,7 @@ jobs:
               print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in catalogs])
               import urllib.parse
               base = url.rsplit("/", 1)[0] + "/"
-              for catalog in catalogs[:4]:
+              for catalog in [c for c in catalogs if c.get("id") != "fs-derniers-films"][:4]:
                   endpoint = base + "catalog/" + urllib.parse.quote(str(catalog.get("type", "")), safe="") + "/" + urllib.parse.quote(str(catalog.get("id", "")), safe="") + ".json"
                   try:
                       cat_req = urllib.request.Request(endpoint, headers=headers)
