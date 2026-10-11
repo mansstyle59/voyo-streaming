@@ -22,6 +22,9 @@ async function waitFor(test,description,timeout=2500){const start=Date.now();whi
 function load(fetcher){const dom=new JSDOM(html,{url:"https://mansstyle59.github.io/voyo-streaming/",runScripts:"dangerously",pretendToBeVisual:true,beforeParse(w){w.fetch=fetcher;w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};}});const errors=[];dom.window.addEventListener("error",e=>errors.push(e.message));return {dom,errors}}
 {
  const mock=createFetch(),{dom,errors}=load(mock.fetch),doc=dom.window.document;
+ assert.equal(doc.documentElement.lang,"fr","homepage language should be French");
+ assert.match(html,/linear-gradient\(105deg,#2de0df 0%,#438bff 48%,#762dff 100%\)/,"VOYO wordmark should use cyan-blue-violet gradient");
+ assert.match(html,/--accent:#4d8dff;--accent2:#a78bfa/,"interface accents should match the VOYO palette");
  await waitFor(()=>doc.querySelector("#sections .poster"),"real catalog cards should render");
  assert.match(doc.querySelector("#status").textContent,/1 films et 1 séries chargés/);
  assert.match(doc.querySelector("#sections").textContent,/Les Évadés/);
