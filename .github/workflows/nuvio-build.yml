@@ -45,8 +45,8 @@ jobs:
           test -s nuvio-source/README.md
       - name: Apply VOYO theme to compiled Nuvio UI
         run: |
-          CSS_FILE="$(find nuvio-source/dist/css -maxdepth 1 -type f -name '*.css' -print -quit)"
-          test -n "$CSS_FILE"
+          CSS_FILE="nuvio-source/dist/css/bundle.css"
+          test -s "$CSS_FILE"
           cat >> "$CSS_FILE" <<'CSS'
 
           /* VOYO brand override — cyan, blue and violet. */
@@ -99,9 +99,9 @@ jobs:
           EOF
           test -s site/index.html
           test -s site/app.bundle.js
-          CSS_FILE="$(find site/css -maxdepth 1 -type f -name '*.css' -print -quit)"
-          test -n "$CSS_FILE"
-          grep -q '#4d8dff' "$CSS_FILE"
+          CSS_FILE="site/css/bundle.css"
+          test -s "$CSS_FILE"
+          grep -q '#2de0df' "$CSS_FILE"
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
