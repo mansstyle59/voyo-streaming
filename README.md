@@ -51,6 +51,7 @@
 - **Compatibilité Stremio/Nuvio en cours d’étude** : la priorité est le protocole d’addons distant Stremio (`manifest.json`, `catalog`, `meta`, `stream`), sans prétendre couvrir toutes les extensions.
 - **Interface responsive** adaptée aux écrans mobiles et ordinateurs.
 - **Gestionnaire d’addons expérimental** : ajout par URL de manifeste, vérification, activation/désactivation, suppression, import/export JSON et aperçu des catalogues déclarés.
+- **Catalogues d’addons sur l’accueil** : VOYO tente d’afficher les titres des addons activés, d’ouvrir leurs fiches et de demander les flux déclarés par l’addon.
 - **Publication automatisée** via GitHub Actions et GitHub Pages.
 
 ## 🧩 Compatibilité d’addons — prochaine étape
@@ -71,7 +72,7 @@ VOYO **n’inclut pas automatiquement** un catalogue complet de films, de série
 
 **[Ouvrir la page Addons](https://mansstyle59.github.io/voyo-streaming/addons.html)**
 
-La page permet d’ajouter un addon distant en lisant son `manifest.json`, de conserver la liste dans le navigateur, d’activer/désactiver les entrées, de supprimer un addon, de réimporter/exporter une configuration et de consulter les catalogues déclarés. Un raccourci discret propose aussi l’installation de l’addon communautaire fourni dans la configuration de VOYO ; son installation est déclenchée par l’utilisateur après vérification du manifeste. Lorsqu’un catalogue est sélectionné, VOYO tente de lire les métadonnées exposées par l’addon.
+La page permet d’ajouter un addon distant en lisant son `manifest.json`, de conserver la liste dans le navigateur, d’activer/désactiver les entrées, de supprimer un addon, de réimporter/exporter une configuration et de consulter les catalogues déclarés. L’accueil tente également de charger les catalogues activés, puis leurs fiches et flux. Un raccourci discret propose aussi l’installation de l’addon communautaire fourni dans la configuration de VOYO ; son installation est déclenchée par l’utilisateur après vérification du manifeste. Lorsqu’un catalogue est sélectionné, VOYO tente de lire les métadonnées exposées par l’addon.
 
 **Compatibilité partielle :** l’addon mis en raccourci est un service tiers et n’a pas pu être vérifié depuis l’environnement de développement. L’installation réelle doit confirmer qu’il expose un manifeste valide. Il doit autoriser les requêtes CORS et respecter les ressources du protocole attendu. Les catalogues et paramètres spécifiques, les sous-titres et la lecture de flux ne sont pas garantis. La page ne lance pas de code local fourni par un addon et ne fournit aucun film ou flux TV par elle-même. N’ajoute que des sources de confiance et autorisées.
 
