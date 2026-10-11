@@ -169,3 +169,11 @@ VOYO est un projet indépendant. Le dépôt public de référence NuvioTV indiqu
 
 ### Règle de maintenance
 À chaque modification de l'application, mettre à jour ce README dans la même série de changements, actualiser les tests pertinents et ne déclarer la publication terminée qu'après réussite de GitHub Actions.
+
+
+## Reconstruction VOYO — 11 octobre 2026
+
+- Remplacement de l’ancienne page d’accueil par une interface web responsive reconstruite autour de catalogues réels, d’une recherche, de fiches détaillées, d’une liste personnelle locale et d’une gestion des extensions existante.
+- Le projet Nuvio est développé sous GPL-3.0 ; VOYO s’en inspire fonctionnellement sans revendiquer être Nuvio ni reproduire son application native Android. Référence amont : https://github.com/NuvioMedia/NuvioTV.
+- Les catalogues Cinemeta fournissent des métadonnées et affiches, pas les droits de diffusion ni automatiquement les flux vidéo. Les sources doivent être ajoutées par l’utilisateur et utilisées légalement.
+- Les tests de fumée sont alignés sur le nouveau comportement : chargement du catalogue simulé, recherche, fiche, liste personnelle et état d’erreur. Chaque modification future doit mettre à jour ce README.
