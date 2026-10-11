@@ -218,3 +218,14 @@ La publication inclut la licence GPL-3.0 et le README amont de NuvioTVSmart, ain
 - Source Nuvio épinglée sur une révision précise pour rendre le build reproductible.
 - Workflow historique VOYO converti en tests uniquement afin qu’il ne remplace pas les fichiers Nuvio publiés.
 - Référence à la GPL-3.0, à l’attribution et aux limites des API spécifiques aux téléviseurs.
+
+
+## Adaptation mobile et Smart TV — 11 octobre 2026
+
+Le workflow de publication ajoute désormais une couche CSS responsive au build NuvioTVSmart :
+- **Mobile (≤ 700 px)** : marges, boutons, textes et cartes réduits, prévention des débordements horizontaux, champs de formulaire lisibles, disposition verticale prévue pour les écrans de connexion/appairage.
+- **Tablettes et petits écrans (701–1100 px)** : tailles intermédiaires et marges adaptées.
+- **Smart TV (≥ 1101 px)** : conserve la mise en page grand écran et renforce l’indication de focus clavier/télécommande.
+- **Accessibilité** : respecte la préférence de réduction des animations.
+
+Le CSS est appliqué au fichier compilé `dist/css/bundle.css` pendant le workflow ; il ne modifie pas les fichiers sources amont. Les interfaces précises de connexion varient selon les écrans Nuvio : vérifier sur un vrai iPhone et sur la cible TV, notamment les écrans d'appairage et les commandes D-pad.
