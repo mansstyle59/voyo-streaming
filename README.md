@@ -39,7 +39,8 @@
 
 ## Fonctions de la démo
 
-- **Accueil cinéma** : grande sélection à la une, rangées horizontales, Top 10, nouveautés et genres.
+- **Catalogue réel dynamique** : films et séries récupérés depuis les catalogues Cinemeta, avec affiches et fiches réelles ; les contenus fictifs ne sont plus affichés comme s’ils étaient réels.
+- **Accueil cinéma** : grande sélection à la une, rangées horizontales, Top 10, nouveautés et genres construits à partir des titres chargés.
 - **Interface cinéma premium** : contrastes renforcés, dégradés plus subtils, profondeur visuelle, cartes affinées, états de survol et navigation au clavier plus visibles.
 - **Responsive mobile retravaillé** : barre supérieure compacte, affiche à la une mieux hiérarchisée, boutons plus faciles à toucher et rangées horizontales adaptées aux petits écrans.
 - **Menu mobile** : navigation flottante en bas de l’écran, recherche, bibliothèque et profil.
@@ -138,7 +139,7 @@ Le workflow `.github/workflows/deploy.yml` est lancé lors des modifications sur
 
 ## Projet indépendant
 
-VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni à Nuvio. Les titres de démonstration sont fictifs. Les métadonnées qui apparaissent dans les rangées d’addons sont renvoyées par des services tiers ; la compatibilité et les droits associés doivent être vérifiés pour chaque source.
+VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni à Nuvio. Les métadonnées des films et séries sont chargées depuis Cinemeta, service tiers de métadonnées compatible avec l’écosystème Stremio. VOYO n’héberge pas ces contenus et ne fournit pas automatiquement les droits de diffusion ni les flux vidéo. Les options de lecture doivent venir de sources autorisées.
 
 ---
 
