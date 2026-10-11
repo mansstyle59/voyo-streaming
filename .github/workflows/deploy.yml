@@ -38,10 +38,16 @@ jobs:
           python3 - <<'PY'
           import json
           import urllib.request
-          from urllib.error import URLError, HTTPError
-          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcmluaWVycy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json"
+          from urllib.error import HTTPError
+          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcmlua2Vycy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json"
+          headers = {
+              "Accept": "application/json",
+              "Origin": "https://mansstyle59.github.io",
+              "Referer": "https://mansstyle59.github.io/voyo-streaming/",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+          }
           try:
-              req = urllib.request.Request(url, headers={"Accept": "application/json", "Origin": "https://mansstyle59.github.io"})
+              req = urllib.request.Request(url, headers=headers)
               with urllib.request.urlopen(req, timeout=12) as response:
                   raw = response.read()
                   print("Manifest HTTP status:", response.status)
@@ -51,9 +57,14 @@ jobs:
                   print("Manifest name:", data.get("name", "(missing)"))
                   print("Resources:", data.get("resources", []))
                   print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in data.get("catalogs", []) if isinstance(c, dict)])
+          except HTTPError as error:
+              print("Manifest HTTP status:", error.code)
+              print("Access-Control-Allow-Origin:", error.headers.get("Access-Control-Allow-Origin", "(missing)"))
+              print("Response headers:", dict(error.headers))
+              print("Response body:", error.read(1000).decode("utf-8", errors="replace"))
           except Exception as error:
               print("Manifest diagnostic failed:", repr(error))
-              print("The static site will still deploy; inspect addon availability/CORS separately.")
+          print("This diagnostic is informational; GitHub Pages deployment will continue.")
           PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
