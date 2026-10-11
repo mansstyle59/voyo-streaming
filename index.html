@@ -218,12 +218,13 @@ function isFeaturedSource(a){return a&&a.url===FEATURED_STREMIO_ADDON_URL}
 function normalizeManifestRecord(a,manifest){return {url:a.url,id:manifest.id,name:manifest.name,description:manifest.description||"",version:manifest.version||"",manifest,catalogs:(manifest.catalogs||[]).filter(c=>c&&c.type&&c.id).map(c=>({type:c.type,id:c.id,name:c.name||c.id,extra:c.extra||[],extraSupported:c.extraSupported||[]})),enabled:true,pending:false,lastError:"",installedAt:a.installedAt||new Date().toISOString()}}
 async function initializeFeaturedAddon(){let list=readConnectedAddons();let found=list.findIndex(a=>isFeaturedSource(a));if(found<0){list.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});writeConnectedAddons(list);found=0}const item=list[found];if(item.manifest&&Array.isArray(item.catalogs)&&item.catalogs.length&&!item.pending)return;try{const manifest=await getAddonJson(FEATURED_STREMIO_ADDON_URL);if(typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste invalide (id, name ou resources manquant)");list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));const normalized=normalizeManifestRecord(found>=0?list[found]:item,manifest);if(found>=0)list[found]=normalized;else list.unshift(normalized);writeConnectedAddons(list);return normalized}catch(error){list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));if(found>=0){list[found].pending=true;list[found].enabled=false;list[found].lastError=error.message||"Manifeste inaccessible";writeConnectedAddons(list)}return null}}
 function renderAddonState(message,error){const host=$("addonExternalSections");if(!host)return;host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><span class="section-caption">Sources externes</span></div><div class="addon-connection-state '+(error?"error":"")+'">'+escapeExternal(message)+' <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>'}
-let addonCatalogsPromise=null,addonCatalogRequestId=0;
+let addonCatalogsPromise=null,addonCatalogRequestId=0,addonCatalogQueryInFlight=null;
 async function renderConnectedAddonCatalogs(force){
  const host=$("addonExternalSections");if(!host)return;
- if(addonCatalogsPromise&&!force)return addonCatalogsPromise;
- const requestId=++addonCatalogRequestId;
  const query=$("search").value.trim();
+ if(addonCatalogsPromise&&!force&&addonCatalogQueryInFlight===query)return addonCatalogsPromise;
+ const requestId=++addonCatalogRequestId;
+ addonCatalogQueryInFlight=query;
  addonCatalogsPromise=(async()=>{
   let savedAddons=readConnectedAddons();
   if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
@@ -365,7 +366,7 @@ if(e.target.id==="settings"||e.target.id==="manageProfiles"){ $("profileMenu").c
 if(e.target.closest(".modal-backdrop")===e.target){e.target.classList.remove("open");return}
 if(!e.target.closest("#profileMenu"))$("profileMenu").classList.remove("open")
 });
-$("search").addEventListener("input",function(){if(this.value.trim())this.classList.add("has-text");else this.classList.remove("has-text");if(view==="tv")view="home";render(true);if(view==="home")renderConnectedAddonCatalogs(true)});
+$("search").addEventListener("input",function(){if(this.value.trim())this.classList.add("has-text");else this.classList.remove("has-text");if(view==="tv")view="home";render()});
 $("search").addEventListener("focus",function(){this.classList.add("has-text")});
 $("logoHome").addEventListener("click",function(e){e.preventDefault();chooseView("home")});
 $("heroPlay").addEventListener("click",()=>playTitle(activeTitle.id));
