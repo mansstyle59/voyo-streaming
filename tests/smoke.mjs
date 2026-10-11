@@ -130,6 +130,10 @@ function loadPage(html, pathname, fetcher, storageSeed = []) {
     () => mock.calls.some(url => url.includes("/catalog/movie/fs-search/search=robot.json")),
     "homepage search should pass query to the add-on search catalog"
   );
+  await waitFor(
+    () => home.querySelector("#addonExternalSections").textContent.includes("Film de test VOYO"),
+    "homepage should display returned addon search results"
+  );
   assert.match(home.querySelector("#addonExternalSections").textContent, /robot/i);
   assert.equal(runtimeErrors.length, 0, "search path should have no unhandled runtime errors: " + runtimeErrors.join("; "));
   dom.window.close();
