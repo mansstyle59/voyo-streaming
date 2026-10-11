@@ -12,9 +12,11 @@ const sampleManifest = {
   description: "Manifest fixture for VOYO smoke tests",
   resources: ["catalog", "meta", "stream"],
   types: ["movie", "series"],
+  extraSupported: ["search"],
   catalogs: [
     { type: "movie", id: "fs-films-action", name: "FS - Films Action" },
-    { type: "series", id: "fs-dernieres-series", name: "FS - Dernières Séries" }
+    { type: "series", id: "fs-dernieres-series", name: "FS - Dernières Séries" },
+    { type: "movie", id: "fs-search", name: "Recherche - Films", extra: [{ name: "search" }] }
   ]
 };
 const sampleMetas = [
@@ -120,6 +122,16 @@ function loadPage(html, pathname, fetcher, storageSeed = []) {
     "title details should load streams"
   );
   assert.ok(mock.calls.some(url => url.includes("/stream/movie/smoke-movie.json")), "details should query stream resource");
+
+  const search = home.querySelector("#search");
+  search.value = "robot";
+  search.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  await waitFor(
+    () => mock.calls.some(url => url.includes("/catalog/movie/fs-search/search=robot.json")),
+    "homepage search should pass query to the add-on search catalog"
+  );
+  assert.match(home.querySelector("#addonExternalSections").textContent, /robot/i);
+  assert.equal(runtimeErrors.length, 0, "search path should have no unhandled runtime errors: " + runtimeErrors.join("; "));
   dom.window.close();
   console.log("PASS homepage catalogues, metadata card, details modal and stream discovery");
 }
