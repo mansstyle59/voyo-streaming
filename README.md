@@ -37,20 +37,14 @@
 
 ---
 
-## Fonctions de la démo
+## Fonctionnalités de la version reconstruite
 
-- **Catalogue réel dynamique** : films et séries récupérés depuis les catalogues Cinemeta, avec affiches et fiches réelles ; les contenus fictifs ne sont plus affichés comme s’ils étaient réels.
-- **Accueil cinéma** : grande sélection à la une, rangées horizontales, Top 10, nouveautés et genres construits à partir des titres chargés.
-- **Interface cinéma premium** : contrastes renforcés, dégradés plus subtils, profondeur visuelle, cartes affinées, états de survol et navigation au clavier plus visibles.
-- **Responsive mobile retravaillé** : barre supérieure compacte, affiche à la une mieux hiérarchisée, boutons plus faciles à toucher et rangées horizontales adaptées aux petits écrans.
+- **Catalogue réel dynamique** : chargement des catalogues Cinemeta pour les films et les séries, avec affiches, année, genres, notes et descriptions lorsqu’ils sont fournis.
+- **Nouvelle interface VOYO** : navigation simplifiée, mise en avant éditoriale, rangées horizontales, grille de résultats, fiches détaillées et barre de navigation mobile.
+- **Recherche et filtres** : recherche dans les métadonnées chargées et vues Films, Séries et Ma liste.
+- **Ma liste** : enregistrée localement dans le navigateur actuel.
+- **Extensions** : la page `addons.html` reste disponible pour configurer les addons Stremio ; les catalogues compatibles peuvent être affichés sur l’accueil.
 - **Menu mobile** : navigation flottante en bas de l’écran, recherche, bibliothèque et profil.
-- **Reprendre à regarder** : progression d’exemple pour illustrer l’interface.
-- **Recherche locale** : recherche dans les titres et descriptions de démonstration.
-- **Recherche d’addons** : si un addon expose un catalogue de recherche compatible, VOYO transmet le terme saisi via l’option `search`.
-- **Catalogues externes sur l’accueil** : tentative de chargement des catalogues des addons actifs et affichage des titres renvoyés.
-- **Fiches externes** : VOYO peut interroger `meta` pour récupérer description, détails et épisodes lorsqu’ils sont fournis.
-- **Sources** : l’application ne recherche des flux que si le manifeste annonce une ressource `stream`; la lecture dépend ensuite du format et du navigateur.
-- **Ma liste et préférences** : fonctions de démonstration stockées localement dans le navigateur.
 - **Gestion des addons** : ajout par URL de manifeste, vérification, activer/désactiver, supprimer, importer/exporter JSON et explorer les catalogues.
 - **Tests automatiques** via GitHub Actions : contrôle de syntaxe JavaScript, tests de parcours simulé et diagnostic réseau non bloquant du manifeste configuré.
 - **Publication statique** par GitHub Pages.
@@ -137,9 +131,9 @@ Le workflow `.github/workflows/deploy.yml` est lancé lors des modifications sur
 4. Étudier un backend optionnel pour les addons qui ne supportent pas CORS.
 5. Ajouter de vrais comptes, le contrôle parental et la synchronisation sécurisée entre appareils.
 
-## Projet indépendant
+## Projet indépendant et compatibilité de licence
 
-VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni à Nuvio. Les métadonnées des films et séries sont chargées depuis Cinemeta, service tiers de métadonnées compatible avec l’écosystème Stremio. VOYO n’héberge pas ces contenus et ne fournit pas automatiquement les droits de diffusion ni les flux vidéo. Les options de lecture doivent venir de sources autorisées.
+VOYO est une implémentation indépendante qui s’inspire des parcours fonctionnels des applications de streaming comme Nuvio (navigation, catalogues, fiches et extensions). Le nouveau `index.html` a été écrit pour VOYO ; il ne prétend pas être une copie binaire ou une reprise mot pour mot du code source Nuvio. Le dépôt amont [NuvioMedia/NuvioTV](https://github.com/NuvioMedia/NuvioTV) publie son code sous GPL-3.0. Si du code GPL de Nuvio est intégré à l’avenir, il faudra conserver les mentions de copyright, joindre la licence et distribuer le code source correspondant selon les obligations de GPL-3.0. VOYO n’est pas affilié à Nuvio, Netflix ou Stremio. Les métadonnées des films et séries sont chargées depuis Cinemeta, service tiers de métadonnées compatible avec l’écosystème Stremio. VOYO n’héberge pas ces contenus et ne fournit pas automatiquement les droits de diffusion ni les flux vidéo. Les options de lecture doivent venir de sources autorisées.
 
 ---
 
@@ -156,3 +150,6 @@ VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni 
 ## Journal des changements
 
 - **2026-10-11** — Ajout de la règle de maintenance : mettre à jour le README à chaque modification du projet et vérifier les tests et le déploiement.
+
+
+- **2026-10-11** — Reconstruction de l’interface principale : catalogues réels, navigation mobile, recherche, fiches et liste locale ; tests adaptés au nouveau parcours. La page de gestion des addons est conservée. Documentation mise à jour dans le même lot.
