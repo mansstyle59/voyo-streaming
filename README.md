@@ -40,6 +40,8 @@
 ## Fonctions de la démo
 
 - **Accueil cinéma** : grande sélection à la une, rangées horizontales, Top 10, nouveautés et genres.
+- **Interface cinéma premium** : contrastes renforcés, dégradés plus subtils, profondeur visuelle, cartes affinées, états de survol et navigation au clavier plus visibles.
+- **Responsive mobile retravaillé** : barre supérieure compacte, affiche à la une mieux hiérarchisée, boutons plus faciles à toucher et rangées horizontales adaptées aux petits écrans.
 - **Menu mobile** : navigation flottante en bas de l’écran, recherche, bibliothèque et profil.
 - **Reprendre à regarder** : progression d’exemple pour illustrer l’interface.
 - **Recherche locale** : recherche dans les titres et descriptions de démonstration.
