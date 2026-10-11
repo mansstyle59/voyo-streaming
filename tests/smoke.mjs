@@ -28,6 +28,9 @@ function load(fetcher){const dom=new JSDOM(html,{url:"https://mansstyle59.github
  assert.match(doc.querySelector("#sections").textContent,/Breaking Bad/);
  assert.ok(mock.calls.some(x=>x.includes("/catalog/movie/top.json")));
  assert.ok(mock.calls.some(x=>x.includes("/catalog/series/top.json")));
+ const search=doc.querySelector("#search");search.value="Breaking";search.dispatchEvent(new dom.window.Event("input",{bubbles:true}));
+ assert.match(doc.querySelector("#sections").textContent,/Breaking Bad/);
+ search.value="";search.dispatchEvent(new dom.window.Event("input",{bubbles:true}));
  doc.querySelector('[data-id="tt0111161"]').click();
  assert.ok(doc.querySelector("#detailModal").classList.contains("open"));
  assert.match(doc.querySelector("#detailBody").textContent,/Les Évadés/);
@@ -35,9 +38,6 @@ function load(fetcher){const dom=new JSDOM(html,{url:"https://mansstyle59.github
  assert.match(doc.querySelector("#detailSave").textContent,/Dans ma liste/);
  doc.querySelector('[data-view="list"]').click();
  assert.match(doc.querySelector("#sections").textContent,/Les Évadés/);
- doc.querySelector('[data-view="home"]').click();
- const search=doc.querySelector("#search");search.value="Breaking";search.dispatchEvent(new dom.window.Event("input",{bubbles:true}));
- assert.match(doc.querySelector("#sections").textContent,/Breaking Bad/);
  assert.equal(errors.length,0,"no runtime errors: "+errors.join("; "));
  dom.window.close();console.log("PASS real catalog loading, search, details and saved list");
 }
