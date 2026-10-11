@@ -218,71 +218,70 @@ function isFeaturedSource(a){return a&&a.url===FEATURED_STREMIO_ADDON_URL}
 function normalizeManifestRecord(a,manifest){return {url:a.url,id:manifest.id,name:manifest.name,description:manifest.description||"",version:manifest.version||"",manifest,catalogs:(manifest.catalogs||[]).filter(c=>c&&c.type&&c.id).map(c=>({type:c.type,id:c.id,name:c.name||c.id,extra:c.extra||[],extraSupported:c.extraSupported||[]})),enabled:true,pending:false,lastError:"",installedAt:a.installedAt||new Date().toISOString()}}
 async function initializeFeaturedAddon(){let list=readConnectedAddons();let found=list.findIndex(a=>isFeaturedSource(a));if(found<0){list.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});writeConnectedAddons(list);found=0}const item=list[found];if(item.manifest&&Array.isArray(item.catalogs)&&item.catalogs.length&&!item.pending)return;try{const manifest=await getAddonJson(FEATURED_STREMIO_ADDON_URL);if(typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste invalide (id, name ou resources manquant)");list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));const normalized=normalizeManifestRecord(found>=0?list[found]:item,manifest);if(found>=0)list[found]=normalized;else list.unshift(normalized);writeConnectedAddons(list);return normalized}catch(error){list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));if(found>=0){list[found].pending=true;list[found].enabled=false;list[found].lastError=error.message||"Manifeste inaccessible";writeConnectedAddons(list)}return null}}
 function renderAddonState(message,error){const host=$("addonExternalSections");if(!host)return;host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><span class="section-caption">Sources externes</span></div><div class="addon-connection-state '+(error?"error":"")+'">'+escapeExternal(message)+' <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>'}
+let addonCatalogsPromise=null;
 async function renderConnectedAddonCatalogs(force){
  const host=$("addonExternalSections");if(!host)return;
- let savedAddons=readConnectedAddons();
- if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
-  savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
- }
- for(const item of savedAddons){if(item&&item.url===FEATURED_STREMIO_ADDON_URL&&item.pending)item.enabled=true;}
- writeConnectedAddons(savedAddons);
- let addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
- if(!addons.length){host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
- host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
- const rows=[];
- for(let i=0;i<addons.length;i++){
-  let addon=addons[i],manifest=addon.manifest;
-  try{
-   if(!manifest||!Array.isArray(addon.catalogs)||addon.pending){
-    manifest=await getAddonJson(addon.url,8000);
-    if(!manifest||typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste non valide");
-    addon=normalizeManifestRecord(addon,manifest);
-    const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);
-    if(at>=0)all[at]=addon;else all.unshift(addon);
-    writeConnectedAddons(all);
-   }
-   if(!addon.enabled)continue;
-   const catalogs=Array.isArray(addon.catalogs)?addon.catalogs:[];
-   if(!catalogs.length){rows.push({addon,name:"Aucun catalogue",error:"Le manifeste est valide, mais ne déclare pas de catalogues de navigation."});continue}
-   const catalogRows=await Promise.all(catalogs.slice(0,8).map(async catalog=>{
-    const extras={};
-    (catalog.extra||[]).forEach(x=>{
-      if(!x||!x.name)return;
-      if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];
-      else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}
-    });
-    const url=stremioResourceUrl(addon.url,"catalog/"+encodeURIComponent(catalog.type)+"/"+encodeURIComponent(catalog.id),extras);
-    try{
-     const cached=!force&&externalFetchCache[url];
-     const result=cached||await getAddonJson(url,7500);
-     externalFetchCache[url]=result;
-     const metas=Array.isArray(result.metas)?result.metas:(Array.isArray(result.metasDetailed)?result.metasDetailed:[]);
-     return {addon,catalog,name:catalog.name||catalog.id,metas:metas.slice(0,18),error:metas.length?null:"L’addon a répondu sans titre pour ce catalogue."};
-    }catch(error){
-     return {addon,catalog,name:catalog.name||catalog.id,error:error.message||"Catalogue inaccessible"};
-    }
-   }));
-   rows.push(...catalogRows);
-  }catch(error){
-   addon.pending=true;addon.enabled=true;addon.lastError=error.message||"Erreur de connexion";
-   const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);
-   if(at>=0)all[at]=addon;else all.unshift(addon);
-   writeConnectedAddons(all);
-   rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."});
+ if(addonCatalogsPromise&&!force)return addonCatalogsPromise;
+ addonCatalogsPromise=(async()=>{
+  let savedAddons=readConnectedAddons();
+  if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
+   savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
   }
- }
- if(!rows.length){host.innerHTML="";return}
- host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
-  const sub=escapeExternal(row.addon.name||"Addon");
-  const cards=(row.metas||[]).map(meta=>{
-   const title=meta.name||meta.title||"Sans titre";
-   const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
-   if(poster)style+='background-image:linear-gradient(0deg,#000d,transparent 72%),url(&quot;'+escapeExternal(poster)+'&quot;);background-size:cover;background-position:center;';
-   const payload=btoa(unescape(encodeURIComponent(JSON.stringify({addonUrl:row.addon.url,type:meta.type||row.catalog?.type||"movie",id:meta.id||"",title,poster:poster,year:meta.year||"",description:meta.description||meta.plot||"",releaseInfo:meta.releaseInfo||""})))).replace(/"/g,"&quot;");
-   return '<article class="card"><button class="poster" data-addon-meta="'+payload+'" aria-label="Voir '+escapeExternal(title)+'" style="'+style+'"><span class="poster-title">'+escapeExternal(title)+'</span></button><div class="card-name">'+escapeExternal(title)+'</div><div class="card-meta">'+escapeExternal([meta.year,meta.type,meta.releaseInfo].filter(Boolean).join(" · "))+'</div></article>'
+  // Retry previous automatic failures, but respect a deliberate off switch on a verified addon.
+  for(const item of savedAddons){if(item&&item.url===FEATURED_STREMIO_ADDON_URL&&item.pending)item.enabled=true;}
+  writeConnectedAddons(savedAddons);
+  const addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
+  if(!addons.length){host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
+  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
+  const rows=[];
+  for(const initial of addons){
+   let addon=initial,manifest=addon.manifest;
+   try{
+    if(!manifest||!Array.isArray(addon.catalogs)||addon.pending){
+     manifest=await getAddonJson(addon.url,8000);
+     if(!manifest||typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste non valide");
+     addon=normalizeManifestRecord(addon,manifest);
+     const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all);
+    }
+    if(!addon.enabled)continue;
+    const catalogs=Array.isArray(addon.catalogs)?addon.catalogs:[];
+    // Search catalogs need a query term; keep the home screen focused on browsable catalogs.
+    const browsable=catalogs.filter(c=>!/(^|[- _])(search|recherche)([- _]|$)/i.test(String((c.id||"")+" "+(c.name||""))));
+    if(!browsable.length){rows.push({addon,name:"Aucun catalogue de navigation",error:"Le manifeste n’a pas déclaré de catalogue navigable sans recherche."});continue}
+    const catalogRows=await Promise.all(browsable.slice(0,8).map(async catalog=>{
+     const extras={};
+     (catalog.extra||[]).forEach(x=>{if(x&&x.name){if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}}});
+     const url=stremioResourceUrl(addon.url,"catalog/"+encodeURIComponent(catalog.type)+"/"+encodeURIComponent(catalog.id),extras);
+     try{
+      let result=(!force&&externalFetchCache[url])||await getAddonJson(url,7500);
+      externalFetchCache[url]=result;
+      const metas=Array.isArray(result.metas)?result.metas:(Array.isArray(result.metasDetailed)?result.metasDetailed:[]);
+      return {addon,catalog,name:catalog.name||catalog.id,metas:metas.slice(0,18),error:null};
+     }catch(error){return {addon,catalog,name:catalog.name||catalog.id,error:error.message||"Catalogue inaccessible"}}
+    }));
+    rows.push(...catalogRows);
+   }catch(error){
+    addon.pending=true;addon.enabled=true;addon.lastError=error.message||"Erreur de connexion";
+    const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all);
+    rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."});
+   }
+  }
+  if(!rows.length){host.innerHTML="";return}
+  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
+   const sub=escapeExternal(row.addon.name||"Addon");
+   const cards=(row.metas||[]).map(meta=>{
+    const title=meta.name||meta.title||"Sans titre";const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
+    if(poster)style+='background-image:linear-gradient(0deg,#000d,transparent 72%),url(&quot;'+escapeExternal(poster)+'&quot;);background-size:cover;background-position:center;';
+    const payload=btoa(unescape(encodeURIComponent(JSON.stringify({addonUrl:row.addon.url,type:meta.type||row.catalog?.type||"movie",id:meta.id||"",title,poster:poster,year:meta.year||"",description:meta.description||meta.plot||"",releaseInfo:meta.releaseInfo||""})))).replace(/"/g,"&quot;");
+    return '<article class="card"><button class="poster" data-addon-meta="'+payload+'" aria-label="Voir '+escapeExternal(title)+'" style="'+style+'"><span class="poster-title">'+escapeExternal(title)+'</span></button><div class="card-name">'+escapeExternal(title)+'</div><div class="card-meta">'+escapeExternal([meta.year,meta.type,meta.releaseInfo].filter(Boolean).join(" · "))+'</div></article>';
+   }).join("");
+   const rowTitle=escapeExternal(row.name);
+   if(row.error)return '<section class="section"><div class="section-head"><h2 class="section-title">'+rowTitle+'</h2><span class="section-caption">'+sub+'</span></div><div class="addon-connection-state error"><strong>'+escapeExternal(row.error)+'</strong> <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Vérifier les addons ↗</a></div></section>';
+   if(!cards)return "";
+   return '<section class="section"><div class="section-head"><h2 class="section-title">'+rowTitle+'</h2><span class="section-caption">'+sub+'</span></div><div class="rail">'+cards+'</div></section>';
   }).join("");
-  return '<section class="section"><div class="section-head"><h2 class="section-title">'+escapeExternal(row.name)+'</h2><span class="section-caption">'+sub+'</span></div>'+(row.error?'<div class="addon-connection-state error"><strong>'+escapeExternal(row.error)+'</strong> <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Vérifier les addons ↗</a></div>':cards?'<div class="rail">'+cards+'</div>':'<div class="addon-connection-state">Aucun élément pour le moment.</div>')+'</section>'
- }).join("");
+ })().finally(()=>{addonCatalogsPromise=null});
+ return addonCatalogsPromise;
 }
 async function openExternalMeta(payload){try{const item=JSON.parse(decodeURIComponent(escape(atob(payload))));externalModalItem=item;const host=$("externalDetailModal");$("externalTitle").textContent=item.title;$("externalSynopsis").textContent=item.description||"Description non fournie par l’addon.";$("externalMeta").innerHTML='<span>'+escapeExternal(item.year||"")+'</span><span>'+escapeExternal(item.type)+'</span><span class="external-pill">Addon Stremio</span>';$("externalArt").style.setProperty("--c1","#315c8a");$("externalArt").style.setProperty("--c2","#17142a");if(item.poster){$("externalArt").style.backgroundImage='linear-gradient(0deg,#141520,transparent 80%),url("'+item.poster.replace(/["\\\\]/g,"")+'")';$("externalArt").style.backgroundSize="cover";$("externalArt").style.backgroundPosition="center"}else $("externalArt").style.backgroundImage="";$("externalStreams").innerHTML="";$("externalDetailModal").classList.add("open")}catch(e){openMessage("Addon","Impossible d’ouvrir cette fiche provenant de l’addon.")}}
 async function loadExternalStreams(){const item=externalModalItem;if(!item)return;const host=$("externalStreams");host.innerHTML='<div class="addon-connection-state">Recherche des sources autorisées…</div>';try{const addons=readConnectedAddons().filter(a=>a&&a.enabled&&a.url&&a.manifest);const matches=addons.filter(a=>a.url===item.addonUrl);if(!matches.length)throw Error("Addon inactif ou non vérifié. Ouvre la page Addons.");const a=matches[0];const available=(a.manifest.resources||[]).map(r=>typeof r==="string"?r:r&&r.name).filter(Boolean);if(!available.includes("stream")){host.innerHTML='<div class="addon-connection-state error">Cet addon déclare les ressources « catalog » et « meta », mais pas « stream ». Il peut afficher les catalogues et les fiches, mais ne fournit pas de flux vidéo via le protocole Stremio. Pour la lecture, ajoute une source autorisée qui déclare la ressource stream.</div>';return}let type=item.type||"movie",id=item.id;if(type==="series"&&id&&!id.includes(":"))id=id+":1:1";const url=stremioResourceUrl(a.url,"stream/"+encodeURIComponent(type)+"/"+encodeURIComponent(id));const data=await getAddonJson(url);const streams=Array.isArray(data.streams)?data.streams:[];if(!streams.length){host.innerHTML='<div class="addon-connection-state error">Aucune source renvoyée pour cet identifiant. Cet addon peut ne proposer qu’une partie du catalogue.</div>';return}host.innerHTML='<div class="external-stream-list">'+streams.map((s,i)=>{const target=safeHttpUrl(s.url||s.externalUrl||"");return '<div class="external-stream"><div><strong>'+escapeExternal(s.name||s.title||s.description||("Source "+(i+1)))+'</strong><small>'+escapeExternal([s.description,s.behaviorHints?.bingeGroup].filter(Boolean).join(" · "))+'</small><span class="external-pill">'+escapeExternal(s.type||"flux")+'</span></div>'+(target&&[".m3u8",".mp4",".webm",".mpd"].some(ext=>target.toLowerCase().includes(ext))?'<button class="btn btn-white" data-play-url="'+btoa(target)+'" data-play-name="'+escapeExternal(item.title)+'">▶ Lire</button>':target?'<a class="btn btn-soft" href="'+target+'" target="_blank" rel="noopener noreferrer">Ouvrir la source ↗</a>':'<span class="small">Source externe</span>')+'</div>'}).join("")+'</div><p class="small">La lecture intégrée dépend du format. Les liens externes restent fournis par un service tiers.</p>'}catch(e){host.innerHTML='<div class="addon-connection-state error">'+escapeExternal(e.message||"Impossible de charger les sources")+'</div>'}}
