@@ -35,6 +35,7 @@ function load(fetcher){const dom=new JSDOM(html,{url:"https://mansstyle59.github
  assert.match(doc.querySelector("#detailSave").textContent,/Dans ma liste/);
  doc.querySelector('[data-view="list"]').click();
  assert.match(doc.querySelector("#sections").textContent,/Les Évadés/);
+ doc.querySelector('[data-view="home"]').click();
  const search=doc.querySelector("#search");search.value="Breaking";search.dispatchEvent(new dom.window.Event("input",{bubbles:true}));
  assert.match(doc.querySelector("#sections").textContent,/Breaking Bad/);
  assert.equal(errors.length,0,"no runtime errors: "+errors.join("; "));
