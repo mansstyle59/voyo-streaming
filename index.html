@@ -1,524 +1,113 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#09090f">
-<meta name="description" content="VOYO : films, séries et TV dans une expérience de divertissement moderne.">
-<title>VOYO — Films, séries & TV</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090d"><meta name="description" content="VOYO — films, séries et catalogues connectés.">
+<title>VOYO — Films & séries</title>
 <style>
-:root{color-scheme:dark;--bg:#09090f;--surface:#141520;--surface2:#1c1e2c;--muted:#a6a9bb;--line:#ffffff1a;--cyan:#22dbe4;--blue:#398cff;--violet:#7729ff;--brand:linear-gradient(105deg,var(--cyan),var(--blue) 52%,var(--violet))}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f7f7fb;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,input:focus-visible{outline:2px solid #61e6ef;outline-offset:3px}a{color:inherit}.app{min-height:100vh;background:radial-gradient(ellipse at 82% -14%,#39207136,transparent 37%),var(--bg)}.topbar{position:sticky;top:0;z-index:20;height:78px;display:flex;align-items:center;gap:30px;padding:0 clamp(18px,4.3vw,64px);background:linear-gradient(#09090ff5,#09090fcf);backdrop-filter:blur(18px);border-bottom:1px solid #ffffff0a}.logo{font-size:35px;font-weight:950;letter-spacing:-2.8px;text-decoration:none;background:var(--brand);color:transparent;background-clip:text;-webkit-background-clip:text}.nav{display:flex;align-items:center;gap:5px;flex:1}.nav button{background:transparent;border:0;color:#c1c3d0;border-radius:22px;padding:10px 14px;font-weight:650;font-size:13px;white-space:nowrap}.nav button:hover,.nav button.active{color:#fff;background:#ffffff12}.tools{display:flex;align-items:center;gap:10px}.search-wrap{position:relative}.search{width:210px;border:1px solid #ffffff22;background:#ffffff0d;border-radius:24px;color:#fff;padding:11px 14px 11px 37px;outline:none;transition:width .2s,border-color .2s}.search:focus{width:260px;border-color:#5a83e9}.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#b5bad0;pointer-events:none}.tool-btn{border:1px solid #ffffff18;background:#ffffff0b;width:38px;height:38px;border-radius:50%;font-size:15px;display:grid;place-items:center}.tool-btn:hover{background:#ffffff1c}.profile-btn{border:2px solid #7d4cff;background:linear-gradient(140deg,#27cde4,#6941f2);font-size:14px;font-weight:900}.main{overflow:hidden}.hero{min-height:525px;position:relative;display:flex;align-items:center;padding:60px clamp(24px,5vw,76px) 68px;isolation:isolate;background:linear-gradient(90deg,#09090f 0%,#09090fe8 28%,#09090f80 56%,#09090f12 100%),linear-gradient(0deg,#09090f 0%,transparent 28%),radial-gradient(ellipse at 75% 36%,var(--heroGlow,#9b3e54) 0%,transparent 23%),radial-gradient(ellipse at 82% 50%,var(--heroShade,#39224e) 0%,transparent 39%),linear-gradient(125deg,#16192a,#0c0d15 74%);background-color:#11121a}.hero:before{content:"";position:absolute;z-index:-1;right:8%;top:-14%;width:min(47vw,560px);height:118%;border-radius:47% 47% 0 0;background:linear-gradient(155deg,#ffffff25,#11121e 47%,#08090e 80%);transform:rotate(7deg);box-shadow:inset 0 0 90px #0007;opacity:.9}.hero:after{content:"";position:absolute;z-index:-1;right:6%;bottom:0;width:42%;height:79%;background:radial-gradient(ellipse at 55% 18%,#ffffff43,transparent 20%),linear-gradient(90deg,transparent,#08090e90);clip-path:polygon(31% 0,51% 13%,65% 4%,81% 26%,100% 100%,0 100%);opacity:.65}.hero-copy{max-width:620px;position:relative;z-index:2}.eyebrow{display:flex;align-items:center;gap:8px;color:#a9f4f5;font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}.eyebrow:before{content:"V";display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--brand);color:#08090f;font-size:13px;font-weight:1000;letter-spacing:-1px}.hero h1{font-size:clamp(40px,5.7vw,76px);line-height:.98;letter-spacing:-3.3px;margin:21px 0 15px;max-width:700px;text-shadow:0 3px 22px #0008}.hero-subtitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#ecedf5;font-size:13px;font-weight:700;margin-bottom:15px}.hero-subtitle .score{color:#83e3c4}.rating{border:1px solid #ffffff55;padding:2px 6px;border-radius:4px;font-size:10px;color:#e8e9f2}.hero-desc{font-size:15px;line-height:1.65;color:#d1d3df;max-width:510px;margin:0}.hero-actions{display:flex;gap:11px;margin-top:26px;flex-wrap:wrap}.btn{border:0;border-radius:6px;padding:12px 19px;font-size:14px;font-weight:800;display:inline-flex;align-items:center;gap:9px;transition:transform .15s,background .15s}.btn:hover{transform:translateY(-1px)}.btn-white{background:#f7f7fa;color:#101019}.btn-white:hover{background:#dedee8}.btn-soft{background:#ffffff21;border:1px solid #ffffff2e;color:#fff}.btn-soft:hover{background:#ffffff32}.btn-brand{background:var(--brand);color:#08090f}.hero-dots{display:flex;gap:6px;margin-top:28px}.hero-dots button{width:7px;height:7px;border:0;border-radius:8px;background:#ffffff5c;padding:0}.hero-dots button.active{width:24px;background:#fff}.content{padding:0 clamp(18px,4.3vw,64px) 52px;position:relative;margin-top:-20px;z-index:3}.section{margin:0 0 36px;scroll-margin-top:95px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 13px}.section-title{font-size:20px;font-weight:820;letter-spacing:-.45px;margin:0}.section-caption{font-size:11px;color:#9499ad}.rail-tools{display:flex;gap:7px}.rail-arrow{height:27px;width:33px;border:1px solid #ffffff23;background:#181923b8;border-radius:5px;color:#c6cada;font-size:18px;display:grid;place-items:center}.rail-arrow:hover{background:#ffffff20}.rail{display:flex;gap:11px;overflow-x:auto;overflow-y:visible;padding:2px 1px 13px;scrollbar-width:none;scroll-behavior:smooth}.rail::-webkit-scrollbar{display:none}.card{flex:0 0 clamp(142px,14.3vw,204px);min-width:0;position:relative}.poster{width:100%;aspect-ratio:2/2.85;position:relative;display:flex;align-items:flex-end;text-align:left;padding:13px;border-radius:9px;overflow:hidden;border:1px solid #ffffff17;background:linear-gradient(145deg,var(--c1),var(--c2));isolation:isolate;box-shadow:inset 0 -100px 65px -30px #000c;transition:transform .22s,border-color .2s,box-shadow .2s}.poster:before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 64% 25%,#ffffff52,transparent 21%),radial-gradient(ellipse at 25% 48%,#ffffff17,transparent 26%),linear-gradient(150deg,transparent 25%,#08090d40 62%,#08090dbb)}.poster:after{content:"";position:absolute;z-index:-1;right:-12%;top:19%;width:83%;height:85%;border-radius:55% 45% 9% 12%;background:linear-gradient(135deg,#ffffff28,#090a14bd 70%);transform:rotate(11deg)}.card:hover .poster{transform:scale(1.045);border-color:#ffffff66;box-shadow:0 12px 30px #0009,inset 0 -100px 65px -30px #000b}.poster-title{font-size:clamp(13px,1.25vw,18px);font-weight:950;line-height:1.04;letter-spacing:-.4px;text-shadow:0 2px 7px #000d;white-space:pre-line}.poster-badge{position:absolute;top:9px;left:9px;font-size:8px;letter-spacing:.8px;font-weight:900;text-transform:uppercase;background:#08090dc7;border:1px solid #ffffff26;padding:5px 6px;border-radius:4px;backdrop-filter:blur(8px)}.poster-rating{position:absolute;top:9px;right:9px;font-size:9px;color:#fff;background:#070810a8;border:1px solid #ffffff20;border-radius:4px;padding:4px 5px}.card-name{font-weight:720;font-size:12px;margin:8px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-meta{font-size:10px;color:#a8adbf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quick-actions{display:flex;gap:6px;margin-top:8px}.quick{border:1px solid #ffffff20;background:#ffffff0e;border-radius:5px;padding:6px 8px;font-size:10px;color:#e8e9f4}.quick:hover{background:#ffffff25}.progress{height:3px;background:#ffffff35;border-radius:5px;margin-top:8px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,#24dbe5,#6c57ff);border-radius:5px}.top-card{flex-basis:clamp(185px,19vw,270px);display:flex;align-items:center;gap:0}.rank-number{flex:0 0 55px;align-self:flex-end;font-size:clamp(80px,10vw,135px);font-weight:1000;line-height:.82;letter-spacing:-8px;color:#09090f;-webkit-text-stroke:2px #c4c5d3;text-shadow:3px 3px 0 #09090f;margin-right:-15px;z-index:2}.top-card .poster{width:calc(100% - 40px);flex:1;aspect-ratio:2/2.82}.empty-state{border:1px dashed #ffffff2c;border-radius:12px;padding:30px;color:#b6bacb;text-align:center;background:#ffffff05}.empty-state strong{display:block;color:#fff;font-size:16px;margin-bottom:7px}.genres{display:flex;gap:8px;overflow:auto;padding:3px 1px 13px;scrollbar-width:none}.genre{white-space:nowrap;border:1px solid #ffffff20;background:#ffffff08;color:#d0d2de;border-radius:19px;padding:8px 13px;font-size:11px}.genre.active,.genre:hover{border-color:#4d83ff;background:#26335d;color:#fff}.tv-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}.channel{background:linear-gradient(145deg,#191b29,#10111a);border:1px solid #ffffff18;border-radius:10px;padding:16px 9px;text-align:center;transition:transform .2s,border-color .2s}.channel:hover{transform:translateY(-3px);border-color:#6c57ff}.channel-logo{width:42px;height:42px;margin:0 auto 10px;display:grid;place-items:center;background:var(--brand);color:#09090f;font-weight:950;font-size:14px;border-radius:11px}.channel-name{font-size:11px;font-weight:750}.channel-state{font-size:9px;color:#75d8b7;margin-top:7px}.note{font-size:11px;line-height:1.5;color:#a9aec0;margin:14px 0 0}.notice{background:#18131c;border:1px solid #60412b;color:#ead5b8;border-radius:8px;padding:10px 13px;font-size:11px;line-height:1.5;margin-bottom:27px}.grid-results{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px 12px}.grid-results .card{width:100%;min-width:0}.profile-menu{position:absolute;right:22px;top:69px;width:230px;padding:10px;background:#191a26;border:1px solid #ffffff24;border-radius:10px;box-shadow:0 18px 55px #000b;display:none}.profile-menu.open{display:block}.profile-option{width:100%;background:transparent;border:0;display:flex;align-items:center;gap:10px;padding:10px;border-radius:7px;text-align:left;font-size:12px}.profile-option:hover,.profile-option.selected{background:#ffffff13}.profile-avatar{width:30px;height:30px;border-radius:6px;display:grid;place-items:center;font-weight:900;background:var(--brand);color:#070810}.profile-menu small{color:var(--muted);display:block;margin:6px 10px 8px}.modal-backdrop{position:fixed;z-index:50;inset:0;background:#000d;backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:20px}.modal-backdrop.open{display:flex}.modal{background:#141520;border:1px solid #ffffff20;border-radius:14px;width:min(760px,100%);max-height:90vh;overflow:auto;box-shadow:0 28px 90px #000d}.modal-art{height:245px;position:relative;display:flex;align-items:flex-end;padding:26px;background:linear-gradient(0deg,#141520,transparent 74%),linear-gradient(120deg,var(--c1),var(--c2));overflow:hidden}.modal-art:after{content:"";position:absolute;right:10%;top:-40%;width:270px;height:350px;border-radius:50%;background:linear-gradient(135deg,#ffffff35,#090a14bb);transform:rotate(18deg)}.modal-art h2{position:relative;z-index:1;margin:0;font-size:clamp(30px,5vw,46px);letter-spacing:-1.6px;text-shadow:0 3px 15px #0008}.modal-close{position:absolute;right:14px;top:14px;z-index:3;border:0;background:#09090fbf;border:1px solid #ffffff24;border-radius:50%;width:35px;height:35px;font-size:20px}.modal-body{padding:24px 26px 27px}.detail-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:#d1d4e3;font-size:12px;margin-bottom:13px}.detail-meta .match{color:#7be1be;font-weight:800}.detail-synopsis{font-size:14px;line-height:1.7;color:#d3d5e2;max-width:660px}.detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}.detail-facts{font-size:11px;line-height:1.8;color:#9fa4b8}.detail-facts strong{color:#e0e2ec;font-weight:650}.modal-message{font-size:14px;line-height:1.65;color:#c9ccda}.modal-select{background:#202231;border:1px solid #ffffff22;border-radius:6px;color:#fff;padding:11px;width:100%;margin:10px 0 16px}.footer{border-top:1px solid #ffffff10;padding:24px 0 38px;color:#73798e;font-size:11px;display:flex;gap:15px;justify-content:space-between;flex-wrap:wrap}.mobile-bottom{display:none}
-@media(max-width:1040px){.topbar{gap:16px;padding:0 22px}.nav button{padding:9px 10px;font-size:12px}.search{width:165px}.search:focus{width:200px}.hero{min-height:475px}.content{padding-left:22px;padding-right:22px}.tv-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-results{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(max-width:700px){.topbar{height:66px;padding:0 15px;gap:13px}.logo{font-size:31px}.nav{gap:1px;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav button{font-size:11px;padding:8px 10px}.nav button[data-view="tv"],.nav button[data-view="mylist"]{display:none}.tools{gap:6px}.search{width:38px;height:38px;padding:0 0 0 36px;border-radius:50%;background:#ffffff0a;cursor:pointer}.search:focus,.search.has-text{position:absolute;right:60px;top:13px;width:min(62vw,265px);border-radius:22px;padding:10px 13px 10px 36px;background:#171823;z-index:4}.search-icon{left:12px}.tool-btn{width:34px;height:34px}.hero{min-height:485px;align-items:flex-end;padding:30px 19px 66px;background:linear-gradient(0deg,#09090f 1%,#09090fcf 36%,#09090f21 100%),radial-gradient(ellipse at 75% 20%,var(--heroGlow,#a34b5d),transparent 30%),radial-gradient(ellipse at 85% 30%,var(--heroShade,#3b2255),transparent 49%),linear-gradient(125deg,#17192a,#0c0d15 75%)}.hero:before{right:-13%;top:-9%;width:89%;height:82%;opacity:.65}.hero:after{right:-4%;height:61%;width:68%;opacity:.5}.hero-copy{max-width:100%}.hero h1{font-size:43px;letter-spacing:-1.8px;margin:16px 0 12px}.hero-desc{font-size:13px;line-height:1.55;max-width:94%}.hero-subtitle{font-size:11px;gap:7px}.hero-actions{margin-top:19px}.btn{padding:11px 15px;font-size:12px}.hero-dots{margin-top:18px}.content{padding:0 15px 90px;margin-top:-25px}.section{margin-bottom:25px}.section-title{font-size:16px}.section-caption,.rail-tools{display:none}.rail{gap:9px;padding-bottom:8px}.card{flex-basis:clamp(124px,38vw,165px)}.card-name{font-size:11px}.top-card{flex-basis:200px}.rank-number{flex-basis:48px;font-size:95px;letter-spacing:-7px}.top-card .poster{width:calc(100% - 35px)}.poster{border-radius:7px;padding:9px}.poster-title{font-size:14px}.tv-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.channel{padding:13px 5px}.channel-logo{width:34px;height:34px;font-size:12px}.channel-name{font-size:10px}.grid-results{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 10px}.grid-results .poster-title{font-size:17px}.notice{font-size:10px;margin-bottom:22px}.section-head{margin-bottom:10px}.profile-menu{right:10px;top:59px}.modal-backdrop{padding:9px}.modal{max-height:92vh}.modal-art{height:205px;padding:20px}.modal-body{padding:19px}.detail-synopsis{font-size:13px}.mobile-bottom{position:fixed;z-index:18;left:9px;right:9px;bottom:8px;height:58px;border:1px solid #ffffff18;border-radius:17px;background:#11121deF;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-around;box-shadow:0 10px 35px #0009}.mobile-bottom button{border:0;background:transparent;color:#969bb0;font-size:10px;display:flex;flex-direction:column;gap:3px;align-items:center;min-width:54px}.mobile-bottom button span{font-size:18px;line-height:19px}.mobile-bottom button.active{color:#6be6ee}.footer{padding-bottom:18px}}
-
-/* VOYO mobile-first cinematic polish inspired by the supplied reference */
-.hero{min-height:585px;border-radius:0 0 26px 26px;margin-top:0;padding-bottom:88px;background:linear-gradient(0deg,#09090f 0%,#09090fbd 23%,#09090f16 57%,#09090f05 100%),radial-gradient(ellipse at 65% 23%,var(--heroGlow,#a34b5d) 0%,transparent 30%),radial-gradient(ellipse at 85% 36%,var(--heroShade,#3b2255) 0%,transparent 49%),linear-gradient(130deg,#17192a,#0c0d15 75%)}
-.hero:before{right:-2%;top:-10%;width:62%;height:86%;border-radius:48% 48% 20% 20%;transform:rotate(10deg);background:linear-gradient(155deg,#ffffff2b,#11121e 46%,#08090e 80%);opacity:.76}
-.hero:after{right:2%;bottom:0;width:48%;height:78%;clip-path:polygon(30% 0,49% 12%,67% 3%,82% 23%,100% 100%,0 100%);opacity:.72}
-.hero-copy{padding-top:150px;max-width:620px}
-.hero h1{max-width:700px}
-.hero-actions .btn-soft:last-child{width:48px;height:48px;padding:0;border-radius:50%;font-size:24px;justify-content:center;background:#15151be8;border-color:#25252c}
-.hero-dots{gap:9px;align-items:center}
-.hero-dots button{width:8px;height:8px;border-radius:50%;background:#ffffffd9}
-.hero-dots button.active{width:36px;height:8px;border-radius:20px}
-.content{margin-top:-2px}
-.section{margin-bottom:34px}
-.poster{aspect-ratio:2/2.55}
-.continue-card{flex-basis:clamp(280px,34vw,390px);border-radius:14px;overflow:hidden;position:relative;aspect-ratio:1.6/1;border:1px solid #ffffff14;background:linear-gradient(145deg,var(--c1),var(--c2));padding:0;text-align:left;isolation:isolate}
-.continue-card:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 65% 18%,#ffffff66,transparent 20%),linear-gradient(0deg,#05060ef2 0%,#05060eaa 36%,transparent 76%)}
-.continue-card:after{content:"";position:absolute;right:5%;top:4%;width:47%;height:100%;z-index:-1;border-radius:55% 45% 8% 10%;background:linear-gradient(130deg,#ffffff30,#060710d9);transform:rotate(6deg)}
-.continue-shape{position:absolute;inset:0;z-index:-1;background:linear-gradient(160deg,transparent 30%,#0009)}
-.continue-resume{position:absolute;right:10px;top:10px;background:#08090dcc;border:1px solid #ffffff20;border-radius:5px;font-size:10px;font-weight:800;padding:5px 7px}
-.continue-info{position:absolute;left:13px;right:13px;bottom:13px}
-.continue-info small{font-size:10px;letter-spacing:.9px;text-transform:uppercase;color:#e0e1eb}
-.continue-info strong{display:block;font-size:16px;margin:3px 0 2px}
-.continue-info span{display:block;font-size:11px;color:#bec2d1}
-.continue-progress{height:4px;background:#ffffff5a;border-radius:5px;overflow:hidden;margin-top:9px}
-.continue-progress i{display:block;height:100%;background:#f6f6fb;border-radius:5px}
-.mobile-bottom{background:#18181fe8;border-color:#ffffff21}
-.mobile-bottom button{min-width:60px}
-.mobile-bottom button.active{background:#08090fbd;color:#fff;border-radius:26px;min-height:48px;padding:5px 12px}
-.mobile-bottom button.active span{color:#fff}
-.addons-link{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid #ffffff20;background:#ffffff09;border-radius:12px;padding:12px 14px;text-decoration:none;font-size:13px;font-weight:750}
-.addons-link:hover{background:#ffffff17}
-@media(max-width:700px){
- .topbar{height:58px;gap:14px}
- .topbar .nav{display:none}
- .topbar .tools{margin-left:auto}
- .hero{min-height:610px;border-radius:0 0 27px 27px;padding:25px 24px 86px;background:linear-gradient(0deg,#09090f 0%,#09090fbc 25%,#09090f22 60%,#09090f08 100%),radial-gradient(ellipse at 56% 23%,var(--heroGlow,#a34b5d),transparent 33%),radial-gradient(ellipse at 82% 33%,var(--heroShade,#3b2255),transparent 51%),linear-gradient(130deg,#17192a,#0c0d15 75%)}
- .hero:before{right:-18%;top:-7%;height:83%;width:100%;opacity:.73}
- .hero:after{right:-2%;bottom:0;width:78%;height:74%;opacity:.68}
- .hero-copy{padding-top:0;max-width:100%;margin-top:auto}
- .eyebrow{font-size:9px;letter-spacing:1.6px}
- .eyebrow:before{width:20px;height:20px;font-size:12px}
- .hero h1{font-size:clamp(33px,9vw,43px);line-height:.98;letter-spacing:-1.6px;margin:16px 0 13px}
- .hero-subtitle{font-size:12px;margin-bottom:10px;gap:7px}
- .hero-desc{font-size:12px;line-height:1.5;max-width:95%;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
- .hero-actions{gap:10px;margin-top:18px}
- .hero-actions .btn-white{flex:1;justify-content:center;min-height:48px;font-size:14px;border-radius:28px}
- .hero-actions .btn-soft{min-height:48px;justify-content:center}
- .hero-actions .btn-soft:nth-child(2){display:none}
- .hero-actions .btn-soft:last-child{width:48px;height:48px;min-height:48px;flex:0 0 48px}
- .hero-dots{margin-top:18px;justify-content:center;gap:9px}
- .hero-dots button{width:7px;height:7px}
- .hero-dots button.active{width:28px;height:7px}
- .content{padding-left:20px;padding-right:20px;padding-bottom:100px;margin-top:0}
- .section{margin-bottom:26px}
- .section-head{margin-bottom:11px}
- .section-title{font-size:20px;letter-spacing:-.4px}
- .section-caption,.rail-tools{display:none}
- .rail{gap:12px;padding:2px 1px 7px}
- .poster{aspect-ratio:2/2.7}
- .card{flex-basis:clamp(132px,42vw,174px)}
- .card-name{font-size:12px}
- .card-meta{font-size:10px}
- .quick-actions{display:none}
- .continue-card{flex-basis:min(80vw,360px);aspect-ratio:1.58/1;border-radius:13px}
- .continue-info{left:13px;right:13px;bottom:12px}
- .continue-info strong{font-size:15px}
- .tv-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
- .grid-results{grid-template-columns:repeat(2,minmax(0,1fr))}
- .addons-link{font-size:12px}
- .mobile-bottom{left:20px;right:20px;bottom:9px;height:64px;border-radius:36px;justify-content:space-around;padding:4px;background:#18181feF;box-shadow:0 10px 35px #000a}
- .mobile-bottom button{font-size:10px;min-width:49px;gap:3px}
- .mobile-bottom button span{font-size:20px;line-height:20px}
- .mobile-bottom button.active{min-height:54px;min-width:73px;padding:4px 11px}
-}
-
-
-.addon-connection-state{padding:12px 14px;border:1px solid #ffffff14;background:#141520;border-radius:10px;color:#aab0c5;font-size:12px;line-height:1.5;margin:10px 0 18px}
-.addon-connection-state.error{border-color:#693447;background:#24131c;color:#f4bcca}
-.addon-connection-state.ok{border-color:#235643;background:#11271f;color:#b8f2d4}
-.external-stream-list{display:grid;gap:9px;margin-top:12px}
-.external-stream{display:flex;align-items:center;gap:12px;justify-content:space-between;border:1px solid #ffffff19;background:#ffffff08;border-radius:9px;padding:11px 12px}
-.external-stream strong{font-size:12px;display:block}.external-stream small{display:block;color:#a5abc0;font-size:10px;margin-top:3px}.external-stream button{flex:0 0 auto}
-.external-pill{display:inline-block;border:1px solid #ffffff1c;background:#ffffff0a;border-radius:5px;padding:3px 6px;font-size:9px;color:#bdc2d4;margin-right:5px}
-@media(max-width:700px){.addon-connection-state{font-size:11px}.external-stream{align-items:flex-start;flex-direction:column}.external-stream button{width:100%;justify-content:center}}
-@media(min-width:1400px){.hero{min-height:600px}.content{margin-top:-26px}.card{flex-basis:205px}.top-card{flex-basis:270px}}
-
-/* VOYO premium visual pass — restrained cinema UI, improved depth and responsive polish */
-:root{--bg:#07080d;--surface:#11131d;--surface2:#191c29;--muted:#a8aec2;--line:#ffffff18;--cyan:#5de8e7;--blue:#568cff;--violet:#9b6cff;--brand:linear-gradient(110deg,#62ece7 0%,#648cff 54%,#a16bff 100%)}
-body{background:#07080d;letter-spacing:.005em}
-.app{background:radial-gradient(ellipse at 88% 0%,#5341a51c,transparent 32%),radial-gradient(ellipse at 0% 35%,#1d6a7610,transparent 34%),#07080d}
-.topbar{height:76px;background:linear-gradient(180deg,#080910f5,#080910db);border-bottom:1px solid #ffffff12;box-shadow:0 8px 28px #0002}
-.logo{filter:drop-shadow(0 0 18px #6d6bff20)}
-.nav button{transition:background .18s,color .18s,transform .18s}
-.nav button:hover{transform:translateY(-1px)}
-.search{background:#ffffff08;border-color:#ffffff1c;box-shadow:inset 0 1px 0 #ffffff08}
-.search:focus{box-shadow:0 0 0 4px #658cff16,inset 0 1px 0 #ffffff10}
-.tool-btn{background:#ffffff08;border-color:#ffffff1c;transition:background .2s,transform .2s,border-color .2s}
-.tool-btn:hover{transform:translateY(-1px);border-color:#ffffff40}
-.profile-btn{box-shadow:0 0 0 3px #8b67ff1b}
-.hero{min-height:550px;background:linear-gradient(90deg,#07080dfc 0%,#07080de8 26%,#07080d85 55%,#07080d0c 100%),linear-gradient(0deg,#07080d 0%,transparent 33%),radial-gradient(ellipse at 78% 32%,var(--heroGlow,#7255a5) 0%,transparent 26%),radial-gradient(ellipse at 84% 53%,var(--heroShade,#263c70) 0%,transparent 42%),linear-gradient(125deg,#151827,#090a12 75%)}
-.hero:before{right:7%;width:min(45vw,600px);opacity:.78;filter:saturate(.8)}
-.hero-copy{max-width:660px}
-.eyebrow{letter-spacing:2.3px;color:#a9f4f2}
-.hero h1{font-weight:950;letter-spacing:-3.8px;text-wrap:balance}
-.hero-desc{color:#d4d7e4;text-shadow:0 2px 12px #0006}
-.btn{border-radius:8px;min-height:43px;transition:transform .18s,background .18s,box-shadow .18s}
-.btn-white{box-shadow:0 8px 25px #0003}
-.btn-white:hover{box-shadow:0 10px 30px #0005}
-.btn-brand{box-shadow:0 7px 22px #648cff24}
-.btn-soft{background:#ffffff12;border-color:#ffffff28;backdrop-filter:blur(10px)}
-.content{padding-bottom:64px}
-.notice{border:1px solid #ffffff13;background:linear-gradient(100deg,#171927bd,#11131cbd);border-radius:12px;padding:12px 15px;color:#b9bfd0;font-size:12px;line-height:1.55;box-shadow:0 8px 28px #0002}
-.section{margin-bottom:40px}
-.section-head{margin-bottom:15px}
-.section-title{font-size:clamp(17px,1.5vw,21px);letter-spacing:-.55px}
-.section-caption{letter-spacing:.02em}
-.rail{gap:13px;padding:5px 3px 16px;margin:0 -3px}
-.card{flex-basis:clamp(145px,14vw,202px)}
-.poster{border-radius:11px;border-color:#ffffff20;box-shadow:inset 0 -100px 65px -30px #000d,0 5px 18px #0002;transition:transform .24s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .2s}
-.card:hover .poster{transform:translateY(-4px) scale(1.025);border-color:#a8baff88;box-shadow:0 18px 35px #0008,inset 0 -100px 65px -30px #000c}
-.card-name{font-size:12px;letter-spacing:.01em}
-.card-meta{color:#aeb4c7}
-.poster-badge,.poster-rating{backdrop-filter:blur(12px);box-shadow:0 3px 12px #0003}
-.rail-arrow,.quick{border-radius:8px;transition:background .18s,border-color .18s,transform .18s}
-.rail-arrow:hover,.quick:hover{border-color:#ffffff45;transform:translateY(-1px)}
-.genre{transition:background .18s,border-color .18s,transform .18s}
-.genre:hover{transform:translateY(-1px)}
-.modal,.detail-modal{backdrop-filter:blur(18px)}
-:where(button,a,input):focus-visible{outline:2px solid #72e9ec;outline-offset:3px}
-@media(max-width:900px){
- .topbar{height:68px;gap:15px;padding-inline:20px}
- .logo{font-size:30px}
- .nav{gap:2px}
- .nav button{padding:9px 10px;font-size:12px}
- .search{width:175px}
- .search:focus{width:205px}
- .hero{min-height:490px;padding-top:52px;padding-bottom:56px}
- .content{padding-inline:22px}
-}
-@media(max-width:640px){
- .topbar{height:62px;padding-inline:15px;gap:12px}
- .logo{font-size:29px;letter-spacing:-2.4px}
- .tools{gap:7px;margin-left:auto}
- .search{width:min(39vw,170px);padding:10px 10px 10px 33px;font-size:12px}
- .search:focus{width:min(46vw,205px)}
- .tool-btn{width:35px;height:35px}
- .nav{display:none}
- .hero{min-height:475px;align-items:flex-end;padding:170px 19px 45px;background:linear-gradient(0deg,#07080d 0%,#07080df0 18%,#07080d66 58%,#07080d22 100%),radial-gradient(ellipse at 74% 22%,var(--heroGlow,#7255a5) 0%,transparent 32%),radial-gradient(ellipse at 80% 30%,var(--heroShade,#263c70) 0%,transparent 49%),linear-gradient(125deg,#161827,#090a12 75%)}
- .hero:before{right:-1%;top:-19%;width:76%;height:75%;opacity:.62;border-radius:48% 48% 8% 8%}
- .hero:after{right:-3%;top:0;bottom:auto;width:68%;height:64%;opacity:.48}
- .hero-copy{width:100%;max-width:none}
- .eyebrow{font-size:9px;letter-spacing:1.7px}
- .hero h1{font-size:clamp(37px,10vw,53px);letter-spacing:-2.2px;line-height:1.01;margin:14px 0 12px}
- .hero-subtitle{font-size:11px;gap:7px;margin-bottom:10px}
- .hero-desc{font-size:13px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
- .hero-actions{gap:8px;margin-top:19px}
- .hero-actions .btn{padding:11px 13px;font-size:12px;min-height:40px}
- .hero-dots{margin-top:19px}
- .content{padding-inline:15px;padding-bottom:82px;margin-top:-12px}
- .notice{font-size:11px;padding:10px 12px;border-radius:10px;margin-bottom:22px}
- .section{margin-bottom:29px}
- .section-head{margin-bottom:11px}
- .section-title{font-size:17px}
- .section-caption{font-size:10px}
- .rail{gap:10px;padding-bottom:13px}
- .card{flex:0 0 clamp(124px,38vw,165px)}
- .poster{border-radius:9px;padding:10px}
- .poster-title{font-size:14px}
- .card-name{font-size:11px;margin-top:7px}
- .card-meta{font-size:9px}
- .top-card{flex-basis:clamp(168px,48vw,210px)}
- .rank-number{flex-basis:43px;font-size:94px;letter-spacing:-6px}
-}
-@media(prefers-reduced-motion:reduce){
- *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-}
-</style>
-</head>
+:root{color-scheme:dark;--bg:#08090d;--panel:#11131b;--panel2:#191c27;--line:#292d3b;--text:#f6f6fa;--muted:#9da3b5;--accent:#f27d62;--accent2:#ffb18e;--radius:17px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 78% -12%,#39202a 0,transparent 35%),var(--bg);color:var(--text);min-height:100vh}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-decoration:none}.shell{max-width:1480px;margin:auto;padding:0 34px}.topbar{height:82px;display:flex;align-items:center;gap:32px;border-bottom:1px solid #ffffff12;position:sticky;top:0;z-index:20;background:#08090de8;backdrop-filter:blur(20px)}.brand{font-size:27px;font-weight:950;letter-spacing:-1.8px;color:#fff}.brand b{color:var(--accent)}.nav{display:flex;gap:24px;align-items:center}.nav button,.nav a{border:0;background:none;color:#b7bbca;font-weight:650;font-size:14px;padding:10px 0}.nav button.active,.nav button:hover,.nav a:hover{color:white}.nav button.active:after{content:"";display:block;height:3px;background:var(--accent);border-radius:3px;margin-top:8px}.tools{margin-left:auto;display:flex;align-items:center;gap:10px}.search{width:min(26vw,280px);background:#171923;border:1px solid #343849;border-radius:999px;color:white;padding:11px 16px;outline:none}.search:focus{border-color:var(--accent)}.iconbtn{border:1px solid var(--line);background:var(--panel);color:white;border-radius:50%;width:40px;height:40px}.hero{position:relative;overflow:hidden;min-height:440px;margin:28px 0 38px;border-radius:24px;background:#161927;display:flex;align-items:flex-end;padding:clamp(25px,5vw,64px);isolation:isolate}.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,#090a0ff5 0%,#090a0fc9 44%,#090a0f20 100%),linear-gradient(0deg,#090a0fbb,transparent 60%),var(--backdrop,radial-gradient(ellipse at 75% 40%,#5d3b4e,#19233d 40%,#10121a 72%));background-size:cover;background-position:center}.hero:after{content:"";position:absolute;inset:0;z-index:-1;border:1px solid #ffffff10;border-radius:inherit;pointer-events:none}.hero-copy{max-width:610px}.eyebrow{font-size:11px;font-weight:850;letter-spacing:2px;color:var(--accent2);text-transform:uppercase}.hero h1{font-size:clamp(36px,5.4vw,68px);letter-spacing:-2.4px;line-height:.98;margin:15px 0}.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:#d1d3dd;font-size:13px}.score{color:#9be2b0;font-weight:800}.description{max-width:570px;line-height:1.65;color:#d4d5df;font-size:15px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.btn{border:1px solid #ffffff22;border-radius:999px;padding:12px 19px;font-weight:800;font-size:13px;background:#ffffff12;color:white}.btn.primary{background:var(--accent);border-color:var(--accent);color:#1b0e0c}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.content{padding-bottom:90px}.status{font-size:12px;color:var(--muted);margin:0 0 20px}.section{margin:32px 0 39px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}.section h2{font-size:21px;letter-spacing:-.5px;margin:0}.sub{color:var(--muted);font-size:12px}.rail{display:grid;grid-auto-columns:minmax(145px,1fr);grid-auto-flow:column;gap:15px;overflow-x:auto;scrollbar-width:thin;scroll-snap-type:x mandatory;padding:2px 1px 15px}.card{min-width:0;scroll-snap-align:start}.poster{position:relative;aspect-ratio:2/3;overflow:hidden;border-radius:12px;background:linear-gradient(145deg,#303b58,#151723);border:1px solid #ffffff12;display:flex;align-items:flex-end;width:100%;padding:13px;text-align:left;background-size:cover;background-position:center;transition:transform .18s,border-color .18s}.poster:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#070810ed 0%,#07081010 70%)}.poster:hover{transform:translateY(-4px);border-color:#f27d6288}.poster-title{position:relative;font-size:15px;font-weight:850;line-height:1.1;text-shadow:0 2px 10px #000}.poster-badge{position:absolute;top:9px;left:9px;z-index:1;border-radius:5px;background:#f27d62;color:#21100c;font-size:9px;font-weight:900;padding:5px 6px}.poster-rating{position:absolute;right:9px;top:9px;z-index:1;background:#08090dc9;border:1px solid #ffffff20;border-radius:6px;padding:4px 6px;font-size:10px}.cardtitle{font-weight:750;font-size:13px;margin:9px 1px 4px;line-height:1.35}.cardmeta{font-size:11px;color:var(--muted);margin:0 1px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:22px 15px}.empty{border:1px dashed #393d4c;border-radius:var(--radius);padding:32px;color:var(--muted);text-align:center;line-height:1.6}.empty strong{display:block;color:white;margin-bottom:6px}.statusbox{background:#151722;border:1px solid var(--line);border-radius:12px;padding:13px 15px;color:var(--muted);font-size:12px;line-height:1.6}.statusbox a{color:var(--accent2);text-decoration:underline}.modalback{position:fixed;inset:0;background:#000b;backdrop-filter:blur(8px);z-index:40;display:none;align-items:center;justify-content:center;padding:20px}.modalback.open{display:flex}.modal{width:min(700px,100%);max-height:90vh;overflow:auto;border:1px solid var(--line);background:#12141d;border-radius:20px;box-shadow:0 30px 90px #0009}.modalhead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}.modalhead h2{font-size:20px;margin:0}.modalbody{padding:20px}.detail{display:grid;grid-template-columns:170px 1fr;gap:22px}.detailposter{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:12px;background:#252839}.detail p{line-height:1.6;color:#c4c7d3}.close{background:none;border:0;color:white;font-size:27px}.footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:12px}.mobile-nav{display:none}@media(max-width:850px){.shell{padding:0 20px}.topbar{height:70px;gap:18px}.nav{gap:14px}.nav button,.nav a{font-size:12px}.search{width:165px}.hero{min-height:390px;margin-top:20px}.rail{grid-auto-columns:155px}}@media(max-width:600px){.shell{padding:0 15px}.topbar{height:62px;gap:12px}.brand{font-size:24px}.nav{display:none}.search{width:min(44vw,200px);padding:10px 12px;font-size:12px}.tools{gap:6px}.iconbtn{width:35px;height:35px}.hero{min-height:450px;padding:24px 20px;margin:16px 0 28px;border-radius:19px}.hero:before{background:linear-gradient(0deg,#090a0ff7 0%,#090a0fc7 48%,#090a0f15 100%),var(--backdrop,linear-gradient(135deg,#3a304b,#131c2c));background-size:cover;background-position:center}.hero h1{font-size:42px;letter-spacing:-1.8px}.description{font-size:13px;line-height:1.55}.section{margin:26px 0}.section h2{font-size:18px}.rail{grid-auto-columns:132px;gap:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.cardtitle{font-size:12px}.detail{grid-template-columns:105px 1fr;gap:14px}.detail h3{font-size:18px;margin-top:0}.modalback{padding:10px}.modalbody{padding:15px}.mobile-nav{position:fixed;display:flex;z-index:25;bottom:calc(9px + env(safe-area-inset-bottom));left:12px;right:12px;justify-content:space-around;padding:10px 5px;background:#141620eF;border:1px solid #ffffff20;box-shadow:0 12px 40px #0009;backdrop-filter:blur(22px);border-radius:19px}.mobile-nav button{background:none;border:0;color:#aeb2c0;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px}.mobile-nav button span{font-size:18px}.mobile-nav button.active{color:var(--accent2)}.content{padding-bottom:115px}.statusbox{font-size:11px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+</style></head>
 <body>
-<div class="app">
-<header class="topbar">
-<a href="#" class="logo" aria-label="VOYO accueil" id="logoHome">VOYO</a>
-<nav class="nav" aria-label="Navigation principale">
-<button class="active" data-view="home">Accueil</button><button data-view="films">Films</button><button data-view="series">Séries</button><button data-view="tv">TV en direct</button><button data-view="mylist">Ma liste</button>
-</nav>
-<a class="tool-btn" href="./addons.html" aria-label="Gestion des addons" title="Gestion des addons" style="text-decoration:none;width:auto;padding:0 12px;border-radius:20px;font-size:12px;font-weight:750">🧩 Addons</a><div class="tools">
-<div class="search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input id="search" class="search" type="search" placeholder="Rechercher" aria-label="Rechercher dans le catalogue"></div>
-<button class="tool-btn" id="settings" aria-label="Paramètres">⚙</button>
-<button class="tool-btn profile-btn" id="profileBtn" aria-label="Changer de profil">D</button>
-</div>
-<div class="profile-menu" id="profileMenu" aria-label="Profils">
-<small>PROFILS DE DÉMONSTRATION</small>
-<button class="profile-option selected" data-profile="adult"><span class="profile-avatar">D</span><span>Denis <small>Profil principal</small></span></button>
-<button class="profile-option" data-profile="family"><span class="profile-avatar" style="background:linear-gradient(135deg,#f59c68,#e84d8a)">F</span><span>Famille <small>Suggestions famille</small></span></button>
-<button class="profile-option" data-profile="kids"><span class="profile-avatar" style="background:linear-gradient(135deg,#7ed9ad,#48a5ff)">K</span><span>Enfants <small>Interface de démonstration</small></span></button>
-<button class="profile-option" id="manageProfiles">⚙ Gérer les préférences</button>
-</div>
+<header class="topbar shell">
+<a class="brand" href="#" id="homeLink" aria-label="VOYO accueil">VOY<b>O</b></a>
+<nav class="nav" aria-label="Navigation principale"><button class="active" data-view="home">Accueil</button><button data-view="movie">Films</button><button data-view="series">Séries</button><button data-view="list">Ma liste</button><a href="./addons.html">Extensions</a></nav>
+<div class="tools"><input id="search" class="search" type="search" placeholder="⌕  Films, séries…" aria-label="Rechercher un titre"><button class="iconbtn" id="reload" aria-label="Actualiser les catalogues" title="Actualiser">↻</button></div>
 </header>
-<main class="main">
-<section class="hero" id="hero" hidden>
-<div class="hero-copy">
-<div class="eyebrow">Le choix du moment sur VOYO</div>
-<h1 id="heroTitle">Le Dernier Signal</h1>
-<div class="hero-subtitle" id="heroMeta"><span class="score">98 % pour vous</span><span>2025</span><span class="rating">16+</span><span>1 saison</span><span>Science-fiction</span></div>
-<p class="hero-desc" id="heroDesc">Quand un signal inconnu traverse le ciel, une petite équipe découvre qu'il pourrait changer le destin de la Terre.</p>
-<div class="hero-actions"><button class="btn btn-white" id="heroPlay">▶ Lire</button><button class="btn btn-soft" id="heroInfo">ⓘ Plus d'infos</button><button class="btn btn-soft" id="heroAdd">＋ Ma liste</button></div>
-<div class="hero-dots" id="heroDots" aria-label="Titres à la une"><button class="active" data-hero="0" aria-label="Titre à la une 1"></button><button data-hero="1" aria-label="Titre à la une 2"></button><button data-hero="2" aria-label="Titre à la une 3"></button></div>
-</div>
-</section>
-<div class="content" id="content">
-<div class="notice">Connexion au catalogue de films et séries…</div>
-<div id="genreBar" class="genres" aria-label="Filtrer par genre"><button class="genre active" data-genre="Tous">Tous les genres</button><button class="genre" data-genre="Action">Action</button><button class="genre" data-genre="Aventure">Aventure</button><button class="genre" data-genre="Comédie">Comédie</button><button class="genre" data-genre="Documentaire">Documentaire</button><button class="genre" data-genre="Drame">Drame</button><button class="genre" data-genre="Science-fiction">Science-fiction</button><button class="genre" data-genre="Thriller">Thriller</button></div>
+<main class="shell content">
+<section id="hero" class="hero" hidden><div class="hero-copy"><div class="eyebrow" id="heroTag">À découvrir</div><h1 id="heroTitle">VOYO</h1><div class="meta" id="heroMeta"></div><p class="description" id="heroDescription"></p><div class="actions"><button class="btn primary" id="heroDetails">▶ &nbsp; Détails du titre</button><button class="btn" id="heroSave">＋ &nbsp; Ma liste</button></div></div></section>
+<p class="status" id="status">Connexion aux catalogues de films et séries…</p>
+<div class="statusbox" id="sourceNotice">VOYO affiche des métadonnées et des affiches. La disponibilité des vidéos dépend des sources autorisées connectées. <a href="./addons.html">Configurer les extensions</a>.</div>
 <div id="sections"></div>
-<div id="addonExternalSections"></div>
-<div id="tvPage" hidden><section class="section"><div class="section-head"><h2 class="section-title">TV en direct</h2><span class="section-caption">Chaînes de démonstration — flux non connectés</span></div><div id="tvGrid" class="tv-grid"></div><p class="note">Ces cartes illustrent l’emplacement des chaînes. Les flux en direct devront être ajoutés à partir de sources autorisées.</p></section></div>
-<div id="searchPage" hidden></div>
-</div>
+<section class="section" id="addonArea"><div class="sectionhead"><h2>Depuis tes extensions</h2><a class="sub" href="./addons.html">Gérer les extensions ↗</a></div><div id="addonExternalSections"><div class="empty">Chargement des catalogues connectés…</div></div></section>
 </main>
-<footer class="footer" style="padding-left:clamp(18px,4.3vw,64px);padding-right:clamp(18px,4.3vw,64px)"><span>VOYO · Prototype indépendant</span><a class="addons-link" href="./addons.html">🧩 Gérer les addons</a><span>Films · Séries · TV · Tous vos écrans</span><span>Les contenus sont des exemples de démonstration.</span></footer>
-<nav class="mobile-bottom" aria-label="Navigation mobile"><button data-view="home" class="active"><span>⌂</span>Accueil</button><button data-view="films"><span>⌕</span>Rechercher</button><button data-view="mylist"><span>▤</span>Bibliothèque</button><button id="mobileProfile"><span>◉</span>Profil</button></nav>
-</div>
-<div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal"><div class="modal-art" id="modalArt"><button class="modal-close" data-close aria-label="Fermer">×</button><h2 id="detailTitle"></h2></div><div class="modal-body"><div id="detailMeta" class="detail-meta"></div><p id="detailSynopsis" class="detail-synopsis"></p><div class="detail-actions"><button class="btn btn-white" id="detailPlay">▶ Lire</button><button class="btn btn-soft" id="detailList">＋ Ma liste</button><button class="btn btn-soft" id="rateUp">👍 J’aime</button><button class="btn btn-soft" id="rateDown">👎 Pas pour moi</button></div><div class="detail-facts" id="detailFacts"></div></div></div></div>
-<div class="modal-backdrop" id="messageModal" role="dialog" aria-modal="true" aria-labelledby="messageTitle"><div class="modal" style="width:min(470px,100%);padding:24px"><button class="modal-close" data-close aria-label="Fermer">×</button><h2 id="messageTitle" style="margin:0 0 12px"></h2><div id="messageText" class="modal-message"></div><div id="messageActions" class="detail-actions"></div></div></div>
-<div class="modal-backdrop" id="externalDetailModal" role="dialog" aria-modal="true" aria-labelledby="externalTitle"><div class="modal"><div class="modal-art" id="externalArt"><button class="modal-close" data-close aria-label="Fermer">×</button><h2 id="externalTitle">Titre addon</h2></div><div class="modal-body"><div id="externalMeta" class="detail-meta"></div><p id="externalSynopsis" class="detail-synopsis"></p><div id="externalEpisodes" class="detail-facts"></div><div class="detail-actions"><button class="btn btn-white" id="loadExternalStreams">▶ Rechercher des sources</button><button class="btn btn-soft" id="saveExternalItem">＋ Ma liste</button></div><div id="externalStreams" class="detail-facts"></div></div></div></div>
-<div class="modal-backdrop" id="videoModal" role="dialog" aria-modal="true" aria-label="Lecteur VOYO"><div class="modal"><button class="modal-close" id="closeVideo" aria-label="Fermer">×</button><div class="modal-body"><h2 id="videoTitle" style="margin-top:0"></h2><video id="externalVideo" controls playsinline webkit-playsinline style="display:block;width:100%;max-height:60vh;background:#000;border-radius:9px"></video><p id="videoMessage" class="small">La lecture dépend du format pris en charge par le navigateur et du serveur source.</p></div></div></div>
+<nav class="mobile-nav" aria-label="Navigation mobile"><button class="active" data-view="home"><span>⌂</span>Accueil</button><button data-view="movie"><span>▣</span>Films</button><button data-view="series"><span>▤</span>Séries</button><button data-view="list"><span>♡</span>Ma liste</button><button id="mobileAddons"><span>⌘</span>Extensions</button></nav>
+<footer class="footer"><div class="shell">VOYO · Interface indépendante · <a href="./addons.html">Extensions</a> · <a href="https://github.com/mansstyle59/voyo-streaming">Code source</a></div></footer>
+<div class="modalback" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal"><div class="modalhead"><h2 id="detailTitle">Détails</h2><button class="close" id="closeDetail" aria-label="Fermer">×</button></div><div class="modalbody" id="detailBody"></div></div></div>
 <script>
 (function(){
 "use strict";
-let titles=[
-{id:"signal",title:"Le Dernier Signal",kind:"Série",year:2025,genre:"Science-fiction",age:"16+",duration:"1 saison",score:98,tag:"À LA UNE",c1:"#b65d54",c2:"#17102f",summary:"Quand un signal inconnu traverse le ciel, une petite équipe découvre qu’il pourrait changer le destin de la Terre.",cast:"Maya Sorel, Hugo Varenne, Lina Moreau",progress:68,popularity:1},
-{id:"port",title:"Les Ombres du Port",kind:"Film",year:2025,genre:"Thriller",age:"12+",duration:"1 h 52",score:94,tag:"NOUVEAUTÉ",c1:"#277c9b",c2:"#111326",summary:"Une inspectrice revient dans sa ville natale et rouvre une affaire que tout le monde pensait oubliée.",cast:"Élise Maran, Théo Delcourt",progress:24,popularity:2},
-{id:"horizon",title:"Horizon Zéro",kind:"Film",year:2024,genre:"Aventure",age:"10+",duration:"2 h 04",score:91,tag:"POPULAIRE",c1:"#cb9752",c2:"#20314c",summary:"Deux explorateurs se lancent dans une expédition où chaque décision peut tout changer.",cast:"Noé Valmont, Sarah Lenoir",progress:0,popularity:3},
-{id:"veilleurs",title:"Les Veilleurs",kind:"Série",year:2025,genre:"Drame",age:"12+",duration:"2 saisons",score:96,tag:"SÉRIE VOYO",c1:"#a3456c",c2:"#211428",summary:"Dans une cité côtière, cinq voisins s’organisent pour protéger ce qui leur est le plus précieux.",cast:"Camille Rey, Adam Leroux, Nila Sanz",progress:42,popularity:4},
-{id:"minute",title:"Minute Zéro",kind:"Film",year:2025,genre:"Action",age:"16+",duration:"1 h 47",score:89,tag:"ACTION",c1:"#d66b42",c2:"#21152e",summary:"Un technicien dispose d’une seule heure pour déjouer un sabotage au cœur de la ville.",cast:"Milo Ferrand, Inès Caron",progress:0,popularity:5},
-{id:"planete",title:"Planète sauvage",kind:"Documentaire",year:2025,genre:"Documentaire",age:"Tout public",duration:"52 min",score:97,tag:"À DÉCOUVRIR",c1:"#30b9c9",c2:"#15255f",summary:"Un voyage visuel à travers des paysages et des écosystèmes qui restent encore méconnus.",cast:"Narration française",progress:0,popularity:6},
-{id:"ete",title:"L’Été des autres",kind:"Film",year:2024,genre:"Drame",age:"Tout public",duration:"1 h 39",score:86,tag:"ÉMOTION",c1:"#d39b70",c2:"#383055",summary:"Le temps d’un été, une famille tente de renouer les liens qu’elle croyait perdus.",cast:"Jeanne Vidal, Paul Neri",progress:0,popularity:7},
-{id:"atlas",title:"Atlas Noir",kind:"Série",year:2025,genre:"Thriller",age:"16+",duration:"1 saison",score:93,tag:"NOUVEAU",c1:"#555e9d",c2:"#11121f",summary:"Une analyste décrypte des cartes anonymes qui semblent prédire des événements réels.",cast:"Léna Armand, Sacha Perrot",progress:0,popularity:8},
-{id:"maison",title:"La Maison bleue",kind:"Série",year:2024,genre:"Mystère",age:"12+",duration:"1 saison",score:88,tag:"MYSTÈRE",c1:"#4d89a1",c2:"#16192c",summary:"Un nouveau propriétaire découvre que chaque pièce de sa maison cache une histoire différente.",cast:"Lou Martin, Émile Roche",progress:0,popularity:9},
-{id:"rire",title:"Rien que pour rire",kind:"Série",year:2025,genre:"Comédie",age:"Tout public",duration:"3 saisons",score:90,tag:"COMÉDIE",c1:"#db9a46",c2:"#63305f",summary:"Une petite équipe de collègues transforme chaque journée ordinaire en aventure improbable.",cast:"Nora Bel, Maxime Solal",progress:0,popularity:10},
-{id:"ligne",title:"Ligne 13",kind:"Série",year:2024,genre:"Thriller",age:"12+",duration:"2 saisons",score:84,tag:"SUSPENSE",c1:"#53758d",c2:"#151724",summary:"Un trajet nocturne relie des inconnus dont les destins vont finir par se croiser.",cast:"Aïcha Morel, Louis Naceri",progress:0,popularity:11},
-{id:"survivants",title:"Les Survivants",kind:"Film",year:2023,genre:"Science-fiction",age:"12+",duration:"2 h 01",score:87,tag:"SCI-FI",c1:"#6266a7",c2:"#151323",summary:"Après une panne mondiale, un petit groupe cherche à rétablir les communications.",cast:"Ilan Costa, Maud Rivière",progress:0,popularity:12},
-{id:"terrain",title:"En terrain inconnu",kind:"Série",year:2025,genre:"Aventure",age:"Tout public",duration:"1 saison",score:92,tag:"AVENTURE",c1:"#7c985c",c2:"#18313b",summary:"Des amis partent à la découverte de routes oubliées et de paysages inattendus.",cast:"Yanis Fabre, Zoé Colin",progress:12,popularity:13},
-{id:"apres",title:"Après la pluie",kind:"Film",year:2024,genre:"Drame",age:"Tout public",duration:"1 h 44",score:85,tag:"DRAME",c1:"#68849f",c2:"#25213b",summary:"Un musicien retrouve l’inspiration dans un village où le temps semble ralentir.",cast:"Manon Serre, Gabriel Roux",progress:0,popularity:14},
-{id:"code",title:"Code Minuit",kind:"Film",year:2025,genre:"Action",age:"16+",duration:"1 h 56",score:90,tag:"À VOIR",c1:"#9f4d43",c2:"#151622",summary:"Une experte en cybersécurité suit une piste qui mène jusqu’à son propre passé.",cast:"Iris Valois, Mehdi Laurent",progress:0,popularity:15},
-{id:"ocean",title:"L’Appel de l’océan",kind:"Documentaire",year:2024,genre:"Documentaire",age:"Tout public",duration:"48 min",score:94,tag:"DOCUMENTAIRE",c1:"#20a9b6",c2:"#12314f",summary:"Une expédition suit les traces des espèces qui vivent dans les profondeurs marines.",cast:"Narration française",progress:0,popularity:16},
-{id:"weekend",title:"Week-end imprévu",kind:"Film",year:2025,genre:"Comédie",age:"Tout public",duration:"1 h 36",score:83,tag:"COMÉDIE",c1:"#e8ad61",c2:"#a0446a",summary:"Deux amis réservent le mauvais séjour et passent le week-end le plus improbable de leur vie.",cast:"Clara Millet, Tom Vasseur",progress:0,popularity:17},
-{id:"echo",title:"Écho",kind:"Série",year:2025,genre:"Science-fiction",age:"12+",duration:"1 saison",score:95,tag:"NOUVELLE SÉRIE",c1:"#4178b4",c2:"#3b215c",summary:"Une scientifique entend dans les enregistrements radio une voix qu’aucun appareil ne devrait capter.",cast:"Mila André, Rayan Giraud",progress:0,popularity:18}
-];
-const channels=[["V1","VOYO 1"],["V2","VOYO 2"],["INF","Info Live"],["DOC","Découverte"],["MUS","Musique"],["SPT","Sport Démo"],["KID","Famille"]];
-let view="home",genre="Tous",activeTitle=titles[0],activeProfile="adult",userList=[],ratings={};
 const $=id=>document.getElementById(id);
-function safeRead(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v===null?fallback:v}catch(e){return fallback}}
-function persist(){try{localStorage.setItem("voyo-my-list",JSON.stringify(userList));localStorage.setItem("voyo-ratings",JSON.stringify(ratings));localStorage.setItem("voyo-profile",activeProfile)}catch(e){}}
-userList=safeRead("voyo-my-list",[]);ratings=safeRead("voyo-ratings",{});activeProfile=safeRead("voyo-profile","adult");
-const esc=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-function byId(id){return titles.find(t=>t.id===id)||titles[0]}
-function isSaved(t){return userList.includes(t.id)}
-function iconName(view){return view==="films"?"Films":view==="series"?"Séries":view==="tv"?"TV en direct":view==="mylist"?"Ma liste":"Pour vous"}
-function continueMarkup(t){return '<article class="card continue-card" style="--c1:'+t.c1+';--c2:'+t.c2+'"><button class="continue-card" data-detail="'+t.id+'" aria-label="Ouvrir '+esc(t.title)+'" style="position:absolute;inset:0;border:0;background:transparent;width:100%;height:100%;color:inherit"><span class="continue-shape"></span><span class="continue-resume">'+Math.max(1,Math.round((100-t.progress)*1.2))+' min restantes</span><span class="continue-info"><small>S1 · E'+(t.progress>50?"5":"3")+'</small><strong>'+esc(t.title)+'</strong><span>'+esc(t.genre)+'</span><span class="continue-progress"><i style="width:'+t.progress+'%"></i></span></span></button></article>'}
-function cardMarkup(t,options){options=options||{};const resume=options.resume||false;const rank=options.rank||0;const label=esc(t.title.toUpperCase()).replace(/ &amp; /g," & ");let posterStyle="--c1:"+t.c1+";--c2:"+t.c2;if(t.poster)posterStyle+=';background-image:linear-gradient(0deg,#05060ce8 0%,#05060c18 62%,#05060c08 100%),url("'+esc(t.poster)+'");background-size:cover;background-position:center top';let art='<button class="poster" data-detail="'+t.id+'" aria-label="Afficher la fiche de '+esc(t.title)+'" style="'+posterStyle+'"><span class="poster-badge">'+esc(t.tag)+'</span><span class="poster-rating">'+esc(t.age)+'</span><span class="poster-title">'+label+'</span></button>';if(rank)art='<article class="card top-card"><span class="rank-number">'+rank+'</span>'+art+'</article>';else art='<article class="card">'+art;
-if(rank) {art=art.replace('</article><article','</article><article');}
-if(resume)art=art.replace('</button>','<span></span></button>');
-let extras='<div class="card-name">'+esc(t.title)+'</div><div class="card-meta">'+t.year+' · '+esc(t.genre)+' · '+esc(t.duration)+'</div>';
-if(resume)extras+='<div class="progress" aria-label="Progression '+t.progress+' pour cent"><span style="width:'+t.progress+'%"></span></div>';
-extras+='<div class="quick-actions"><button class="quick" data-play="'+t.id+'">▶ Reprendre</button><button class="quick" data-save="'+t.id+'">'+(isSaved(t)?"✓ Ma liste":"＋ Ma liste")+'</button></div>';
-if(rank)return art.replace('</article>','')+extras+'</article>';
-return art+extras+'</article>';}
-function railMarkup(id,title,items,kind){if(!items.length)return "";const cards=items.map((t,i)=>cardMarkup(t,{rank:kind==="top"?i+1:0,resume:kind==="resume"})).join("");return '<section class="section" id="'+id+'"><div class="section-head"><h2 class="section-title">'+title+'</h2><div class="rail-tools"><button class="rail-arrow" data-scroll="'+id+'" data-dir="-1" aria-label="Défiler vers la gauche">‹</button><button class="rail-arrow" data-scroll="'+id+'" data-dir="1" aria-label="Défiler vers la droite">›</button></div></div><div class="rail">'+cards+'</div></section>'}
-function setHero(t){activeTitle=t;$("heroTitle").textContent=t.title;$("heroDesc").textContent=t.summary;$("heroMeta").innerHTML='<span class="score">'+t.score+' % pour vous</span><span>'+t.year+'</span><span class="rating">'+esc(t.age)+'</span><span>'+esc(t.duration)+'</span><span>'+esc(t.genre)+'</span>';$("hero").style.setProperty("--heroGlow",t.c1);$("hero").style.setProperty("--heroShade",t.c2);$("heroInfo").dataset.detail=t.id;$("heroAdd").textContent=isSaved(t)?"✓ Dans ma liste":"＋ Ma liste";document.querySelectorAll("[data-hero]").forEach(b=>b.classList.toggle("active",Number(b.dataset.hero)===titles.slice(0,3).findIndex(x=>x.id===t.id)))}
-function filteredCatalog(){const q=$("search").value.trim().toLocaleLowerCase("fr");return titles.filter(t=>(view==="films"?t.kind==="Film":view==="series"?t.kind==="Série":view==="mylist"?isSaved(t):true)&&(genre==="Tous"||t.genre===genre)&&(!q||(t.title+" "+t.genre+" "+t.kind+" "+t.summary+" "+t.cast).toLocaleLowerCase("fr").includes(q)))}
-function continueRail(items){if(!items.length)return "";return '<section class="section" id="continue"><div class="section-head"><h2 class="section-title">Continuer à regarder</h2></div><div class="rail">'+items.map(continueMarkup).join("")+'</div></section>'}
-function renderHome(){const sections=$("sections");sections.innerHTML="";const list=filteredCatalog();const q=$("search").value.trim();
-if(q){sections.innerHTML=railMarkup("searchResults",'Résultats pour « '+esc(q)+' »',list)+(!list.length?'<div class="empty-state"><strong>Aucun résultat trouvé</strong>Essaie un autre titre ou un autre genre.</div>':'');return}
-if(genre!=="Tous"&&(view==="home")){sections.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+esc(genre)+'</h2><span class="section-caption">'+list.length+' titres correspondants</span></div><div class="grid-results">'+list.map(t=>cardMarkup(t)).join("")+'</div></section>'+(!list.length?'<div class="empty-state"><strong>Aucun titre dans ce genre</strong>Essaie une autre catégorie.</div>':'');return}if(view==="mylist"){sections.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Ma liste</h2><span class="section-caption">Enregistrée sur cet appareil</span></div>'+(list.length?'<div class="grid-results">'+list.map(t=>cardMarkup(t)).join("")+'</div>':'<div class="empty-state"><strong>Ta liste est encore vide</strong>Ajoute des films et séries avec le bouton « Ma liste » sur chaque fiche.</div>')+'</section>';return}
-if(view==="films"||view==="series"){sections.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+iconName(view)+'</h2><span class="section-caption">'+list.length+' titres de démonstration</span></div><div class="grid-results">'+list.map(t=>cardMarkup(t)).join("")+'</div></section>';if(!list.length)sections.innerHTML+='<div class="empty-state"><strong>Aucun titre dans ce filtre</strong>Change de genre pour continuer à explorer.</div>';return}
-const progress=titles.filter(t=>t.progress>0);
-const ordered=titles.slice().sort((a,b)=>a.popularity-b.popularity);
-const newTitles=titles.filter(t=>t.year>=2025).sort((a,b)=>b.score-a.score);
-const series=titles.filter(t=>t.kind==="Série").sort((a,b)=>b.score-a.score);
-const action=titles.filter(t=>["Action","Aventure","Science-fiction"].includes(t.genre));
-const comedy=titles.filter(t=>t.genre==="Comédie"||t.genre==="Drame");
-sections.innerHTML=continueRail(progress)+railMarkup("top10","Le Top 10 VOYO",ordered.slice(0,10),"top")+railMarkup("new","Nouveautés à découvrir",newTitles)+railMarkup("series","Séries qui font parler",series)+railMarkup("action","Action, aventure & science-fiction",action)+railMarkup("moods","Pour changer d’ambiance",comedy)+railMarkup("alltitles","Tout le catalogue",list);
+const API="https://v3-cinemeta.strem.io";
+let catalog=[],view="home",selected=null,searchTerm="",saved=readSaved();
+function readSaved(){try{return JSON.parse(localStorage.getItem("voyo-saved-v2")||"[]")}catch(e){return []}}
+function writeSaved(){try{localStorage.setItem("voyo-saved-v2",JSON.stringify(saved))}catch(e){}}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function clean(s){const d=document.createElement("div");d.innerHTML=String(s||"");return (d.textContent||"").trim()}
+function yearOf(t){return Number(String(t.releaseInfo||t.year||"").match(/\d{4}/)?.[0])||""}
+function typeOf(t){return t.type==="series"?"series":"movie"}
+function titleOf(t){return t.name||t.title||"Sans titre"}
+function idOf(t){return t.id}
+function imageOf(t){return t.poster||t.background||""}
+function savedItem(t){return saved.some(x=>x.id===t.id&&x.type===t.type)}
+function allFiltered(){return catalog.filter(t=>(view==="movie"?typeOf(t)==="movie":view==="series"?typeOf(t)==="series":view==="list"?savedItem(t):true)&&(!searchTerm||(titleOf(t)+" "+(t.genres||[]).join(" ")+" "+(t.description||"")).toLocaleLowerCase("fr").includes(searchTerm.toLocaleLowerCase("fr"))))}
+function card(t){const poster=imageOf(t);return '<article class="card"><button class="poster" data-id="'+esc(t.id)+'" aria-label="Détails : '+esc(titleOf(t))+'" style="'+(poster?'background-image:linear-gradient(0deg,#070810ef,transparent 72%),url(&quot;'+esc(poster)+'&quot;)':'')+'"><span class="poster-badge">'+(typeOf(t)==="series"?"SÉRIE":"FILM")+'</span><span class="poster-rating">'+(t.imdbRating?"★ "+esc(t.imdbRating):esc(yearOf(t)))+'</span><span class="poster-title">'+esc(titleOf(t))+'</span></button><div class="cardtitle">'+esc(titleOf(t))+'</div><div class="cardmeta">'+esc(yearOf(t))+' · '+esc((t.genres||[]).slice(0,2).join(" · "))+'</div></article>'}
+function rail(title,items){if(!items.length)return "";return '<section class="section"><div class="sectionhead"><h2>'+esc(title)+'</h2><span class="sub">'+items.length+' titres</span></div><div class="rail">'+items.map(card).join("")+'</div></section>'}
+function render(){
+ const list=allFiltered(),sections=$("sections");
+ if(searchTerm||view!=="home"){
+  sections.innerHTML='<section class="section"><div class="sectionhead"><h2>'+esc(searchTerm?'Résultats de recherche':view==="movie"?"Films":view==="series"?"Séries":"Ma liste")+'</h2><span class="sub">'+list.length+' titres</span></div>'+(list.length?'<div class="grid">'+list.map(card).join("")+'</div>':'<div class="empty"><strong>Aucun titre trouvé</strong>Essaie un autre mot-clé ou recharge les catalogues.</div>')+'</section>';
+ }else{
+  const movies=list.filter(t=>typeOf(t)==="movie"),series=list.filter(t=>typeOf(t)==="series");
+  const featured=catalog.find(t=>t.background)||catalog[0];
+  if(featured){$("hero").hidden=false;setHero(featured)}
+  sections.innerHTML=rail("Films populaires",movies.slice(0,20))+rail("Séries populaires",series.slice(0,20))+rail("À découvrir",list.slice(20,40))+rail("Tout le catalogue",list.slice(40,70));
+ }
+ document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
 }
-function renderTv(){ $("tvGrid").innerHTML=channels.map((c,i)=>'<button class="channel" data-channel="'+i+'"><span class="channel-logo">'+c[0]+'</span><span class="channel-name">'+c[1]+'</span><div class="channel-state">● Flux à configurer</div></button>').join("")}
-
-const FEATURED_STREMIO_ADDON_URL="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json";
-let externalModalItem=null,externalModalAddon=null,externalFetchCache={};
-function escapeExternal(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function safeHttpUrl(raw){try{const u=new URL(raw);return ["http:","https:"].includes(u.protocol)?u.href:""}catch(e){return ""}}
-function stremioBase(manifestUrl){const u=new URL(manifestUrl);return new URL(".",u).href}
-function stremioResourceUrl(manifestUrl,resourcePath,extra){const base=stremioBase(manifestUrl);let route=resourcePath;const pairs=Object.entries(extra||{}).filter(([k,v])=>v!==undefined&&v!==null&&String(v)!=="").map(([k,v])=>encodeURIComponent(k)+"="+encodeURIComponent(String(v)));if(pairs.length)route+="/"+pairs.join("&");return new URL(route+".json",base).href}
-async function getAddonJson(url,timeoutMs){const timeout=timeoutMs||12000;const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),timeout);try{const response=await fetch(url,{method:"GET",headers:{Accept:"application/json"},mode:"cors",credentials:"omit",cache:"no-store",signal:ctl.signal});if(!response.ok)throw Error("HTTP "+response.status);const data=await response.json();if(!data||typeof data!=="object")throw Error("Réponse JSON invalide");return data}catch(e){if(e.name==="AbortError")throw Error("délai d’attente dépassé");if(e instanceof TypeError)throw Error("requête refusée par le navigateur (CORS, DNS ou réseau)");throw e}finally{clearTimeout(timer)}}
-function readConnectedAddons(){try{const list=JSON.parse(localStorage.getItem("voyo-addons-v1")||"[]");if(!Array.isArray(list))return [];let changed=false;const root="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json";const host="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/";const migrated=list.map(a=>{if(a&&typeof a.url==="string"&&a.url.startsWith(host)&&a.url!==root){changed=true;return {...a,url:root,id:"public-manifest-pending",name:"French Stream — catalogue public",manifest:null,catalogs:[],enabled:true,pending:true,lastError:"L’URL personnalisée a été remplacée par le manifeste public afin de ne pas conserver une clé dans le client."}}return a});const unique=[];for(const item of migrated){if(item&&item.url===root&&unique.some(x=>x.url===root))continue;unique.push(item)}if(changed){try{localStorage.setItem("voyo-addons-v1",JSON.stringify(unique))}catch(e){}}return unique}catch(e){return []}}
-function writeConnectedAddons(list){try{localStorage.setItem("voyo-addons-v1",JSON.stringify(list));return true}catch(e){return false}}
-function isFeaturedSource(a){return a&&a.url===FEATURED_STREMIO_ADDON_URL}
-function normalizeManifestRecord(a,manifest){return {url:a.url,id:manifest.id,name:manifest.name,description:manifest.description||"",version:manifest.version||"",manifest,catalogs:(manifest.catalogs||[]).filter(c=>c&&c.type&&c.id).map(c=>({type:c.type,id:c.id,name:c.name||c.id,extra:c.extra||[],extraSupported:c.extraSupported||[]})),enabled:true,pending:false,lastError:"",installedAt:a.installedAt||new Date().toISOString()}}
-async function initializeFeaturedAddon(){let list=readConnectedAddons();let found=list.findIndex(a=>isFeaturedSource(a));if(found<0){list.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});writeConnectedAddons(list);found=0}const item=list[found];if(item.manifest&&Array.isArray(item.catalogs)&&item.catalogs.length&&!item.pending)return;try{const manifest=await getAddonJson(FEATURED_STREMIO_ADDON_URL);if(typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste invalide (id, name ou resources manquant)");list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));const normalized=normalizeManifestRecord(found>=0?list[found]:item,manifest);if(found>=0)list[found]=normalized;else list.unshift(normalized);writeConnectedAddons(list);return normalized}catch(error){list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));if(found>=0){list[found].pending=true;list[found].enabled=false;list[found].lastError=error.message||"Manifeste inaccessible";writeConnectedAddons(list)}return null}}
-function renderAddonState(message,error){const host=$("addonExternalSections");if(!host)return;host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><span class="section-caption">Sources externes</span></div><div class="addon-connection-state '+(error?"error":"")+'">'+escapeExternal(message)+' <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>'}
-let addonCatalogsPromise=null,addonCatalogRequestId=0,addonCatalogQueryInFlight=null;
-async function renderConnectedAddonCatalogs(force){
- const host=$("addonExternalSections");if(!host)return;
- const query=$("search").value.trim();
- if(addonCatalogsPromise&&!force&&addonCatalogQueryInFlight===query)return addonCatalogsPromise;
- const requestId=++addonCatalogRequestId;
- addonCatalogQueryInFlight=query;
- addonCatalogsPromise=(async()=>{
-  let savedAddons=readConnectedAddons();
-  if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
-   savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
-  }
-  for(const item of savedAddons){if(item&&item.url===FEATURED_STREMIO_ADDON_URL&&item.pending)item.enabled=true;}
-  writeConnectedAddons(savedAddons);
-  const addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
-  if(!addons.length){if(requestId===addonCatalogRequestId)host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
-  if(requestId===addonCatalogRequestId)host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+(query?'Résultats des addons':'Films &amp; séries de tes addons')+'</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
-  const rows=[];
-  for(const initial of addons){
-   let addon=initial,manifest=addon.manifest;
-   try{
-    if(!manifest||!Array.isArray(addon.catalogs)||addon.pending){
-     manifest=await getAddonJson(addon.url,8000);
-     if(!manifest||typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste non valide");
-     addon=normalizeManifestRecord(addon,manifest);
-     const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all);
-    }
-    if(!addon.enabled)continue;
-    const catalogs=Array.isArray(addon.catalogs)?addon.catalogs:[];
-    const isSearchCatalog=c=>/(^|[- _])(search|recherche)([- _]|$)/i.test(String((c.id||"")+" "+(c.name||"")));
-    let chosen;
-    if(query){
-     chosen=catalogs.filter(isSearchCatalog);
-     if(!chosen.length){
-      rows.push({addon,name:"Recherche non disponible",error:"Cet addon ne déclare pas de catalogue de recherche. Essaie le catalogue de navigation ou un autre addon."});
-      continue;
-     }
-    }else{
-     chosen=catalogs.filter(c=>!isSearchCatalog(c));
-    }
-    if(!chosen.length){if(!query)rows.push({addon,name:"Aucun catalogue de navigation",error:"Le manifeste ne déclare pas de catalogue navigable sans recherche."});continue}
-    const catalogRows=await Promise.all(chosen.slice(0,8).map(async catalog=>{
-     const extras={};
-     (catalog.extra||[]).forEach(x=>{if(x&&x.name){if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}}});
-     if(query){
-      const declared=Array.isArray(manifest.extraSupported)?manifest.extraSupported:[];
-      const declaredExtra=(catalog.extra||[]).map(x=>x&&x.name).filter(Boolean);
-      if(declared.includes("search")||declaredExtra.includes("search")||isSearchCatalog(catalog))extras.search=query;
-     }
-     const url=stremioResourceUrl(addon.url,"catalog/"+encodeURIComponent(catalog.type)+"/"+encodeURIComponent(catalog.id),extras);
-     try{
-      let result=(!force&&externalFetchCache[url])||await getAddonJson(url,7500);
-      externalFetchCache[url]=result;
-      const metas=Array.isArray(result.metas)?result.metas:(Array.isArray(result.metasDetailed)?result.metasDetailed:[]);
-      return {addon,catalog,name:catalog.name||catalog.id,metas:metas.slice(0,18),error:null};
-     }catch(error){return {addon,catalog,name:catalog.name||catalog.id,error:error.message||"Catalogue inaccessible"}}
-    }));
-    rows.push(...catalogRows);
-   }catch(error){
-    addon.pending=true;addon.enabled=true;addon.lastError=error.message||"Erreur de connexion";
-    const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all);
-    rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."});
-   }
-  }
-  if(requestId!==addonCatalogRequestId)return;
-  if(!rows.length){host.innerHTML=query?'<section class="section"><div class="empty-state"><strong>Aucun résultat d’addon</strong>Essaie une autre recherche ou vérifie que l’addon propose la recherche.</div></section>':"";return}
-  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+(query?'Résultats des addons pour « '+escapeExternal(query)+' »':'Catalogues connectés')+'</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
-   const sub=escapeExternal(row.addon.name||"Addon");
-   const cards=(row.metas||[]).map(meta=>{
-    const title=meta.name||meta.title||"Sans titre";const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
-    if(poster)style+='background-image:linear-gradient(0deg,#000d,transparent 72%),url(&quot;'+escapeExternal(poster)+'&quot;);background-size:cover;background-position:center;';
-    const payload=btoa(unescape(encodeURIComponent(JSON.stringify({addonUrl:row.addon.url,type:meta.type||row.catalog?.type||"movie",id:meta.id||"",title,poster:poster,year:meta.year||"",description:meta.description||meta.plot||"",releaseInfo:meta.releaseInfo||""})))).replace(/"/g,"&quot;");
-    return '<article class="card"><button class="poster" data-addon-meta="'+payload+'" aria-label="Voir '+escapeExternal(title)+'" style="'+style+'"><span class="poster-title">'+escapeExternal(title)+'</span></button><div class="card-name">'+escapeExternal(title)+'</div><div class="card-meta">'+escapeExternal([meta.year,meta.type,meta.releaseInfo].filter(Boolean).join(" · "))+'</div></article>';
-   }).join("");
-   const rowTitle=escapeExternal(row.name);
-   if(row.error)return '<section class="section"><div class="section-head"><h2 class="section-title">'+rowTitle+'</h2><span class="section-caption">'+sub+'</span></div><div class="addon-connection-state error"><strong>'+escapeExternal(row.error)+'</strong> <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Vérifier les addons ↗</a></div></section>';
-   if(!cards)return "";
-   return '<section class="section"><div class="section-head"><h2 class="section-title">'+rowTitle+'</h2><span class="section-caption">'+sub+'</span></div><div class="rail">'+cards+'</div></section>';
-  }).join("");
- })().finally(()=>{addonCatalogsPromise=null});
- return addonCatalogsPromise;
-}
-async function openExternalMeta(payload){
+function setHero(t){$("heroTitle").textContent=titleOf(t);$("heroTag").textContent=typeOf(t)==="series"?"SÉRIE À DÉCOUVRIR":"FILM À DÉCOUVRIR";$("heroDescription").textContent=clean(t.description||"Découvre la fiche de ce titre et ses informations.");$("heroMeta").innerHTML='<span class="score">'+(t.imdbRating?"★ "+esc(t.imdbRating):"Catalogue")+'</span><span>'+esc(yearOf(t))+'</span><span>'+esc((t.genres||[]).slice(0,3).join(" · "))+'</span>';const bg=t.background||t.poster;$("hero").style.setProperty("--backdrop",bg?'linear-gradient(90deg,#090a0ff2,#090a0f66),url("'+bg.replace(/["\\]/g,"")+'")':'linear-gradient(135deg,#3a304b,#131c2c)');$("heroDetails").dataset.id=t.id;$("heroSave").textContent=savedItem(t)?"✓ Dans ma liste":"＋ Ma liste";$("heroSave").dataset.id=t.id;selected=t}
+function details(id){const t=catalog.find(x=>x.id===id);if(!t)return;selected=t;$("detailTitle").textContent=titleOf(t);const poster=imageOf(t);$("detailBody").innerHTML='<div class="detail">'+(poster?'<img class="detailposter" src="'+esc(poster)+'" alt="Affiche de '+esc(titleOf(t))+'">':'<div class="detailposter"></div>')+'<div><div class="eyebrow">'+(typeOf(t)==="series"?"SÉRIE":"FILM")+'</div><h3>'+esc(titleOf(t))+'</h3><div class="meta">'+esc(yearOf(t))+' · '+esc((t.genres||[]).join(" · "))+' '+(t.imdbRating?'· ★ '+esc(t.imdbRating):"")+'</div><p>'+esc(clean(t.description||"Aucune description fournie par le catalogue."))+'</p><div class="actions"><button class="btn primary" id="detailSave">'+(savedItem(t)?"✓ Dans ma liste":"＋ Ma liste")+'</button>'+(t.imdb_id?'<a class="btn" href="https://www.imdb.com/title/'+encodeURIComponent(t.imdb_id)+'/" target="_blank" rel="noopener noreferrer">Voir IMDb ↗</a>':"")+'</div><p class="sub">VOYO ne fournit pas automatiquement de flux vidéo. Utilise des extensions et sources de diffusion autorisées.</p></div></div>';$("detailModal").classList.add("open");const save=$("detailSave");if(save)save.onclick=()=>toggleSaved(t)}
+function toggleSaved(t){if(savedItem(t))saved=saved.filter(x=>!(x.id===t.id&&x.type===t.type));else saved.push({id:t.id,type:t.type});writeSaved();$("heroSave").textContent=savedItem(t)?"✓ Dans ma liste":"＋ Ma liste";if($("detailSave"))$("detailSave").textContent=savedItem(t)?"✓ Dans ma liste":"＋ Ma liste";render()}
+async function loadCatalog(){
+ $("status").textContent="Chargement des catalogues réels…";
  try{
-  const item=JSON.parse(decodeURIComponent(escape(atob(payload))));
-  externalModalItem=item;
-  $("externalTitle").textContent=item.title;
-  $("externalSynopsis").textContent=item.description||"Chargement des informations complémentaires…";
-  $("externalMeta").innerHTML='<span>'+escapeExternal(item.year||"")+'</span><span>'+escapeExternal(item.type||"")+'</span><span class="external-pill">Addon Stremio</span>';
-  $("externalArt").style.setProperty("--c1","#315c8a");$("externalArt").style.setProperty("--c2","#17142a");
-  if(item.poster){$("externalArt").style.backgroundImage='linear-gradient(0deg,#141520,transparent 80%),url("'+item.poster.replace(/["\\\\]/g,"")+'")';$("externalArt").style.backgroundSize="cover";$("externalArt").style.backgroundPosition="center"}else $("externalArt").style.backgroundImage="";
-  $("externalEpisodes").innerHTML='<div class="addon-connection-state">Récupération des détails…</div>';
-  $("externalStreams").innerHTML="";
-  $("externalDetailModal").classList.add("open");
-  const addon=readConnectedAddons().find(a=>a&&a.url===item.addonUrl&&a.enabled&&a.manifest);
-  if(!addon){$("externalEpisodes").innerHTML='<div class="small">L’addon n’est pas actif. Vérifie sa configuration dans Addons.</div>';return}
-  const resources=(addon.manifest.resources||[]).map(r=>typeof r==="string"?r:r&&r.name).filter(Boolean);
-  if(!resources.includes("meta")||!item.id){$("externalEpisodes").innerHTML="";return}
-  try{
-   const endpoint=stremioResourceUrl(addon.url,"meta/"+encodeURIComponent(item.type||"movie")+"/"+encodeURIComponent(item.id));
-   const data=await getAddonJson(endpoint,8000),meta=data.meta||data;
-   if(!meta||typeof meta!=="object")throw Error("Métadonnées non reconnues");
-   if(meta.name||meta.title)$("externalTitle").textContent=meta.name||meta.title;
-   if(meta.description||meta.plot)$("externalSynopsis").textContent=meta.description||meta.plot;
-   $("externalMeta").innerHTML='<span>' + escapeExternal(meta.year||item.year||"") + '</span><span>' + escapeExternal(meta.type||item.type||"") + '</span>'+(meta.runtime?'<span>'+escapeExternal(meta.runtime)+'</span>':"")+(meta.imdbRating?'<span class="external-pill">★ '+escapeExternal(meta.imdbRating)+'</span>':"")+(meta.genres&&meta.genres.length?'<span>'+escapeExternal(meta.genres.slice(0,3).join(" · "))+'</span>':"");
-   if(meta.background){const bg=safeHttpUrl(meta.background);if(bg){$("externalArt").style.backgroundImage='linear-gradient(0deg,#141520,transparent 80%),url("'+bg.replace(/["\\\\]/g,"")+'")';$("externalArt").style.backgroundSize="cover";$("externalArt").style.backgroundPosition="center"}}
-   const videos=Array.isArray(meta.videos)?meta.videos:[];
-   if(videos.length){
-    $("externalEpisodes").innerHTML='<div style="font-weight:750;margin:9px 0">Épisodes disponibles ('+videos.length+')</div>'+videos.slice(0,40).map(v=>'<div style="border-top:1px solid #ffffff15;padding:9px 0;font-size:12px"><strong>'+escapeExternal([v.season!=null?"S"+v.season:"",v.episode!=null?"E"+v.episode:"",v.title||v.name||"Épisode"].filter(Boolean).join(" · "))+'</strong>'+(v.overview?'<div class="small">'+escapeExternal(v.overview)+'</div>':"")+(v.released?'<div class="small">'+escapeExternal(v.released)+'</div>':"")+'</div>').join("");
-   }else{
-    const links=Array.isArray(meta.links)?meta.links:[];
-    $("externalEpisodes").innerHTML=links.length?'<div style="font-weight:750;margin:9px 0">Liens fournis par l’addon</div>'+links.slice(0,12).map(l=>'<div style="padding:6px 0;font-size:12px;border-top:1px solid #ffffff12">'+escapeExternal(l.name||l.category||"Lien")+'</div>').join(""):"";
-   }
-  }catch(error){
-   $("externalEpisodes").innerHTML='<div class="small">Les catalogues sont accessibles, mais la fiche détaillée n’a pas pu être chargée : '+escapeExternal(error.message||"erreur réseau")+'.</div>';
-  }
- }catch(e){openMessage("Addon","Impossible d’ouvrir cette fiche provenant de l’addon.")}
-}
-async function loadExternalStreams(){const item=externalModalItem;if(!item)return;const host=$("externalStreams");host.innerHTML='<div class="addon-connection-state">Recherche des sources autorisées…</div>';try{const addons=readConnectedAddons().filter(a=>a&&a.enabled&&a.url&&a.manifest);const matches=addons.filter(a=>a.url===item.addonUrl);if(!matches.length)throw Error("Addon inactif ou non vérifié. Ouvre la page Addons.");const a=matches[0];const available=(a.manifest.resources||[]).map(r=>typeof r==="string"?r:r&&r.name).filter(Boolean);if(!available.includes("stream")){host.innerHTML='<div class="addon-connection-state error">Cet addon déclare les ressources « catalog » et « meta », mais pas « stream ». Il peut afficher les catalogues et les fiches, mais ne fournit pas de flux vidéo via le protocole Stremio. Pour la lecture, ajoute une source autorisée qui déclare la ressource stream.</div>';return}let type=item.type||"movie",id=item.id;if(type==="series"&&id&&!id.includes(":"))id=id+":1:1";const url=stremioResourceUrl(a.url,"stream/"+encodeURIComponent(type)+"/"+encodeURIComponent(id));const data=await getAddonJson(url);const streams=Array.isArray(data.streams)?data.streams:[];if(!streams.length){host.innerHTML='<div class="addon-connection-state error">Aucune source renvoyée pour cet identifiant. Cet addon peut ne proposer qu’une partie du catalogue.</div>';return}host.innerHTML='<div class="external-stream-list">'+streams.map((s,i)=>{const target=safeHttpUrl(s.url||s.externalUrl||"");return '<div class="external-stream"><div><strong>'+escapeExternal(s.name||s.title||s.description||("Source "+(i+1)))+'</strong><small>'+escapeExternal([s.description,s.behaviorHints?.bingeGroup].filter(Boolean).join(" · "))+'</small><span class="external-pill">'+escapeExternal(s.type||"flux")+'</span></div>'+(target&&[".m3u8",".mp4",".webm",".mpd"].some(ext=>target.toLowerCase().includes(ext))?'<button class="btn btn-white" data-play-url="'+btoa(target)+'" data-play-name="'+escapeExternal(item.title)+'">▶ Lire</button>':target?'<a class="btn btn-soft" href="'+target+'" target="_blank" rel="noopener noreferrer">Ouvrir la source ↗</a>':'<span class="small">Source externe</span>')+'</div>'}).join("")+'</div><p class="small">La lecture intégrée dépend du format. Les liens externes restent fournis par un service tiers.</p>'}catch(e){host.innerHTML='<div class="addon-connection-state error">'+escapeExternal(e.message||"Impossible de charger les sources")+'</div>'}}
-function render(skipAddonFetch){const tv=view==="tv";$("tvPage").hidden=!tv;$("searchPage").hidden=true;$("genreBar").hidden=tv;$("sections").hidden=tv;$("genreBar").style.display=tv?"none":"flex";document.querySelectorAll(".nav [data-view],.mobile-bottom [data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));if(tv){$("sections").innerHTML="";$("tvPage").hidden=false}else{renderHome()}setHero(activeTitle);renderTv();if(!skipAddonFetch&&!tv&&view==="home")renderConnectedAddonCatalogs()}
-function chooseView(v){if(v==="films"){view="home";render();$("search").focus();$("search").classList.add("has-text");return}else{view=v;}genre="Tous";document.querySelectorAll("[data-genre]").forEach(b=>b.classList.toggle("active",b.dataset.genre==="Tous"));$("search").value="";$("search").classList.remove("has-text");$("profileMenu").classList.remove("open");render();window.scrollTo({top:0,behavior:"smooth"})}
-function openDetail(id){const t=byId(id);activeTitle=t;$("detailTitle").textContent=t.title;$("modalArt").style.setProperty("--c1",t.c1);$("modalArt").style.setProperty("--c2",t.c2);$("detailMeta").innerHTML='<span class="match">'+t.score+' % pour vous</span><span>'+t.year+'</span><span class="rating">'+esc(t.age)+'</span><span>'+esc(t.duration)+'</span><span>'+esc(t.kind)+'</span>'; $("detailSynopsis").textContent=t.summary;$("detailFacts").innerHTML='<div><strong>Genres :</strong> '+esc(t.genre)+'</div><div><strong>Distribution :</strong> '+esc(t.cast)+'</div><div><strong>Audio et sous-titres :</strong> configurables quand une source vidéo compatible sera connectée.</div>';$("detailList").textContent=isSaved(t)?"✓ Dans ma liste":"＋ Ma liste";$("rateUp").dataset.rate=t.id;$("rateDown").dataset.rate=t.id;$("rateUp").textContent=ratings[t.id]==="up"?"👍 Tu aimes":"👍 J’aime";$("rateDown").textContent=ratings[t.id]==="down"?"👎 Noté":"👎 Pas pour moi";$("detailModal").classList.add("open")}
-function openMessage(title,text,actions){$("messageTitle").textContent=title;$("messageText").textContent=text;$("messageActions").innerHTML=actions||"";$("messageModal").classList.add("open")}
-function playTitle(id){const t=byId(id);if(t&&t.isLive){const link=t.externalUrl?'<a class="btn btn-white" href="'+esc(t.externalUrl)+'" target="_blank" rel="noopener noreferrer">Voir la fiche IMDb ↗</a>':'<button class="btn btn-white" data-close>Compris</button>';openMessage(t.title,"Catalogue réel : VOYO affiche les informations du titre, mais aucune source vidéo autorisée n’est associée automatiquement. Consulte les options légales de visionnage dans ta région.",link);return}openMessage(t.title,"Aucune source vidéo autorisée n’est associée à ce titre.",'<button class="btn btn-white" data-close>Compris</button>')}
-function toggleSaved(id){if(userList.includes(id))userList=userList.filter(x=>x!==id);else userList.unshift(id);persist();render();if($("detailModal").classList.contains("open")){$("detailList").textContent=isSaved(activeTitle)?"✓ Dans ma liste":"＋ Ma liste"};$("heroAdd").textContent=isSaved(activeTitle)?"✓ Dans ma liste":"＋ Ma liste"}
-document.addEventListener("click",function(e){
-const viewButton=e.target.closest("[data-view]");if(viewButton){chooseView(viewButton.dataset.view);return}
-const genreButton=e.target.closest("[data-genre]");if(genreButton){genre=genreButton.dataset.genre;document.querySelectorAll("[data-genre]").forEach(b=>b.classList.toggle("active",b.dataset.genre===genre));render();return}
-if(e.target.closest("[data-refresh-addons]")){renderConnectedAddonCatalogs(true);return}
-const detail=e.target.closest("[data-detail]");if(detail){openDetail(detail.dataset.detail);return}
-const addonMeta=e.target.closest("[data-addon-meta]");if(addonMeta){openExternalMeta(addonMeta.dataset.addonMeta);return}
-const playUrl=e.target.closest("[data-play-url]");if(playUrl){try{const url=atob(playUrl.dataset.playUrl);const u=new URL(url);if(!["http:","https:"].includes(u.protocol))throw Error("URL refusée");$("videoTitle").textContent=playUrl.dataset.playName||"VOYO";const video=$("externalVideo");video.pause();video.removeAttribute("src");video.load();video.src=u.href;$("videoMessage").textContent="Lecture expérimentale : prise en charge selon le format et le navigateur. Si rien ne démarre, ouvre la source dans un lecteur compatible.";$("videoModal").classList.add("open");video.play().catch(()=>{});}catch(err){openMessage("Source refusée",err.message||"URL invalide")}return}
-const play=e.target.closest("[data-play]");if(play){playTitle(play.dataset.play);return}
-const save=e.target.closest("[data-save]");if(save){toggleSaved(save.dataset.save);return}
-const rate=e.target.closest("[data-rate]");if(rate){ratings[rate.dataset.rate]=rate.id==="rateUp"?"up":"down";persist();openDetail(rate.dataset.rate);render();return}
-const channel=e.target.closest("[data-channel]");if(channel){const c=channels[Number(channel.dataset.channel)];openMessage(c[1],"Le flux de cette chaîne n’est pas encore configuré. Tu pourras le connecter avec une URL de diffusion autorisée et compatible.");return}
-const sc=e.target.closest("[data-scroll]");if(sc){const section=document.getElementById(sc.dataset.scroll);const rail=section&&section.querySelector(".rail");if(rail)rail.scrollBy({left:Number(sc.dataset.dir)*rail.clientWidth*.8,behavior:"smooth"});return}
-const profile=e.target.closest("[data-profile]");if(profile){activeProfile=profile.dataset.profile;const names={adult:"D",family:"F",kids:"K"};$("profileBtn").textContent=names[activeProfile];document.querySelectorAll(".profile-option[data-profile]").forEach(b=>b.classList.toggle("selected",b.dataset.profile===activeProfile));persist();$("profileMenu").classList.remove("open");openMessage("Profil sélectionné",activeProfile==="kids"?"Le profil Enfants est une démonstration visuelle. Les restrictions de contenu et le contrôle parental ne sont pas encore implémentés.":activeProfile==="family"?"Le profil Famille est une démonstration. Les recommandations et la liste sont encore partagées sur ce navigateur.":"Le profil principal est actif.");return}
-if(e.target.closest("[data-close]")){const v=$("externalVideo");if(v){v.pause();v.removeAttribute("src");v.load()}document.querySelectorAll(".modal-backdrop").forEach(m=>m.classList.remove("open"));return}
-if(e.target.id==="profileBtn"){$("profileMenu").classList.toggle("open");return}
-if(e.target.id==="mobileProfile"){$("profileMenu").classList.toggle("open");return}
-if(e.target.id==="loadExternalStreams"){loadExternalStreams();return}
-if(e.target.id==="saveExternalItem"){if(externalModalItem){let saved=safeRead("voyo-external-list",[]);if(!Array.isArray(saved))saved=[];if(!saved.some(x=>x.id===externalModalItem.id&&x.addonUrl===externalModalItem.addonUrl))saved.push(externalModalItem);try{localStorage.setItem("voyo-external-list",JSON.stringify(saved));}catch(e){}openMessage("Ma liste","Fiche enregistrée localement dans ce navigateur.");}return}
-if(e.target.id==="closeVideo"){const v=$("externalVideo");v.pause();v.removeAttribute("src");v.load();$("videoModal").classList.remove("open");return}
-if(e.target.id==="settings"||e.target.id==="manageProfiles"){ $("profileMenu").classList.remove("open");openMessage("Préférences VOYO","Ce prototype enregistre ta liste, tes évaluations et le profil choisi dans le navigateur actuel. Les comptes sécurisés, le contrôle parental, la synchronisation entre appareils et les préférences de lecture nécessitent encore un backend.");return}
-if(e.target.closest(".modal-backdrop")===e.target){e.target.classList.remove("open");return}
-if(!e.target.closest("#profileMenu"))$("profileMenu").classList.remove("open")
-});
-$("search").addEventListener("input",function(){if(this.value.trim())this.classList.add("has-text");else this.classList.remove("has-text");if(view==="tv")view="home";render()});
-$("search").addEventListener("focus",function(){this.classList.add("has-text")});
-$("logoHome").addEventListener("click",function(e){e.preventDefault();chooseView("home")});
-$("heroPlay").addEventListener("click",()=>playTitle(activeTitle.id));
-$("heroInfo").addEventListener("click",()=>openDetail(activeTitle.id));
-$("heroAdd").addEventListener("click",()=>toggleSaved(activeTitle.id));
-$("heroDots").addEventListener("click",e=>{const b=e.target.closest("[data-hero]");if(b){const list=titles.slice(0,3);setHero(list[Number(b.dataset.hero)]||titles[0])}});
-$("detailPlay").addEventListener("click",()=>playTitle(activeTitle.id));
-$("detailList").addEventListener("click",()=>toggleSaved(activeTitle.id));
-$("rateUp").addEventListener("click",()=>{ratings[activeTitle.id]="up";persist();openDetail(activeTitle.id);render()});
-$("rateDown").addEventListener("click",()=>{ratings[activeTitle.id]="down";persist();openDetail(activeTitle.id);render()});
-$("explore"); 
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".modal-backdrop").forEach(m=>m.classList.remove("open"));$("profileMenu").classList.remove("open")}if(e.key==="/"&&document.activeElement!==$("search")){e.preventDefault();$("search").focus()}});
-const initialProfile=activeProfile==="family"?"F":activeProfile==="kids"?"K":"D";$("profileBtn").textContent=initialProfile;
-window.addEventListener("storage",e=>{if(e.key==="voyo-addons-v1")renderConnectedAddonCatalogs(true)});
-const LIVE_CATALOGS=[
- {type:"movie",url:"https://v3-cinemeta.strem.io/catalog/movie/top.json",label:"Films populaires"},
- {type:"series",url:"https://v3-cinemeta.strem.io/catalog/series/top.json",label:"Séries populaires"}
-];
-function liveItem(meta,index){
- const type=meta.type==="series"?"Série":"Film";
- const genres=Array.isArray(meta.genres)?meta.genres:[];
- const year=Number(String(meta.releaseInfo||meta.year||"").match(/\d{4}/)?.[0])||new Date().getFullYear();
- const score=Number(meta.imdbRating)||0;
- return {id:"live-"+String(meta.type||"movie")+"-"+String(meta.id||index).replace(/[^a-zA-Z0-9_-]/g,"-"),sourceId:String(meta.id||""),sourceType:meta.type||"movie",isLive:true,title:meta.name||meta.title||"Sans titre",kind:type,year,genre:genres[0]||type,age:"—",duration:meta.runtime?String(meta.runtime)+" min":"—",score:Math.max(0,Math.min(100,Math.round(score*10)||0)),tag:index<5?"POPULAIRE":"CATALOGUE",c1:"#293b5d",c2:"#111421",summary:stripMarkup(meta.description||meta.plot||"Fiche de catalogue. Les informations sont fournies par Cinemeta."),cast:"",progress:0,popularity:index+1,poster:safeHttpUrl(meta.poster||""),background:safeHttpUrl(meta.background||""),imdbRating:meta.imdbRating||"",externalUrl:meta.imdb_id?"https://www.imdb.com/title/"+encodeURIComponent(meta.imdb_id)+"/":""};
-}
-function stripMarkup(value){const el=document.createElement("div");el.innerHTML=String(value||"");return (el.textContent||el.innerText||"").trim()}
-async function loadRealCatalog(){
- const sections=$("sections");
- const addonTask=renderConnectedAddonCatalogs(true);
- try{
-  const responses=await Promise.all(LIVE_CATALOGS.map(async c=>{
-   const response=await fetch(c.url,{headers:{Accept:"application/json"}});
-   if(!response.ok)throw Error(c.label+": HTTP "+response.status);
-   const data=await response.json();
-   if(!Array.isArray(data.metas))throw Error(c.label+": réponse sans catalogue");
-   return {type:c.type,metas:data.metas};
-  }));
-  const incoming=responses.flatMap(group=>group.metas.map((meta,index)=>liveItem(meta,index)));
-  const unique=new Map();
-  for(const item of incoming)if(item.sourceId&&!unique.has(item.id))unique.set(item.id,item);
-  const real=[...unique.values()];
-  if(real.length<10)throw Error("Le catalogue a renvoyé trop peu de titres.");
-  titles=real;
-  const filmCount=titles.filter(t=>t.kind==="Film").length;
-  const seriesCount=titles.filter(t=>t.kind==="Série").length;
-  const notice=document.querySelector(".notice");
-  if(notice)notice.innerHTML=`Catalogue réel connecté : <strong>${filmCount} films</strong> et <strong>${seriesCount} séries</strong>, avec affiches et fiches fournies par <a href="https://www.cinemeta.strem.io/" target="_blank" rel="noopener noreferrer">Cinemeta</a>. La disponibilité en lecture dépend d’une source vidéo autorisée.`;
-  if(view==="home")setHero(titles[0]);
-  const hero=$("hero");if(hero)hero.hidden=false;
+  const [m,s]=await Promise.all([fetch(API+"/catalog/movie/top.json"),fetch(API+"/catalog/series/top.json")]);
+  if(!m.ok||!s.ok)throw Error("Le fournisseur de catalogue ne répond pas.");
+  const [mj,sj]=await Promise.all([m.json(),s.json()]);
+  const all=[...(mj.metas||[]),...(sj.metas||[])],seen=new Set();
+  catalog=all.filter(t=>t&&t.id&&!seen.has(t.type+":"+t.id)&&seen.add(t.type+":"+t.id));
+  if(!catalog.length)throw Error("Le catalogue est vide.");
+  $("status").textContent=catalog.filter(t=>typeOf(t)==="movie").length+" films et "+catalog.filter(t=>typeOf(t)==="series").length+" séries chargés · Métadonnées Cinemeta";
+  $("sourceNotice").innerHTML='Affiches et fiches fournies par <a href="https://www.cinemeta.strem.io/" target="_blank" rel="noopener noreferrer">Cinemeta</a>. VOYO n’héberge pas de films et ne garantit pas la disponibilité des vidéos. <a href="./addons.html">Configurer les extensions</a>.';
   render();
- }catch(error){
-  const notice=document.querySelector(".notice");
-  if(notice)notice.innerHTML=`Le catalogue réel est temporairement indisponible. Réessaie dans quelques instants. <a href="https://github.com/mansstyle59/voyo-streaming/actions" target="_blank" rel="noopener noreferrer">État technique</a>. Aucun contenu fictif n’est présenté comme un film réel.`;
-  titles=[];
-  const hero=$("hero");if(hero)hero.hidden=true;
-  if(sections)sections.innerHTML='<section class="section"><div class="empty-state"><strong>Catalogue indisponible</strong>VOYO n’a pas pu joindre le fournisseur de métadonnées. Recharge la page pour réessayer.</div></section>';
-  const tv=$("tvGrid");if(tv)tv.innerHTML='<div class="empty-state">Le catalogue TV réel est indisponible.</div>';
+ }catch(e){
+  catalog=[];$("hero").hidden=true;$("status").textContent="Catalogue temporairement indisponible.";
+  $("sections").innerHTML='<div class="empty"><strong>Impossible de charger les films et séries</strong>Vérifie la connexion puis appuie sur Actualiser. Les titres fictifs ne sont pas utilisés en remplacement.</div>';
+  $("sourceNotice").textContent="Le fournisseur de métadonnées est indisponible ou bloque la requête depuis ce navigateur. La gestion des extensions reste accessible.";
  }
 }
-loadRealCatalog();
+function changeView(v){view=v;searchTerm=$("search").value.trim();render()}
+document.addEventListener("click",e=>{
+ const v=e.target.closest("[data-view]");if(v){changeView(v.dataset.view);return}
+ const c=e.target.closest("[data-id]");if(c){details(c.dataset.id);return}
+ if(e.target.id==="heroDetails"){details(e.target.dataset.id);return}
+ if(e.target.id==="heroSave"&&selected){toggleSaved(selected);return}
+ if(e.target.id==="closeDetail"||e.target===$("detailModal"))$("detailModal").classList.remove("open");
+ if(e.target.id==="reload")loadCatalog();
+ if(e.target.id==="mobileAddons")location.href="./addons.html";
+ if(e.target.id==="homeLink"){e.preventDefault();$("search").value="";searchTerm="";changeView("home")}
+});
+$("search").addEventListener("input",e=>{searchTerm=e.target.value.trim();render()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("detailModal").classList.remove("open");if(e.key==="/"&&document.activeElement!==$("search")){e.preventDefault();$("search").focus()}});
+async function loadAddonCatalogs(){
+ const box=$("addonExternalSections");
+ try{
+  const configured=JSON.parse(localStorage.getItem("voyo-addons-v1")||"[]");
+  if(!configured.length){box.innerHTML='<div class="empty"><strong>Aucune extension connectée sur cet appareil</strong>Ajoute une extension Stremio compatible pour afficher ses catalogues ici. <a href="./addons.html">Gérer les extensions →</a></div>';return}
+  box.innerHTML="";
+  for(const addon of configured.filter(x=>x&&x.active!==false&&x.manifestUrl).slice(0,4)){
+   try{
+    const manifestResponse=await fetch(addon.manifestUrl);if(!manifestResponse.ok)continue;const manifest=await manifestResponse.json();
+    const base=new URL(".",addon.manifestUrl).href;
+    const cat=(manifest.catalogs||[]).find(c=>["movie","series"].includes(c.type));if(!cat)continue;
+    const url=new URL("catalog/"+cat.type+"/"+cat.id+".json",base);
+    const response=await fetch(url);if(!response.ok)continue;const data=await response.json();
+    const items=data.metas||[];if(!items.length)continue;
+    const section=document.createElement("section");section.className="section";section.innerHTML='<div class="sectionhead"><h2>'+esc(manifest.name||addon.name||"Extension")+'</h2><span class="sub">Catalogue connecté</span></div><div class="rail">'+items.slice(0,12).map(t=>'<article class="card"><a class="poster" href="'+(t.imdb_id?'https://www.imdb.com/title/'+encodeURIComponent(t.imdb_id)+'/':'#')+'" target="_blank" rel="noopener noreferrer" style="'+(t.poster?'background-image:linear-gradient(0deg,#070810ef,transparent 72%),url(&quot;'+esc(t.poster)+'&quot;)':'')+'"><span class="poster-title">'+esc(titleOf(t))+'</span></a><div class="cardtitle">'+esc(titleOf(t))+'</div></article>').join("")+'</div>';box.append(section);
+   }catch(e){}
+  }
+  if(!box.children.length)box.innerHTML='<div class="empty"><strong>Aucun catalogue disponible</strong>Vérifie les extensions configurées ou leur prise en charge CORS.</div>';
+ }catch(e){box.innerHTML='<div class="empty">Les extensions ne sont pas configurées dans ce navigateur.</div>'}
+}
+loadAddonCatalogs();loadCatalog();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
