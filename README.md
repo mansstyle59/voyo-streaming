@@ -253,3 +253,10 @@ Ces règles sont ajoutées au CSS généré lors du build. Le résultat doit êt
 ### Correctif de publication — 12 octobre 2026
 
 Le diagnostic a révélé la cause du changement invisible : l’ancienne règle ajoutait les styles responsive à `css/bundle.css`, alors que le HTML de NuvioTVSmart charge réellement `css/base.css`, `css/layout.css`, `css/components.css` et surtout `css/themes.css` en dernier. Le workflow applique maintenant le thème VOYO et les règles responsive à `css/themes.css`, puis vérifie la présence de la couleur VOYO dans ce fichier effectivement chargé. Le nouveau build et déploiement est déclenché par cette correction.
+
+
+### Interface mobile inspirée de la référence — 12 octobre 2026
+
+La capture de référence sert maintenant de direction visuelle pour l’accueil mobile : grande zone éditoriale cinématographique, dégradé sombre au bas de l’image, titres de rangées plus nets, cartes de reprise horizontales et barre de navigation flottante en bas. Les règles ciblent les classes réellement utilisées par l’accueil moderne Nuvio (home-modern-stage, home-modern-rows-viewport, home-row, home-track, home-continue-card et modern-sidebar-shell) au lieu de dépendre uniquement de sélecteurs génériques. La palette VOYO cyan/bleu/violet reste appliquée aux états actifs. Le mode grand écran/Smart TV n’est pas ciblé par ce correctif.
+
+Le changement est appliqué au CSS compilé dans le workflow de production, puis publié par GitHub Actions. À vérifier après déploiement sur Safari iPhone : la capture de référence est un objectif de style, pas une preuve que tous les appareils rendent le résultat à l’identique.
