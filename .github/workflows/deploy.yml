@@ -56,7 +56,20 @@ jobs:
                   print("Manifest id:", data.get("id", "(missing)"))
                   print("Manifest name:", data.get("name", "(missing)"))
                   print("Resources:", data.get("resources", []))
-                  print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in data.get("catalogs", []) if isinstance(c, dict)])
+                  catalogs = [c for c in data.get("catalogs", []) if isinstance(c, dict)]
+              print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in catalogs])
+              import urllib.parse
+              base = url.rsplit("/", 1)[0] + "/"
+              for catalog in catalogs[:4]:
+                  endpoint = base + "catalog/" + urllib.parse.quote(str(catalog.get("type", "")), safe="") + "/" + urllib.parse.quote(str(catalog.get("id", "")), safe="") + ".json"
+                  try:
+                      cat_req = urllib.request.Request(endpoint, headers=headers)
+                      with urllib.request.urlopen(cat_req, timeout=12) as cat_response:
+                          cat_data = json.loads(cat_response.read())
+                          metas = cat_data.get("metas", []) if isinstance(cat_data, dict) else []
+                          print("Catalog probe:", catalog.get("id"), "HTTP", cat_response.status, "titles", len(metas) if isinstance(metas, list) else "invalid response", "CORS", cat_response.headers.get("Access-Control-Allow-Origin", "(missing)"))
+                  except Exception as cat_error:
+                      print("Catalog probe failed:", catalog.get("id"), repr(cat_error))
           except HTTPError as error:
               print("Manifest HTTP status:", error.code)
               print("Access-Control-Allow-Origin:", error.headers.get("Access-Control-Allow-Origin", "(missing)"))
