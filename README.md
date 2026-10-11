@@ -177,3 +177,11 @@ VOYO est un projet indépendant. Le dépôt public de référence NuvioTV indiqu
 - Le projet Nuvio est développé sous GPL-3.0 ; VOYO s’en inspire fonctionnellement sans revendiquer être Nuvio ni reproduire son application native Android. Référence amont : https://github.com/NuvioMedia/NuvioTV.
 - Les catalogues Cinemeta fournissent des métadonnées et affiches, pas les droits de diffusion ni automatiquement les flux vidéo. Les sources doivent être ajoutées par l’utilisateur et utilisées légalement.
 - Les tests de fumée sont alignés sur le nouveau comportement : chargement du catalogue simulé, recherche, fiche, liste personnelle et état d’erreur. Chaque modification future doit mettre à jour ce README.
+
+
+## Harmonisation visuelle VOYO — 11 octobre 2026
+
+- Palette de l’accueil alignée sur le logo VOYO : dégradé cyan → bleu → violet pour le mot-symbole, les actions principales et les accents de navigation.
+- Fond sombre cinématographique conservé pour faire ressortir les affiches et maintenir la lisibilité.
+- L’interface principale reste en français ; les tests vérifient désormais la langue déclarée et la présence de la palette de marque.
+- La page de gestion des extensions utilisait déjà un dégradé cyan/bleu/violet cohérent ; elle est conservée. Vérification automatisée et publication via GitHub Actions après cette modification.
