@@ -39,7 +39,7 @@ jobs:
           import json
           import urllib.request
           from urllib.error import HTTPError
-          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcmlua2Vycy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json"
+          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcm5pZXJlcy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json"
           headers = {
               "Accept": "application/json",
               "Origin": "https://mansstyle59.github.io",
