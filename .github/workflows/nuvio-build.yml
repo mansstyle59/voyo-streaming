@@ -45,7 +45,7 @@ jobs:
           test -s nuvio-source/README.md
       - name: Apply VOYO theme to compiled Nuvio UI
         run: |
-          CSS_FILE="nuvio-source/dist/css/themes.css"
+          CSS_FILE="nuvio-source/dist/css/bundle.css"
           test -s "$CSS_FILE"
           cat >> "$CSS_FILE" <<'CSS'
 
@@ -560,7 +560,7 @@ jobs:
           EOF
           test -s site/index.html
           test -s site/app.bundle.js
-          CSS_FILE="site/css/themes.css"
+          CSS_FILE="site/css/bundle.css"
           test -s "$CSS_FILE"
           grep -q '#2de0df' "$CSS_FILE"
       - name: Upload static site
