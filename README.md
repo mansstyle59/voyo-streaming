@@ -196,3 +196,25 @@ Le build publié conserve la licence GPL-3.0 et la documentation amont dans les 
 **Compatibilité :** NuvioTVSmart cible principalement les téléviseurs Samsung Tizen et LG webOS. Certaines fonctions utilisent des API et services locaux spécifiques à ces plateformes ; même si la compilation web réussit, elles peuvent ne pas fonctionner dans un navigateur ordinaire ou sur iPhone.
 
 **Statut de publication :** cette intégration reste sur une branche dédiée. Le workflow de cette branche publierait sur la même cible GitHub Pages lorsqu'il s'exécute ; valider le build et les écrans publiés avant de fusionner ou d'activer cette version en production. L'application existante et la page de gestion des addons n'ont pas été supprimées dans cette branche.
+
+
+## Déploiement Nuvio avec l’identité visuelle VOYO — 11 octobre 2026
+
+La publication GitHub Pages est désormais construite depuis le dépôt officiel [NuvioTVSmart](https://github.com/NuvioMedia/NuvioTVSmart), épinglé sur la révision [`cfec25654f0580028d9a78a41b037bcd48af2a29`](https://github.com/NuvioMedia/NuvioTVSmart/commit/cfec25654f0580028d9a78a41b037bcd48af2a29). Le workflow `.github/workflows/nuvio-build.yml` installe les dépendances, compile l'application, ajoute les couleurs VOYO (cyan `#2de0df`, bleu `#438bff`, violet `#762dff`) et publie le répertoire construit.
+
+Le workflow `.github/workflows/deploy.yml` est maintenant réservé aux tests de l’ancienne interface VOYO dans le dépôt ; il ne publie plus le site afin d’éviter qu’il écrase la version Nuvio générée.
+
+### Limites et compatibilité
+
+NuvioTVSmart est conçu avant tout pour les téléviseurs Samsung Tizen et LG webOS. Les fonctions reposant sur des API ou services TV locaux peuvent ne pas être disponibles sur GitHub Pages dans un navigateur iPhone ou ordinateur. La réussite de la compilation ne signifie pas que chaque fonction est compatible avec chaque navigateur.
+
+### Licence et attribution
+
+La publication inclut la licence GPL-3.0 et le README amont de NuvioTVSmart, ainsi qu’un fichier `VOYO-ATTRIBUTION.txt` indiquant le dépôt et la révision sources exacts. Les changements de thème sont définis dans le workflow public de VOYO. VOYO est un build indépendant et non une version officielle de Nuvio.
+
+### Journal du changement — 11 octobre 2026
+
+- Ajout d’un workflow de compilation et de publication NuvioTVSmart, avec thème VOYO cyan/bleu/violet.
+- Source Nuvio épinglée sur une révision précise pour rendre le build reproductible.
+- Workflow historique VOYO converti en tests uniquement afin qu’il ne remplace pas les fichiers Nuvio publiés.
+- Référence à la GPL-3.0, à l’attribution et aux limites des API spécifiques aux téléviseurs.
