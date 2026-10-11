@@ -364,26 +364,67 @@ jobs:
             }
           }
 
-          /* VOYO mobile cinema layout, inspired by the supplied third reference image. */
+          /* VOYO mobile streaming layout — target the actual NuvioTVSmart modern-home markup. */
           @media screen and (max-width: 700px) {
+            :root {
+              --home-content-start: 0px;
+              --home-row-gap: 12px;
+              --home-track-end: 20px;
+              --home-continue-track-end: 20px;
+              --modern-track-peek-extension: 0px;
+              --modern-rows-viewport-height: auto;
+              --modern-rows-viewport-padding-bottom: 18px;
+              --modern-rows-page-height: auto;
+              --modern-hero-media-width: 100%;
+              --modern-hero-media-height: 100%;
+              --modern-hero-copy-top-safe: 0px;
+              --modern-hero-copy-bottom-gap: 0px;
+              --modern-hero-copy-right: 20px;
+              --modern-hero-copy-max-width: calc(100% - 40px);
+              --modern-hero-logo-max-width: 100%;
+              --modern-hero-logo-max-height: 96px;
+              --modern-hero-title-size: clamp(30px, 8vw, 42px);
+              --modern-hero-title-max-width: 100%;
+              --modern-hero-meta-size: 13px;
+              --modern-hero-meta-max-width: 100%;
+              --modern-hero-secondary-size: 12px;
+              --modern-hero-description-size: 13px;
+              --modern-hero-description-max-width: 100%;
+              --home-modern-portrait-poster-width: 132px;
+              --home-modern-portrait-poster-height: 198px;
+              --home-modern-portrait-expanded-width: 132px;
+              --home-poster-width: 132px;
+              --home-poster-height: 198px;
+              --home-landscape-poster-width: 190px;
+              --home-landscape-poster-height: 107px;
+              --home-poster-expanded-width: 190px;
+              --home-poster-copy-height: 54px;
+              --home-poster-radius: 16px;
+              --home-continue-width: min(78vw, 340px);
+              --home-continue-height: 150px;
+            }
             html, body {
               width: 100% !important;
               min-width: 0 !important;
+              min-height: 100% !important;
               margin: 0 !important;
-              overflow-x: clip !important;
+              overflow-x: hidden !important;
               background: #08090d !important;
+              -webkit-text-size-adjust: 100%;
             }
-            #app, #app > *, .screen, .home-shell, .home-screen-shell {
+            #app, #app > *, .screen {
               box-sizing: border-box !important;
               width: 100vw !important;
               max-width: 100vw !important;
               min-width: 0 !important;
-              margin-left: 0 !important;
-              margin-right: 0 !important;
             }
             .home-shell, .home-screen-shell {
+              position: relative !important;
+              width: 100vw !important;
+              max-width: 100vw !important;
               height: 100dvh !important;
               overflow: hidden !important;
+              margin: 0 !important;
               background: #08090d !important;
             }
             .home-main {
@@ -393,125 +434,333 @@ jobs:
               min-width: 0 !important;
               height: 100dvh !important;
               margin: 0 !important;
-              padding: 0 0 calc(100px + env(safe-area-inset-bottom)) !important;
+              padding: 0 0 calc(98px + env(safe-area-inset-bottom)) !important;
               overflow-x: hidden !important;
               overflow-y: auto !important;
-              background: linear-gradient(180deg, #08090d 0%, #101117 70%, #08090d 100%) !important;
+              overscroll-behavior-y: contain;
+              background: linear-gradient(180deg, #08090d 0%, #111218 70%, #08090d 100%) !important;
+              scrollbar-width: none;
             }
-            .home-modern-stage {
+            .home-screen-shell.home-layout-modern .home-modern-stage {
               position: relative !important;
+              display: block !important;
               width: 100vw !important;
               max-width: 100vw !important;
               min-width: 0 !important;
-              height: min(68dvh, 650px) !important;
-              min-height: 440px !important;
+              height: min(690px, 76dvh) !important;
+              min-height: 510px !important;
               margin: 0 !important;
+              padding: 0 !important;
               overflow: hidden !important;
+              isolation: isolate;
+              background: #08090d !important;
             }
-            .home-modern-stage::after {
-              content: "";
-              position: absolute;
-              z-index: 2;
-              inset: 35% 0 0;
-              pointer-events: none;
-              background: linear-gradient(180deg, transparent 0%, rgb(8 9 13 / .25) 35%, #08090d 100%);
-            }
-            .home-modern-hero, .home-hero, .home-hero-card,
-            .home-hero-backdrop, .home-modern-hero-backdrop,
-            .home-modern-hero-media, .home-modern-hero-art {
+            .home-screen-shell.home-layout-modern .home-hero,
+            .home-screen-shell.home-layout-modern .home-modern-hero-card {
+              position: absolute !important;
+              inset: 0 !important;
+              width: 100% !important;
               max-width: 100vw !important;
               min-width: 0 !important;
+              height: 100% !important;
+              border-radius: 0 0 28px 28px !important;
+              overflow: hidden !important;
             }
-            .home-modern-rows-viewport {
+            .home-screen-shell.home-layout-modern .home-modern-hero-media {
+              position: absolute !important;
+              inset: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+              max-width: 100% !important;
+              overflow: hidden !important;
+            }
+            .home-screen-shell.home-layout-modern .home-modern-hero-media::before {
+              display: block !important;
+              width: 100% !important;
+              height: 100% !important;
+              background: linear-gradient(180deg, rgb(0 0 0 / .08) 0%, rgb(0 0 0 / .05) 38%, rgb(8 9 13 / .42) 58%, #08090d 100%) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-modern-hero-media::after {
+              display: block !important;
+              background: linear-gradient(180deg, transparent 50%, rgb(8 9 13 / .35) 68%, #08090d 100%) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-backdrop-wrap,
+            .home-screen-shell.home-layout-modern .home-hero-backdrop {
+              position: absolute !important;
+              inset: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-backdrop {
+              object-fit: cover !important;
+              object-position: center top !important;
+              filter: brightness(.92) saturate(1.06) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-modern-hero-copy {
+              position: absolute !important;
+              left: 20px !important;
+              right: 20px !important;
+              top: auto !important;
+              bottom: 45px !important;
+              width: auto !important;
+              max-width: none !important;
+              padding: 0 !important;
+              gap: 11px !important;
+              justify-content: flex-end !important;
+              align-items: flex-start !important;
+              overflow: visible !important;
+              z-index: 4 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-brand {
+              width: 100% !important;
+              max-width: 100% !important;
+              gap: 0 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-title-text {
+              max-width: 100% !important;
+              font-size: clamp(34px, 9vw, 46px) !important;
+              font-weight: 900 !important;
+              line-height: .96 !important;
+              letter-spacing: -1.4px !important;
+              text-shadow: 0 2px 18px rgb(0 0 0 / .55) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-logo {
+              max-width: 100% !important;
+              max-height: 88px !important;
+              object-position: left bottom !important;
+            }
+            .home-screen-shell.home-layout-modern .home-modern-hero-meta-line,
+            .home-screen-shell.home-layout-modern .home-modern-hero-secondary {
+              width: 100% !important;
+              max-width: 100% !important;
+              font-size: 13px !important;
+              line-height: 1.3 !important;
+              gap: 7px !important;
+              color: rgb(255 255 255 / .94) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-description {
+              display: -webkit-box !important;
+              -webkit-box-orient: vertical !important;
+              -webkit-line-clamp: 2 !important;
+              overflow: hidden !important;
+              max-width: 100% !important;
+              font-size: 12px !important;
+              line-height: 1.4 !important;
+              margin: 0 !important;
+              color: rgb(255 255 255 / .82) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-indicators {
+              display: flex !important;
+              position: absolute !important;
+              z-index: 5 !important;
+              bottom: 17px !important;
+              left: 20px !important;
+              right: 20px !important;
+              justify-content: center !important;
+              gap: 8px !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-indicator {
+              width: 7px !important;
+              height: 7px !important;
+              min-width: 7px !important;
+              border-radius: 99px !important;
+              background: rgb(255 255 255 / .55) !important;
+            }
+            .home-screen-shell.home-layout-modern .home-hero-indicator.is-active {
+              width: 28px !important;
+              background: #fff !important;
+            }
+            .home-screen-shell.home-layout-modern .home-modern-rows-viewport {
               position: relative !important;
               inset: auto !important;
+              display: block !important;
               width: 100% !important;
               height: auto !important;
               max-height: none !important;
+              min-height: 0 !important;
               overflow: visible !important;
-              padding-top: 18px !important;
-              padding-bottom: 16px !important;
-              background: #08090d !important;
+              padding: 20px 0 14px !important;
+              background: transparent !important;
             }
-            .home-modern-rows-scroll, .home-modern-catalogs {
-              gap: 24px !important;
+            .home-screen-shell.home-layout-modern .home-modern-rows-scroll,
+            .home-screen-shell.home-layout-modern .home-modern-catalogs {
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 25px !important;
+              min-height: 0 !important;
+              padding-bottom: 18px !important;
             }
-            .home-screen-shell .home-row {
-              margin: 0 0 8px !important;
+            .home-screen-shell.home-layout-modern .home-row,
+            .home-screen-shell.home-layout-modern .home-row-continue {
+              width: 100% !important;
               max-width: 100vw !important;
+              margin: 0 !important;
+              padding: 0 !important;
             }
-            .home-screen-shell .home-row-head {
-              padding-left: 20px !important;
-              padding-right: 16px !important;
-              margin-bottom: 12px !important;
+            .home-screen-shell.home-layout-modern .home-row-head {
+              padding: 0 16px !important;
+              margin: 0 0 12px !important;
             }
-            .home-screen-shell .home-row-title {
+            .home-screen-shell.home-layout-modern .home-row-title {
               font-size: 23px !important;
-              font-weight: 700 !important;
+              font-weight: 750 !important;
+              line-height: 1.2 !important;
               letter-spacing: -.45px !important;
             }
-            .home-screen-shell .home-track {
+            .home-screen-shell.home-layout-modern .home-track {
+              display: flex !important;
+              width: 100% !important;
+              max-width: 100vw !important;
               gap: 12px !important;
-              padding-left: 20px !important;
-              padding-right: 20px !important;
-              scroll-padding-left: 20px !important;
+              margin: 0 !important;
+              padding: 0 16px 8px !important;
+              overflow-x: auto !important;
+              overflow-y: visible !important;
+              scroll-padding-left: 16px !important;
+              scrollbar-width: none !important;
+            }
+            .home-screen-shell.home-layout-modern .home-track::-webkit-scrollbar {
+              display: none !important;
             }
             .home-screen-shell.home-layout-modern .home-poster-card:not(.is-landscape),
             .home-screen-shell.home-layout-modern .home-seeall-card {
-              flex-basis: 132px !important;
+              flex: 0 0 132px !important;
               min-width: 132px !important;
               max-width: 132px !important;
             }
             .home-screen-shell.home-layout-modern .home-poster-card:not(.is-landscape) .home-poster-frame {
+              width: 100% !important;
               height: 198px !important;
+              border-radius: 16px !important;
             }
-            .home-screen-shell .home-continue-card {
-              flex-basis: min(78vw, 340px) !important;
+            .home-screen-shell.home-layout-modern .home-poster-frame {
+              border-radius: 16px !important;
+            }
+            .home-screen-shell.home-layout-modern .home-poster-card.is-landscape {
+              flex: 0 0 190px !important;
+              min-width: 190px !important;
+              max-width: 190px !important;
+              margin: 0 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-poster-card.is-landscape .home-poster-frame {
+              width: 100% !important;
+              height: 107px !important;
+              aspect-ratio: 16 / 9 !important;
+              border-radius: 16px !important;
+            }
+            .home-screen-shell .home-screen-shell .home-continue-card,
+            .home-screen-shell.home-layout-modern .home-continue-card {
+              flex: 0 0 min(78vw, 340px) !important;
               min-width: min(78vw, 340px) !important;
               max-width: min(78vw, 340px) !important;
+              border-radius: 17px !important;
             }
-            .home-screen-shell .home-continue-media {
+            .home-screen-shell.home-layout-modern .home-continue-media {
+              width: 100% !important;
               height: 150px !important;
-              border-radius: 18px !important;
+              border-radius: 17px !important;
+              overflow: hidden !important;
             }
-            .home-screen-shell .home-poster-frame,
-            .home-screen-shell .home-continue-media {
-              border-radius: 18px !important;
+            .home-screen-shell.home-layout-modern .home-continue-bg {
+              width: 100% !important;
+              height: 100% !important;
+              object-fit: cover !important;
             }
-            .modern-sidebar-shell, .home-sidebar {
+            .home-screen-shell.home-layout-modern .home-continue-copy {
+              left: 14px !important;
+              right: 14px !important;
+              bottom: 15px !important;
+            }
+            .home-screen-shell.home-layout-modern .home-continue-kicker {
+              font-size: 13px !important;
+              line-height: 1.15 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-continue-title {
+              font-size: 17px !important;
+              line-height: 1.2 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-continue-subtitle {
+              font-size: 12px !important;
+              line-height: 1.2 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-continue-badge {
+              top: 8px !important;
+              right: 8px !important;
+              min-height: 0 !important;
+              padding: 5px 8px !important;
+              border-radius: 7px !important;
+              font-size: 10px !important;
+              line-height: 1.2 !important;
+            }
+            .home-screen-shell.home-layout-modern .home-continue-progress {
+              left: 12px !important;
+              right: 12px !important;
+              bottom: 7px !important;
+              height: 4px !important;
+              border-radius: 3px !important;
+            }
+            .modern-sidebar-shell {
               position: fixed !important;
               z-index: 9999 !important;
-              left: 18px !important;
-              right: 18px !important;
-              bottom: max(10px, env(safe-area-inset-bottom)) !important;
+              left: 20px !important;
+              right: 20px !important;
+              bottom: max(9px, env(safe-area-inset-bottom)) !important;
               top: auto !important;
+              inset: auto 20px max(9px, env(safe-area-inset-bottom)) 20px !important;
               width: auto !important;
-              height: 72px !important;
-              min-height: 72px !important;
+              height: 76px !important;
+              min-height: 76px !important;
               max-width: none !important;
-              margin: 0 !important;
-              padding: 5px 8px !important;
+              pointer-events: auto !important;
+              overflow: visible !important;
+              contain: none !important;
+              transition: none !important;
+            }
+            .modern-sidebar-shell .modern-sidebar-pill {
+              display: none !important;
+            }
+            .modern-sidebar-shell .modern-sidebar-panel {
+              position: absolute !important;
+              inset: 0 !important;
+              width: 100% !important;
+              height: 76px !important;
+              min-height: 76px !important;
+              padding: 4px 6px !important;
               display: flex !important;
               flex-direction: row !important;
               justify-content: space-around !important;
               align-items: center !important;
               gap: 2px !important;
-              border: 1px solid rgb(255 255 255 / .12) !important;
+              opacity: 1 !important;
+              transform: none !important;
+              pointer-events: auto !important;
+              overflow: hidden !important;
+              border: 1px solid rgb(255 255 255 / .14) !important;
               border-radius: 40px !important;
-              background: rgb(28 28 33 / .94) !important;
+              background: rgb(27 27 32 / .94) !important;
               backdrop-filter: blur(20px) saturate(150%);
-              box-shadow: 0 8px 30px rgb(0 0 0 / .4) !important;
+              box-shadow: 0 8px 30px rgb(0 0 0 / .42) !important;
             }
-            .modern-sidebar-shell > *, .home-sidebar > *,
-            .modern-sidebar-shell .modern-sidebar-nav-item,
-            .home-sidebar .home-nav-item {
+            .modern-sidebar-shell .modern-sidebar-nav-list {
+              display: flex !important;
+              flex: 1 1 auto !important;
+              flex-direction: row !important;
+              justify-content: space-around !important;
+              align-items: center !important;
+              gap: 2px !important;
+              width: 100% !important;
+              height: 100% !important;
+              min-width: 0 !important;
+            }
+            .modern-sidebar-shell .modern-sidebar-nav-item {
               flex: 1 1 0 !important;
               width: auto !important;
               min-width: 0 !important;
               max-width: none !important;
-              height: 58px !important;
+              height: 62px !important;
+              min-height: 62px !important;
               margin: 0 !important;
-              padding: 4px 2px !important;
+              padding: 4px 1px !important;
               display: flex !important;
               flex-direction: column !important;
               justify-content: center !important;
@@ -519,22 +768,28 @@ jobs:
               gap: 3px !important;
               border-radius: 32px !important;
               white-space: nowrap !important;
+              background: transparent !important;
+              color: rgb(255 255 255 / .82) !important;
             }
-            .modern-sidebar-shell .modern-sidebar-nav-item span,
-            .home-sidebar .home-nav-label {
-              display: block !important;
-              font-size: 10px !important;
-              line-height: 1.1 !important;
-              white-space: nowrap !important;
-            }
-            .modern-sidebar-shell svg, .home-sidebar .home-nav-icon {
+            .modern-sidebar-shell .modern-sidebar-nav-icon {
               width: 24px !important;
               height: 24px !important;
               flex: 0 0 24px !important;
             }
-            .modern-sidebar-shell .selected, .home-sidebar .selected {
-              background: linear-gradient(110deg, rgb(45 224 223 / .18), rgb(67 139 255 / .18), rgb(118 45 255 / .18)) !important;
+            .modern-sidebar-shell .modern-sidebar-nav-label {
+              display: block !important;
+              max-width: 100% !important;
+              font-size: 10px !important;
+              line-height: 1.1 !important;
+              white-space: nowrap !important;
+              opacity: 1 !important;
+            }
+            .modern-sidebar-shell .modern-sidebar-nav-item.selected {
               color: #fff !important;
+              background: linear-gradient(110deg, rgb(45 224 223 / .18), rgb(67 139 255 / .18), rgb(118 45 255 / .18)) !important;
+            }
+            .home-sidebar {
+              display: none !important;
             }
             .home-main .home-modern-hero-meta-line,
             .home-main .home-modern-hero-secondary {
