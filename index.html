@@ -503,12 +503,12 @@ async function loadRealCatalog(){
   const filmCount=titles.filter(t=>t.kind==="Film").length;
   const seriesCount=titles.filter(t=>t.kind==="Série").length;
   const notice=document.querySelector(".notice");
-  if(notice)notice.innerHTML="Catalogue réel connecté : <strong>"+filmCount+" films</strong> et <strong>"+seriesCount+" séries</strong>, avec affiches et fiches fournies par <a href="https://www.cinemeta.strem.io/" target="_blank" rel="noopener noreferrer">Cinemeta</a>. La disponibilité en lecture dépend d’une source vidéo autorisée.";
+  if(notice)notice.innerHTML=`Catalogue réel connecté : <strong>${filmCount} films</strong> et <strong>${seriesCount} séries</strong>, avec affiches et fiches fournies par <a href="https://www.cinemeta.strem.io/" target="_blank" rel="noopener noreferrer">Cinemeta</a>. La disponibilité en lecture dépend d’une source vidéo autorisée.`;
   if(view==="home")setHero(titles[0]);
   render();
  }catch(error){
   const notice=document.querySelector(".notice");
-  if(notice)notice.innerHTML="Le catalogue réel est temporairement indisponible. Réessaie dans quelques instants. <a href="https://github.com/mansstyle59/voyo-streaming/actions" target="_blank" rel="noopener noreferrer">État technique</a>. Aucun contenu fictif n’est présenté comme un film réel.";
+  if(notice)notice.innerHTML=`Le catalogue réel est temporairement indisponible. Réessaie dans quelques instants. <a href="https://github.com/mansstyle59/voyo-streaming/actions" target="_blank" rel="noopener noreferrer">État technique</a>. Aucun contenu fictif n’est présenté comme un film réel.`;
   titles=[];
   const hero=$("hero");if(hero)hero.hidden=true;
   if(sections)sections.innerHTML='<section class="section"><div class="empty-state"><strong>Catalogue indisponible</strong>VOYO n’a pas pu joindre le fournisseur de métadonnées. Recharge la page pour réessayer.</div></section>';
