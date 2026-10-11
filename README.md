@@ -263,3 +263,10 @@ Le changement est appliqué au CSS compilé dans le workflow de production, puis
 
 
 **Correction du workflow (12 octobre 2026) :** le build Nuvio génère `dist/css/bundle.css`, pas `dist/css/themes.css`. Le workflow a été corrigé pour modifier et vérifier le fichier réellement généré avant déploiement.
+
+
+### Correction ciblée du rendu iPhone VOYO — 12 octobre 2026
+
+Les règles CSS mobiles ont été réécrites pour viser les classes réellement présentes dans le code de NuvioTVSmart épinglé : `.home-screen-shell.home-layout-modern`, `.home-modern-stage`, `.home-modern-hero-media`, `.home-modern-hero-copy`, `.home-row-continue`, `.home-continue-card` et les éléments de navigation `.modern-sidebar-shell`. La zone hero occupe maintenant le haut de l'écran sur mobile, avec son image en plein cadre et un dégradé sombre vertical ; le contenu est replacé en dessous dans le flux de défilement, les cartes de reprise passent au format paysage et la navigation moderne devient une barre flottante en bas. Les variables de mise en page sont limitées aux écrans de 700 px ou moins afin de préserver le rendu Smart TV.
+
+Ce correctif a été poussé dans le workflow de production ; il faut attendre la fin de GitHub Actions et vérifier le résultat publié sur Safari iPhone avant de confirmer que l'apparence est correcte.
