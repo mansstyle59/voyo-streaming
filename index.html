@@ -96,6 +96,97 @@
 .external-pill{display:inline-block;border:1px solid #ffffff1c;background:#ffffff0a;border-radius:5px;padding:3px 6px;font-size:9px;color:#bdc2d4;margin-right:5px}
 @media(max-width:700px){.addon-connection-state{font-size:11px}.external-stream{align-items:flex-start;flex-direction:column}.external-stream button{width:100%;justify-content:center}}
 @media(min-width:1400px){.hero{min-height:600px}.content{margin-top:-26px}.card{flex-basis:205px}.top-card{flex-basis:270px}}
+
+/* VOYO premium visual pass — restrained cinema UI, improved depth and responsive polish */
+:root{--bg:#07080d;--surface:#11131d;--surface2:#191c29;--muted:#a8aec2;--line:#ffffff18;--cyan:#5de8e7;--blue:#568cff;--violet:#9b6cff;--brand:linear-gradient(110deg,#62ece7 0%,#648cff 54%,#a16bff 100%)}
+body{background:#07080d;letter-spacing:.005em}
+.app{background:radial-gradient(ellipse at 88% 0%,#5341a51c,transparent 32%),radial-gradient(ellipse at 0% 35%,#1d6a7610,transparent 34%),#07080d}
+.topbar{height:76px;background:linear-gradient(180deg,#080910f5,#080910db);border-bottom:1px solid #ffffff12;box-shadow:0 8px 28px #0002}
+.logo{filter:drop-shadow(0 0 18px #6d6bff20)}
+.nav button{transition:background .18s,color .18s,transform .18s}
+.nav button:hover{transform:translateY(-1px)}
+.search{background:#ffffff08;border-color:#ffffff1c;box-shadow:inset 0 1px 0 #ffffff08}
+.search:focus{box-shadow:0 0 0 4px #658cff16,inset 0 1px 0 #ffffff10}
+.tool-btn{background:#ffffff08;border-color:#ffffff1c;transition:background .2s,transform .2s,border-color .2s}
+.tool-btn:hover{transform:translateY(-1px);border-color:#ffffff40}
+.profile-btn{box-shadow:0 0 0 3px #8b67ff1b}
+.hero{min-height:550px;background:linear-gradient(90deg,#07080dfc 0%,#07080de8 26%,#07080d85 55%,#07080d0c 100%),linear-gradient(0deg,#07080d 0%,transparent 33%),radial-gradient(ellipse at 78% 32%,var(--heroGlow,#7255a5) 0%,transparent 26%),radial-gradient(ellipse at 84% 53%,var(--heroShade,#263c70) 0%,transparent 42%),linear-gradient(125deg,#151827,#090a12 75%)}
+.hero:before{right:7%;width:min(45vw,600px);opacity:.78;filter:saturate(.8)}
+.hero-copy{max-width:660px}
+.eyebrow{letter-spacing:2.3px;color:#a9f4f2}
+.hero h1{font-weight:950;letter-spacing:-3.8px;text-wrap:balance}
+.hero-desc{color:#d4d7e4;text-shadow:0 2px 12px #0006}
+.btn{border-radius:8px;min-height:43px;transition:transform .18s,background .18s,box-shadow .18s}
+.btn-white{box-shadow:0 8px 25px #0003}
+.btn-white:hover{box-shadow:0 10px 30px #0005}
+.btn-brand{box-shadow:0 7px 22px #648cff24}
+.btn-soft{background:#ffffff12;border-color:#ffffff28;backdrop-filter:blur(10px)}
+.content{padding-bottom:64px}
+.notice{border:1px solid #ffffff13;background:linear-gradient(100deg,#171927bd,#11131cbd);border-radius:12px;padding:12px 15px;color:#b9bfd0;font-size:12px;line-height:1.55;box-shadow:0 8px 28px #0002}
+.section{margin-bottom:40px}
+.section-head{margin-bottom:15px}
+.section-title{font-size:clamp(17px,1.5vw,21px);letter-spacing:-.55px}
+.section-caption{letter-spacing:.02em}
+.rail{gap:13px;padding:5px 3px 16px;margin:0 -3px}
+.card{flex-basis:clamp(145px,14vw,202px)}
+.poster{border-radius:11px;border-color:#ffffff20;box-shadow:inset 0 -100px 65px -30px #000d,0 5px 18px #0002;transition:transform .24s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .2s}
+.card:hover .poster{transform:translateY(-4px) scale(1.025);border-color:#a8baff88;box-shadow:0 18px 35px #0008,inset 0 -100px 65px -30px #000c}
+.card-name{font-size:12px;letter-spacing:.01em}
+.card-meta{color:#aeb4c7}
+.poster-badge,.poster-rating{backdrop-filter:blur(12px);box-shadow:0 3px 12px #0003}
+.rail-arrow,.quick{border-radius:8px;transition:background .18s,border-color .18s,transform .18s}
+.rail-arrow:hover,.quick:hover{border-color:#ffffff45;transform:translateY(-1px)}
+.genre{transition:background .18s,border-color .18s,transform .18s}
+.genre:hover{transform:translateY(-1px)}
+.modal,.detail-modal{backdrop-filter:blur(18px)}
+:where(button,a,input):focus-visible{outline:2px solid #72e9ec;outline-offset:3px}
+@media(max-width:900px){
+ .topbar{height:68px;gap:15px;padding-inline:20px}
+ .logo{font-size:30px}
+ .nav{gap:2px}
+ .nav button{padding:9px 10px;font-size:12px}
+ .search{width:175px}
+ .search:focus{width:205px}
+ .hero{min-height:490px;padding-top:52px;padding-bottom:56px}
+ .content{padding-inline:22px}
+}
+@media(max-width:640px){
+ .topbar{height:62px;padding-inline:15px;gap:12px}
+ .logo{font-size:29px;letter-spacing:-2.4px}
+ .tools{gap:7px;margin-left:auto}
+ .search{width:min(39vw,170px);padding:10px 10px 10px 33px;font-size:12px}
+ .search:focus{width:min(46vw,205px)}
+ .tool-btn{width:35px;height:35px}
+ .nav{display:none}
+ .hero{min-height:475px;align-items:flex-end;padding:170px 19px 45px;background:linear-gradient(0deg,#07080d 0%,#07080df0 18%,#07080d66 58%,#07080d22 100%),radial-gradient(ellipse at 74% 22%,var(--heroGlow,#7255a5) 0%,transparent 32%),radial-gradient(ellipse at 80% 30%,var(--heroShade,#263c70) 0%,transparent 49%),linear-gradient(125deg,#161827,#090a12 75%)}
+ .hero:before{right:-1%;top:-19%;width:76%;height:75%;opacity:.62;border-radius:48% 48% 8% 8%}
+ .hero:after{right:-3%;top:0;bottom:auto;width:68%;height:64%;opacity:.48}
+ .hero-copy{width:100%;max-width:none}
+ .eyebrow{font-size:9px;letter-spacing:1.7px}
+ .hero h1{font-size:clamp(37px,10vw,53px);letter-spacing:-2.2px;line-height:1.01;margin:14px 0 12px}
+ .hero-subtitle{font-size:11px;gap:7px;margin-bottom:10px}
+ .hero-desc{font-size:13px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+ .hero-actions{gap:8px;margin-top:19px}
+ .hero-actions .btn{padding:11px 13px;font-size:12px;min-height:40px}
+ .hero-dots{margin-top:19px}
+ .content{padding-inline:15px;padding-bottom:82px;margin-top:-12px}
+ .notice{font-size:11px;padding:10px 12px;border-radius:10px;margin-bottom:22px}
+ .section{margin-bottom:29px}
+ .section-head{margin-bottom:11px}
+ .section-title{font-size:17px}
+ .section-caption{font-size:10px}
+ .rail{gap:10px;padding-bottom:13px}
+ .card{flex:0 0 clamp(124px,38vw,165px)}
+ .poster{border-radius:9px;padding:10px}
+ .poster-title{font-size:14px}
+ .card-name{font-size:11px;margin-top:7px}
+ .card-meta{font-size:9px}
+ .top-card{flex-basis:clamp(168px,48vw,210px)}
+ .rank-number{flex-basis:43px;font-size:94px;letter-spacing:-6px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
 </style>
 </head>
 <body>
