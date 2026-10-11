@@ -144,3 +144,15 @@ VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni 
 ---
 
 <p align="center"><strong>VOYO</strong> · Projet indépendant en développement</p>
+
+## Règle de maintenance — documentation systématique
+
+**Chaque modification du projet doit aussi mettre à jour ce README dans la même série de changements.** Avant de terminer une tâche :
+1. Mettre à jour les sections concernées (fonctionnalités, configuration, limites, captures ou étapes de test).
+2. Mentionner les changements et les limites qui restent dans ce document ; ne pas présenter une fonctionnalité comme disponible avant qu'elle ait été testée.
+3. Vérifier le JavaScript, exécuter les tests de fumée et vérifier le déploiement GitHub Pages.
+4. Ne considérer une modification comme terminée qu'après la réussite des vérifications. Si le comportement ne change pas mais que la modification est purement interne, ajouter tout de même une courte note au journal des changements ci-dessous.
+
+## Journal des changements
+
+- **2026-10-11** — Ajout de la règle de maintenance : mettre à jour le README à chaque modification du projet et vérifier les tests et le déploiement.
