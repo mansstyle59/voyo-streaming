@@ -257,6 +257,9 @@ Le diagnostic a révélé la cause du changement invisible : l’ancienne règle
 
 ### Interface mobile inspirée de la référence — 12 octobre 2026
 
-La capture de référence sert maintenant de direction visuelle pour l’accueil mobile : grande zone éditoriale cinématographique, dégradé sombre au bas de l’image, titres de rangées plus nets, cartes de reprise horizontales et barre de navigation flottante en bas. Les règles ciblent les classes réellement utilisées par l’accueil moderne Nuvio (home-modern-stage, home-modern-rows-viewport, home-row, home-track, home-continue-card et modern-sidebar-shell) au lieu de dépendre uniquement de sélecteurs génériques. La palette VOYO cyan/bleu/violet reste appliquée aux états actifs. Le mode grand écran/Smart TV n’est pas ciblé par ce correctif.
+La capture de référence sert maintenant de direction visuelle pour l’accueil mobile : grande zone éditoriale cinématographique, dégradé sombre au bas de l’image, titres de rangées plus nets, cartes de reprise horizontales et barre de navigation flottante en bas. Le build de cette version produit un seul fichier CSS chargé, `css/bundle.css` ; le workflow applique donc les styles VOYO directement à ce fichier. Les règles ciblent les classes réellement utilisées par l’accueil moderne Nuvio (home-modern-stage, home-modern-rows-viewport, home-row, home-track, home-continue-card et modern-sidebar-shell) au lieu de dépendre uniquement de sélecteurs génériques. La palette VOYO cyan/bleu/violet reste appliquée aux états actifs. Le mode grand écran/Smart TV n’est pas ciblé par ce correctif.
 
 Le changement est appliqué au CSS compilé dans le workflow de production, puis publié par GitHub Actions. À vérifier après déploiement sur Safari iPhone : la capture de référence est un objectif de style, pas une preuve que tous les appareils rendent le résultat à l’identique.
+
+
+**Correction du workflow (12 octobre 2026) :** le build Nuvio génère `dist/css/bundle.css`, pas `dist/css/themes.css`. Le workflow a été corrigé pour modifier et vérifier le fichier réellement généré avant déploiement.
