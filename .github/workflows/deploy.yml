@@ -1,22 +1,17 @@
-name: Deploy VOYO to GitHub Pages
+name: Validate legacy VOYO files
 on:
   push:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: pages
-  cancel-in-progress: true
 jobs:
-  build:
+  test-legacy-files:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout VOYO repository
         uses: actions/checkout@v4
-      - name: Validate inline JavaScript
+      - name: Validate inline JavaScript syntax
         run: |
           python3 - <<'PY'
           import re
@@ -32,68 +27,7 @@ jobs:
           PY
           node --check /tmp/index-1.js
           node --check /tmp/addons-1.js
-      - name: Install DOM smoke-test dependency
+      - name: Install smoke-test dependency
         run: npm install --no-save --ignore-scripts --no-audit --no-fund jsdom@26.1.0
-      - name: Test homepage, add-ons and error handling
+      - name: Run legacy VOYO smoke tests
         run: node tests/smoke.mjs
-      - name: Probe configured Stremio manifest (diagnostic)
-        continue-on-error: true
-        run: |
-          python3 - <<'PY'
-          import json
-          import urllib.request
-          from urllib.error import HTTPError
-          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json"
-          headers = {
-              "Accept": "application/json",
-              "Origin": "https://mansstyle59.github.io",
-              "Referer": "https://mansstyle59.github.io/voyo-streaming/",
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-          }
-          try:
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req, timeout=8) as response:
-                  raw = response.read()
-                  print("Manifest HTTP status:", response.status)
-                  print("Access-Control-Allow-Origin:", response.headers.get("Access-Control-Allow-Origin", "(missing)"))
-                  data = json.loads(raw)
-                  print("Manifest id:", data.get("id", "(missing)"))
-                  print("Manifest name:", data.get("name", "(missing)"))
-                  print("Resources:", data.get("resources", []))
-                  catalogs = [c for c in data.get("catalogs", []) if isinstance(c, dict)]
-              print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in catalogs])
-              import urllib.parse
-              base = url.rsplit("/", 1)[0] + "/"
-              for catalog in [c for c in catalogs if c.get("id") in ("fs-films-action", "fs-dernieres-series")][:2]:
-                  endpoint = base + "catalog/" + urllib.parse.quote(str(catalog.get("type", "")), safe="") + "/" + urllib.parse.quote(str(catalog.get("id", "")), safe="") + ".json"
-                  try:
-                      cat_req = urllib.request.Request(endpoint, headers=headers)
-                      with urllib.request.urlopen(cat_req, timeout=5) as cat_response:
-                          cat_data = json.loads(cat_response.read())
-                          metas = cat_data.get("metas", []) if isinstance(cat_data, dict) else []
-                          print("Catalog probe:", catalog.get("id"), "HTTP", cat_response.status, "titles", len(metas) if isinstance(metas, list) else "invalid response", "CORS", cat_response.headers.get("Access-Control-Allow-Origin", "(missing)"))
-                  except Exception as cat_error:
-                      print("Catalog probe failed:", catalog.get("id"), repr(cat_error))
-          except HTTPError as error:
-              print("Manifest HTTP status:", error.code)
-              print("Access-Control-Allow-Origin:", error.headers.get("Access-Control-Allow-Origin", "(missing)"))
-              print("Response headers:", dict(error.headers))
-              print("Response body:", error.read(1000).decode("utf-8", errors="replace"))
-          except Exception as error:
-              print("Manifest diagnostic failed:", repr(error))
-          print("This diagnostic is informational; GitHub Pages deployment will continue.")
-          PY
-      - name: Upload static site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
