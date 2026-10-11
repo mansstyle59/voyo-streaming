@@ -1,0 +1,119 @@
+name: Build NuvioTVSmart with VOYO branding
+on:
+  push:
+    branches: [main, integrate/nuvio-tvsmart-voyo-theme]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout VOYO
+        uses: actions/checkout@v4
+      - name: Checkout upstream NuvioTVSmart
+        uses: actions/checkout@v4
+        with:
+          repository: NuvioMedia/NuvioTVSmart
+          ref: main
+          path: nuvio-source
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: nuvio-source/package-lock.json
+      - name: Install dependencies
+        working-directory: nuvio-source
+        run: npm ci
+      - name: Build Nuvio web app
+        working-directory: nuvio-source
+        run: npm run build
+      - name: Validate Nuvio build output
+        run: |
+          test -s nuvio-source/dist/index.html
+          test -s nuvio-source/dist/app.bundle.js
+          test -s nuvio-source/dist/css/base.css || find nuvio-source/dist/css -maxdepth 1 -type f -print
+          test -n "$(find nuvio-source/dist/css -maxdepth 1 -type f -name '*.css' -print -quit)"
+          test -s nuvio-source/LICENSE
+          test -s nuvio-source/README.md
+      - name: Apply VOYO theme to compiled Nuvio UI
+        run: |
+          CSS_FILE="nuvio-source/dist/css/bundle.css"
+          test -s "$CSS_FILE"
+          cat >> "$CSS_FILE" <<'CSS'
+
+          /* VOYO brand override — cyan, blue and violet. */
+          :root {
+            --focus-color: #438bff;
+            --focus-color-rgb: 67 139 255;
+            --focus-bg: #13233e;
+            --secondary-color: #438bff;
+            --secondary-color-rgb: 67 139 255;
+            --secondary-variant: #a78bfa;
+            --on-secondary: #08090d;
+            --voyo-cyan: #2de0df;
+            --voyo-blue: #438bff;
+            --voyo-violet: #762dff;
+          }
+          a:focus, button:focus, input:focus, select:focus, textarea:focus,
+          .focusable:focus, .focused, .selected, [aria-selected="true"] {
+            outline-color: #438bff !important;
+          }
+          .home-nav-item.selected,
+          .modern-sidebar-nav-item.selected,
+          .library-picker-option.focused,
+          .button-primary, .primary-button, .btn-primary,
+          button.primary, a.primary, [data-variant="primary"] {
+            background: linear-gradient(105deg, #2de0df 0%, #438bff 48%, #762dff 100%) !important;
+            border-color: transparent !important;
+            color: #08090d !important;
+          }
+          .home-poster-card.focused .home-poster-frame,
+          .search-result-card.focused .search-result-poster-wrap,
+          .seeall-card.focused .seeall-card-poster-wrap {
+            border-color: #438bff !important;
+            box-shadow: 0 0 0 2px #438bff !important;
+          }
+          CSS
+      - name: Prepare GitHub Pages files
+        run: |
+          rm -rf site
+          mkdir -p site
+          cp -a nuvio-source/dist/. site/
+          cp nuvio-source/LICENSE site/LICENSE-NUVIO-GPL-3.0
+          cp nuvio-source/README.md site/README-NUVIO-UPSTREAM.md
+          cp README.md site/README-VOYO.md
+          cat > site/VOYO-ATTRIBUTION.txt <<'EOF'
+          VOYO branded build of NuvioTVSmart
+          Upstream source: https://github.com/NuvioMedia/NuvioTVSmart
+          License: GNU GPL v3. See LICENSE-NUVIO-GPL-3.0.
+          VOYO theme modifications are documented in the VOYO repository.
+          This build is independent and is not an official Nuvio release.
+          EOF
+          test -s site/index.html
+          test -s site/app.bundle.js
+          CSS_FILE="site/css/bundle.css"
+          test -s "$CSS_FILE"
+          grep -q '#2de0df' "$CSS_FILE"
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

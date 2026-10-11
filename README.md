@@ -185,3 +185,14 @@ VOYO est un projet indépendant. Le dépôt public de référence NuvioTV indiqu
 - Fond sombre cinématographique conservé pour faire ressortir les affiches et maintenir la lisibilité.
 - L’interface principale reste en français ; les tests vérifient désormais la langue déclarée et la présence de la palette de marque.
 - La page de gestion des extensions utilisait déjà un dégradé cyan/bleu/violet cohérent ; elle est conservée. Vérification automatisée et publication via GitHub Actions après cette modification.
+
+
+## Intégration NuvioTVSmart avec les couleurs VOYO — 11 octobre 2026
+
+La branche `integrate/nuvio-tvsmart-voyo-theme` prépare une compilation reproductible de l'application web officielle [NuvioTVSmart](https://github.com/NuvioMedia/NuvioTVSmart). Le workflow GitHub Actions récupère le dépôt amont à la compilation, installe ses dépendances avec `npm ci`, lance `npm run build), puis prépare les fichiers statiques à publier avec une surcharge de thème VOYO cyan → bleu → violet.
+
+Le build publié conserve la licence GPL-3.0 et la documentation amont dans les fichiers de publication, avec attribution explicite. VOYO n'est pas une distribution officielle de Nuvio.
+
+**Compatibilité :** NuvioTVSmart cible principalement les téléviseurs Samsung Tizen et LG webOS. Certaines fonctions utilisent des API et services locaux spécifiques à ces plateformes ; même si la compilation web réussit, elles peuvent ne pas fonctionner dans un navigateur ordinaire ou sur iPhone.
+
+**Statut de publication :** cette intégration reste sur une branche dédiée. Le workflow de cette branche publierait sur la même cible GitHub Pages lorsqu'il s'exécute ; valider le build et les écrans publiés avant de fusionner ou d'activer cette version en production. L'application existante et la page de gestion des addons n'ont pas été supprimées dans cette branche.
