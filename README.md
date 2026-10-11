@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="assets/voyo-desktop-preview.svg" alt="Aperçu de l’interface VOYO" width="100%">
+  <img src="assets/voyo-desktop-preview.svg" alt="Aperçu de VOYO" width="100%">
 </p>
 
 <h1 align="center">VOYO — Films, séries &amp; TV</h1>
 
 <p align="center">
-  <strong>Une interface de streaming responsive avec catalogues connectés par addons.</strong><br>
-  Prototype web indépendant inspiré des habitudes des plateformes de streaming, avec une identité VOYO originale.
+  <strong>Une interface de streaming responsive avec des catalogues connectés par addons.</strong><br>
+  Projet web indépendant avec identité visuelle VOYO et navigation pensée pour ordinateur et mobile.
 </p>
 
 <p align="center">
@@ -19,84 +19,85 @@
 
 ---
 
-## ✨ Aperçus de l’interface
+## Aperçus
 
-### 🖥️ Ordinateur
-
-<p align="center">
-  <img src="assets/voyo-desktop-preview.svg" alt="Maquette de l’accueil VOYO sur ordinateur" width="100%">
-</p>
-
-### 📱 Mobile
+### Ordinateur
 
 <p align="center">
-  <img src="assets/voyo-mobile-preview.svg" alt="Maquette de VOYO sur mobile" width="360">
+  <img src="assets/voyo-desktop-preview.svg" alt="Maquette desktop VOYO" width="100%">
 </p>
 
-<sub>Ces deux illustrations sont des maquettes de présentation, pas des captures d’écran réelles de la version actuellement déployée.</sub>
+### Mobile
+
+<p align="center">
+  <img src="assets/voyo-mobile-preview.svg" alt="Maquette mobile VOYO" width="360">
+</p>
+
+<sub>Les visuels sont des maquettes d’illustration, pas des captures d’écran réelles de la dernière version publiée.</sub>
 
 ---
 
-## 🚀 Fonctionnalités présentes
+## Fonctions de la démo
 
-- **Accueil cinéma** avec une sélection à la une, rangées horizontales, Top 10, nouveautés et genres.
-- **Reprendre à regarder** avec indicateurs de progression illustratifs.
-- **Navigation responsive** pour accueil, films, séries, TV et bibliothèque, avec menu mobile en bas de l’écran.
-- **Recherche locale** dans les titres et descriptions du catalogue de démonstration.
-- **Fiches détaillées** pour les titres fictifs et les titres provenant d’un addon.
-- **Ma liste et évaluations** conservées localement dans le navigateur pour le catalogue de démonstration.
-- **Gestionnaire d’addons** : ajout par URL de manifeste, vérification, activation/désactivation, suppression, import/export JSON et détails du manifeste.
-- **Catalogues d’addons sur l’accueil** : VOYO tente de récupérer les catalogues des addons actifs et d’afficher leurs titres sous forme de rangées.
-- **Fiches de titres externes** : récupération des métadonnées et des épisodes lorsqu’un addon les expose.
-- **Découverte de flux** : interrogation de la ressource `stream` si elle est annoncée par un addon. La lecture intégrée dépend du format et des capacités du navigateur.
-- **Vérifications automatiques** : GitHub Actions contrôle la syntaxe JavaScript, lance des tests de parcours navigateur simulé et effectue un diagnostic réseau du manifeste configuré avant la publication.
-- **Publication automatique** via GitHub Pages.
+- **Accueil cinéma** : grande sélection à la une, rangées horizontales, Top 10, nouveautés et genres.
+- **Menu mobile** : navigation flottante en bas de l’écran, recherche, bibliothèque et profil.
+- **Reprendre à regarder** : progression d’exemple pour illustrer l’interface.
+- **Recherche locale** : recherche dans les titres et descriptions de démonstration.
+- **Recherche d’addons** : si un addon expose un catalogue de recherche compatible, VOYO transmet le terme saisi via l’option `search`.
+- **Catalogues externes sur l’accueil** : tentative de chargement des catalogues des addons actifs et affichage des titres renvoyés.
+- **Fiches externes** : VOYO peut interroger `meta` pour récupérer description, détails et épisodes lorsqu’ils sont fournis.
+- **Sources** : l’application ne recherche des flux que si le manifeste annonce une ressource `stream`; la lecture dépend ensuite du format et du navigateur.
+- **Ma liste et préférences** : fonctions de démonstration stockées localement dans le navigateur.
+- **Gestion des addons** : ajout par URL de manifeste, vérification, activer/désactiver, supprimer, importer/exporter JSON et explorer les catalogues.
+- **Tests automatiques** via GitHub Actions : contrôle de syntaxe JavaScript, tests de parcours simulé et diagnostic réseau non bloquant du manifeste configuré.
+- **Publication statique** par GitHub Pages.
 
-## 🧩 Addons compatibles Stremio
+## Gestion des addons Stremio
 
-**[Ouvrir le gestionnaire d’addons VOYO](https://mansstyle59.github.io/voyo-streaming/addons.html)**
+**[Ouvrir la page Addons](https://mansstyle59.github.io/voyo-streaming/addons.html)**
 
-Le gestionnaire utilise le protocole HTTP d’addons distant de Stremio. Le parcours comprend la lecture de `manifest.json`, l’affichage des catalogues déclarés et les ressources compatibles telles que :
+VOYO utilise le protocole HTTP des addons distants Stremio, de manière expérimentale :
 
-| Ressource | Utilisation dans VOYO |
+| Ressource | Usage |
 |---|---|
-| `manifest.json` | Lire l’identifiant, le nom, les ressources et les catalogues de l’addon. |
-| `catalog` | Récupérer les titres et leurs affiches pour les rangées de l’accueil ou la page Addons. |
-| `meta` | Obtenir les descriptions, détails, genres et épisodes quand ils sont fournis. |
-| `stream` | Rechercher les sources d’un titre lorsque l’addon déclare cette ressource. |
+| `manifest.json` | Lire l’identité, les ressources et les catalogues déclarés. |
+| `catalog` | Charger les titres d’un catalogue pour créer des rangées de cartes. |
+| `meta` | Charger les détails d’un titre et les épisodes lorsque l’addon les expose. |
+| `stream` | Demander des sources uniquement si cette ressource est déclarée par l’addon. |
 
-### Addon French Stream (Public) configuré
+### Manifeste public configuré
 
-VOYO préconfigure le manifeste public suivant :
+L’application préconfigure l’URL publique du service :
 
 `https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json`
 
-Le diagnostic GitHub a confirmé que ce manifeste répond en HTTP 200, autorise CORS (`Access-Control-Allow-Origin: *`) et expose notamment les catalogues **FS - Derniers Films**, **FS - Films Action**, **FS - Dernières Séries** et plusieurs rangées de séries. Lors d’une exécution de diagnostic, plusieurs catalogues ont renvoyé des titres. Les catalogues de recherche peuvent renvoyer zéro résultat tant qu’aucune requête n’est fournie.
+Cette URL racine est utilisée dans le dépôt pour éviter d’exposer dans le code public un lien de configuration qui pourrait contenir des paramètres privés. Le diagnostic lancé par GitHub Actions a confirmé que le manifeste répond en HTTP 200, avec `Access-Control-Allow-Origin: *`, et qu’il déclare les ressources `catalog` et `meta`.
 
-**Limitation importante :** le manifeste observé annonce les ressources `catalog` et `meta`, mais pas `stream`. Il permet donc d’explorer les catalogues et fiches qu’il expose, mais ne fournit pas directement de sources vidéo via le protocole Stremio dans cette configuration.
+Plusieurs catalogues ont renvoyé des titres lors du diagnostic, notamment **FS - Films Action**, **FS - Dernières Séries** et des rangées de séries. Les catalogues de recherche n’ont pas de résultats tant qu’aucun terme n’est transmis ; la barre de recherche VOYO transmet désormais le terme saisi aux catalogues qui correspondent à une recherche.
 
-### Limites à connaître
+**Limite importante :** le manifeste public testé n’annonce pas la ressource `stream`. Il peut donc exposer des catalogues et des fiches mais ne fournit pas directement de flux vidéo par le protocole Stremio dans cette configuration. L’interface n’invente pas de lien de lecture lorsque le service ne fournit pas de flux.
 
-- La compatibilité varie selon chaque addon, son manifeste, ses options `extra`, ses identifiants de contenu et ses réponses.
-- Un addon doit autoriser les requêtes CORS du navigateur. Si le service les bloque, un backend intermédiaire sera nécessaire.
-- Une URL de flux ne garantit pas la lecture dans le navigateur. HLS, DASH, torrents, DRM, en-têtes obligatoires, flux protégés ou formats natifs peuvent demander un lecteur ou un service supplémentaire.
-- Les extensions qui exécutent du code local ne sont pas lancées par cette application web statique.
-- Les addons sont des services tiers. Vérifie leur origine et n’utilise que des contenus et flux que tu es autorisé à consulter ou diffuser.
+### Limites techniques
 
-VOYO ne fournit pas lui-même de catalogue vidéo sous licence ni de chaînes en direct. Les titres de démonstration sont fictifs ; les contenus d’addons sont renvoyés par des services externes.
+- Certains addons peuvent renvoyer des réponses lentes ; les catalogues sont chargés en parallèle avec un délai par requête.
+- Les paramètres `extra`, les identifiants d’épisodes et les formes de réponse peuvent varier d’un addon à l’autre.
+- Le navigateur doit pouvoir interroger le service tiers (CORS et accès réseau).
+- HLS, DASH, torrents, DRM, flux avec en-têtes particuliers et formats natifs peuvent demander un lecteur ou un backend spécifique.
+- Les addons qui exécutent du code local ne sont pas lancés par cette application statique.
+- La liste et les préférences sont locales au navigateur ; il n’y a pas encore de comptes sécurisés ni de synchronisation entre appareils.
 
-## ▶ Tester VOYO
+Ajoute uniquement des addons de confiance et des contenus ou flux que tu es autorisé à consulter ou diffuser.
 
-- [Application web](https://mansstyle59.github.io/voyo-streaming/)
+## Essayer VOYO
+
+- [Application](https://mansstyle59.github.io/voyo-streaming/)
 - [Gestion des addons](https://mansstyle59.github.io/voyo-streaming/addons.html)
-- [Historique des tests et déploiements](https://github.com/mansstyle59/voyo-streaming/actions)
+- [Tests et déploiements](https://github.com/mansstyle59/voyo-streaming/actions)
 - [Code source](https://github.com/mansstyle59/voyo-streaming)
 
-Sur iPhone, ouvre la démo avec Safari et actualise la page si une ancienne version reste en cache. Les addons et la liste sont enregistrés dans le navigateur utilisé ; ils ne sont pas synchronisés entre appareils.
+Pour le développement local, clone le dépôt et sers les fichiers avec un serveur local ou HTTPS : certains navigateurs limitent les appels réseau depuis des pages ouvertes directement en fichier.
 
-Pour tester en local, clone le dépôt et ouvre `index.html` dans un navigateur. Les appels réseau d’addons nécessitent un contexte HTTPS ou un serveur local adapté.
-
-## 🗂️ Structure du dépôt
+## Structure du dépôt
 
 ```text
 voyo-streaming/
@@ -113,32 +114,29 @@ voyo-streaming/
 └── README.md
 ```
 
-## ⚙️ Tests et publication
+## Vérification et publication
 
-Le workflow `.github/workflows/deploy.yml` s’exécute sur les mises à jour de `main`. Il effectue les contrôles suivants avant publication :
+Le workflow `.github/workflows/deploy.yml` est lancé lors des modifications sur `main`. Il :
 
-1. Extrait le JavaScript en ligne de `index.html` et `addons.html`, puis en vérifie la syntaxe avec Node.
-2. Exécute `tests/smoke.mjs` dans jsdom pour vérifier le rendu de catalogues, l’ouverture des fiches, la recherche de flux de test et le chemin d’erreur d’installation.
-3. Interroge le manifeste distant configuré ainsi que plusieurs catalogues à titre de diagnostic. Cette vérification réseau est informative et ne bloque pas la publication si le service distant ne répond pas.
-4. Publie les fichiers statiques avec GitHub Pages si les tests bloquants passent.
+1. extrait le JavaScript de `index.html` et `addons.html`, puis vérifie la syntaxe avec Node ;
+2. installe une dépendance de test et exécute `tests/smoke.mjs`, qui simule les réponses d’un addon pour tester l’accueil, les catalogues, les détails, la recherche de flux et les erreurs de manifeste ;
+3. teste le manifeste public et plusieurs catalogues à titre de diagnostic. Ce contrôle réseau est informatif et ne bloque pas le déploiement en cas de problème côté service tiers ;
+4. publie les fichiers statiques par GitHub Pages si les contrôles bloquants réussissent.
 
-Liens utiles : [Actions](https://github.com/mansstyle59/voyo-streaming/actions) · [Paramètres GitHub Pages](https://github.com/mansstyle59/voyo-streaming/settings/pages).
+- [Dernières exécutions](https://github.com/mansstyle59/voyo-streaming/actions)
+- [Paramètres GitHub Pages](https://github.com/mansstyle59/voyo-streaming/settings/pages)
 
-## 🛠️ Prochaines étapes
+## Suite du développement
 
-1. Ajouter un paramètre de recherche transmis aux catalogues d’addons qui le prennent en charge.
-2. Élargir la compatibilité des identifiants d’épisodes et des options de catalogues.
-3. Ajouter un lecteur plus complet pour les formats compatibles avec le navigateur et les sous-titres externes.
-4. Ajouter des tests d’intégration supplémentaires sur appareils réels, notamment Safari iOS.
-5. Étudier un backend facultatif pour les addons bloqués par CORS et une vraie synchronisation des profils, listes et historiques.
+1. Améliorer les options avancées de recherche et les paramètres spécifiques d’addons.
+2. Ajouter un lecteur plus complet pour les formats pris en charge et les sous-titres externes.
+3. Tester davantage d’addons et de réponses d’épisodes sur des appareils réels, notamment Safari iOS.
+4. Étudier un backend optionnel pour les addons qui ne supportent pas CORS.
+5. Ajouter de vrais comptes, le contrôle parental et la synchronisation sécurisée entre appareils.
 
-## ℹ️ Licence, droits et état du projet
+## Projet indépendant
 
-VOYO est un projet indépendant en développement. Il n’est pas affilié à Netflix, Stremio ou Nuvio. L’interface originale s’inspire de conventions générales des applications de streaming ; les logos et éléments distinctifs de marques tierces ne sont pas revendiqués comme appartenant à VOYO.
-
-Les titres et chaînes du catalogue de démonstration sont fictifs. Les métadonnées et flux affichés par la page Addons proviennent de services tiers. La compatibilité avec chaque addon doit être testée séparément et ne garantit pas la lecture d’un contenu.
-
-N’utilise que des sources que tu es autorisé à consulter et à diffuser, et respecte les conditions des services tiers.
+VOYO est en développement et n’est affilié ni à Netflix, ni à Stremio, ni à Nuvio. Les titres de démonstration sont fictifs. Les métadonnées qui apparaissent dans les rangées d’addons sont renvoyées par des services tiers ; la compatibilité et les droits associés doivent être vérifiés pour chaque source.
 
 ---
 
