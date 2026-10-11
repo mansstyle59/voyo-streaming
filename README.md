@@ -53,7 +53,7 @@
 
 **[Ouvrir la page Addons](https://mansstyle59.github.io/voyo-streaming/addons.html)**
 
-VOYO utilise le protocole HTTP des addons distants Stremio, de manière expérimentale :
+VOYO utilise le protocole HTTP des addons distants Stremio, de manière expérimentale. La reconstruction actuelle est une interface web indépendante inspirée fonctionnellement des usages de Nuvio ; elle ne prétend pas être une copie officielle de Nuvio :
 
 | Ressource | Usage |
 |---|---|
@@ -153,3 +153,19 @@ VOYO est une implémentation indépendante qui s’inspire des parcours fonction
 
 
 - **2026-10-11** — Reconstruction de l’interface principale : catalogues réels, navigation mobile, recherche, fiches et liste locale ; tests adaptés au nouveau parcours. La page de gestion des addons est conservée. Documentation mise à jour dans le même lot.
+
+## Reconstruction VOYO (11 octobre 2026)
+
+L'accueil a été reconstruit avec une nouvelle interface responsive, une bannière de titre sélectionné, des rangées de films et de séries, recherche, fiches détaillées, liste personnelle et catalogues d'extensions. Les titres sont chargés dynamiquement depuis Cinemeta ; aucun catalogue fictif n'est injecté comme solution de secours.
+
+### Limites à connaître
+- Les catalogues fournissent des métadonnées, pas des droits de diffusion ni nécessairement des flux vidéo.
+- La disponibilité de Cinemeta et les règles CORS du navigateur peuvent varier.
+- Les extensions sont stockées localement par navigateur ; elles ne sont pas synchronisées entre appareils.
+- Cette version n'implémente pas encore toutes les fonctions natives ou avancées de Nuvio (par exemple la synchronisation de compte, la reprise de lecture multi-appareils ou un lecteur universel). Ne pas présenter ces fonctions comme déjà disponibles.
+
+### Licence et attribution
+VOYO est un projet indépendant. Le dépôt public de référence NuvioTV indique la licence GNU GPL v3 : [NuvioMedia/NuvioTV](https://github.com/NuvioMedia/NuvioTV). Cette refonte s'inspire de ses fonctionnalités et usages, sans présenter VOYO comme un produit officiel Nuvio ni copier l'intégralité de son application. Si du code GPL est repris ou adapté dans le futur, conserver les notices de copyright et de licence applicables, fournir le code source correspondant et respecter les obligations de la GPL-3.0. Vérifier les licences de chaque dépendance et ressource graphique séparément.
+
+### Règle de maintenance
+À chaque modification de l'application, mettre à jour ce README dans la même série de changements, actualiser les tests pertinents et ne déclarer la publication terminée qu'après réussite de GitHub Actions.
