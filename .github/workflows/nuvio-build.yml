@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: NuvioMedia/NuvioTVSmart
-          ref: main
+          ref: cfec25654f0580028d9a78a41b037bcd48af2a29
           path: nuvio-source
           persist-credentials: false
       - name: Set up Node.js
@@ -92,9 +92,10 @@ jobs:
           cp README.md site/README-VOYO.md
           cat > site/VOYO-ATTRIBUTION.txt <<'EOF'
           VOYO branded build of NuvioTVSmart
-          Upstream source: https://github.com/NuvioMedia/NuvioTVSmart
-          License: GNU GPL v3. See LICENSE-NUVIO-GPL-3.0.
-          VOYO theme modifications are documented in the VOYO repository.
+          Upstream repository: https://github.com/NuvioMedia/NuvioTVSmart
+          Upstream commit: https://github.com/NuvioMedia/NuvioTVSmart/commit/cfec25654f0580028d9a78a41b037bcd48af2a29
+          License: GNU General Public License v3. See LICENSE-NUVIO-GPL-3.0.
+          VOYO's cyan-blue-violet theme override is defined in .github/workflows/nuvio-build.yml in the VOYO source repository.
           This build is independent and is not an official Nuvio release.
           EOF
           test -s site/index.html
