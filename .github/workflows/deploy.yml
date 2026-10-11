@@ -32,6 +32,29 @@ jobs:
           PY
           node --check /tmp/index-1.js
           node --check /tmp/addons-1.js
+      - name: Probe configured Stremio manifest (diagnostic)
+        continue-on-error: true
+        run: |
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          from urllib.error import URLError, HTTPError
+          url = "https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcmluaWVycy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json"
+          try:
+              req = urllib.request.Request(url, headers={"Accept": "application/json", "Origin": "https://mansstyle59.github.io"})
+              with urllib.request.urlopen(req, timeout=12) as response:
+                  raw = response.read()
+                  print("Manifest HTTP status:", response.status)
+                  print("Access-Control-Allow-Origin:", response.headers.get("Access-Control-Allow-Origin", "(missing)"))
+                  data = json.loads(raw)
+                  print("Manifest id:", data.get("id", "(missing)"))
+                  print("Manifest name:", data.get("name", "(missing)"))
+                  print("Resources:", data.get("resources", []))
+                  print("Catalogs:", [{"type": c.get("type"), "id": c.get("id"), "name": c.get("name")} for c in data.get("catalogs", []) if isinstance(c, dict)])
+          except Exception as error:
+              print("Manifest diagnostic failed:", repr(error))
+              print("The static site will still deploy; inspect addon availability/CORS separately.")
+          PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
