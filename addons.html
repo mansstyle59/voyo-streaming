@@ -25,9 +25,9 @@
 <script>
 (function(){
 const KEY="voyo-addons-v1", $=id=>document.getElementById(id);
-const FEATURED_URL="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcmluaWVycy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json";
+const FEATURED_URL="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json";
 let addons=read(),catalogAddon=null;
-function read(){try{const x=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(x)?x:[]}catch(e){return []}}
+function read(){try{const x=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(x))return [];let changed=false;const root="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json";const host="https://addon-stremio-fs-public.stremio-fs-public.workers.dev/";const migrated=x.map(a=>{if(a&&typeof a.url==="string"&&a.url.startsWith(host)&&a.url!==root){changed=true;return {...a,url:root,id:"public-manifest-pending",name:"French Stream — catalogue public",manifest:null,catalogs:[],enabled:true,pending:true,lastError:"URL personnalisée remplacée par le manifeste public : ne conserve pas une clé API dans le code client."}}return a});const unique=[];for(const item of migrated){if(item&&item.url===root&&unique.some(x=>x.url===root))continue;unique.push(item)}if(changed){try{localStorage.setItem(KEY,JSON.stringify(unique))}catch(e){}}return unique}catch(e){return []}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(addons))}catch(e){message("Le navigateur n’a pas permis d’enregistrer les addons. Vérifie les paramètres de stockage.","error")}}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function normalizedUrl(value){const u=new URL(value);if(!["http:","https:"].includes(u.protocol))throw Error("Utilise une URL HTTP ou HTTPS.");if(u.username||u.password)throw Error("Les URL contenant un identifiant ou mot de passe ne sont pas acceptées.");return u.href}
@@ -50,7 +50,7 @@ async function ensureFeaturedAddon(){
  let existing=addons.findIndex(a=>a.url===FEATURED_URL);
  if(existing>=0&&!addons[existing].pending&&addons[existing].manifest&&(addons[existing].catalogs||[]).length>0)return;
  if(existing<0){
-  addons.unshift({url:FEATURED_URL,id:"featured-pending",name:"Addon films & séries",description:"Addon Stremio préconfiguré — manifeste à vérifier",version:"",manifest:{id:"featured-pending",name:"Addon films & séries",description:"Manifeste en attente.",resources:[],catalogs:[]},catalogs:[],enabled:false,installedAt:new Date().toISOString(),pending:true});
+  addons.unshift({url:FEATURED_URL,id:"featured-pending",name:"Addon films & séries",description:"Addon Stremio public — manifeste à vérifier",version:"",manifest:{id:"featured-pending",name:"Addon films & séries",description:"Manifeste en attente.",resources:[],catalogs:[]},catalogs:[],enabled:false,installedAt:new Date().toISOString(),pending:true});
   save();render();
  }
  const box=$("featuredMsg");
@@ -83,7 +83,7 @@ if(b.hasAttribute("data-close")){$("manifestDialog").classList.remove("open");re
 });
 $("importFile").addEventListener("change",async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;try{const parsed=JSON.parse(await file.text());if(!Array.isArray(parsed)||parsed.some(a=>!a||typeof a.url!=="string"))throw Error("Le fichier doit être une liste d’objets avec une propriété url.");let count=0;for(const item of parsed){try{const a=await install(item.url);a.enabled=item.enabled!==false;count++}catch(err){console.warn("Addon ignoré",item.url,err)}}save();render();message(count+" addon(s) importé(s).","ok")}catch(err){message("Import impossible : "+err.message,"error")}finally{e.target.value=""}});
 $("manifestDialog").addEventListener("click",e=>{if(e.target===$("manifestDialog"))$("manifestDialog").classList.remove("open")});
-$("installFeatured").addEventListener("click",async()=>{const button=$("installFeatured"),box=$("featuredMsg");button.disabled=true;button.textContent="Vérification…";box.textContent="Vérification du manifeste de l’addon…";box.className="msg show ok";try{const installed=await install("https://addon-stremio-fs-public.stremio-fs-public.workers.dev/eyJ0IjoiODQ4YmMzNzRlMjk2MTYyNTgxYTA1ZDVkYTVlZmU3ZWEiLCJyIjpmYWxzZSwiYyI6WyJkZXJuaWVycy1maWxtcyIsImRlcm5pZXJlcy1zZXJpZXMiLCJzZXJpZXMtdGFnLW1pbmlzZXJpZXMiXSwidiI6ZmFsc2V9/manifest.json");box.textContent="Addon ajouté : "+installed.name+" · "+installed.catalogs.length+" catalogue(s) détecté(s).";box.className="msg show ok"}catch(error){box.textContent=(error.message||"Installation impossible")+". Vérifie la connexion et les autorisations CORS du service.";box.className="msg show error"}finally{button.disabled=false;button.textContent="Ajouter"}});
+$("installFeatured").addEventListener("click",async()=>{const button=$("installFeatured"),box=$("featuredMsg");button.disabled=true;button.textContent="Vérification…";box.textContent="Vérification du manifeste de l’addon…";box.className="msg show ok";try{const installed=await install("https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json");box.textContent="Addon ajouté : "+installed.name+" · "+installed.catalogs.length+" catalogue(s) détecté(s).";box.className="msg show ok"}catch(error){box.textContent=(error.message||"Installation impossible")+". Vérifie la connexion et les autorisations CORS du service.";box.className="msg show error"}finally{button.disabled=false;button.textContent="Ajouter"}});
 render();
 ensureFeaturedAddon();
 })();
