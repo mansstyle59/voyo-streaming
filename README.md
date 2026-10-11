@@ -1,45 +1,60 @@
-# <img src="assets/voyo-desktop-preview.svg" alt="VOYO" width="120" align="left"> VOYO — Films, séries et TV
+<p align="center">
+  <img src="assets/voyo-desktop-preview.svg" alt="Aperçu de l’interface VOYO" width="100%">
+</p>
 
-**Une interface de streaming moderne, pensée pour retrouver films, séries et télévision au même endroit.**
+<h1 align="center">VOYO — Films, séries &amp; TV</h1>
 
-[![Démo web](https://img.shields.io/badge/Démo-web-6b45f5?style=for-the-badge)](https://mansstyle59.github.io/voyo-streaming/)
-[![Déploiement GitHub Pages](https://img.shields.io/badge/Déploiement-GitHub%20Pages-242938?style=for-the-badge&logo=github)](https://github.com/mansstyle59/voyo-streaming/actions)
-[![HTML](https://img.shields.io/badge/HTML-responsive-ea6b3d?style=for-the-badge&logo=html5&logoColor=white)](index.html)
+<p align="center">
+  <strong>Votre univers de divertissement, dans une interface moderne et intuitive.</strong><br>
+  Un prototype responsive pour explorer films, séries et télévision depuis un même endroit.
+</p>
 
----
-
-## Aperçus de l’application
-
-### Version ordinateur
-
-![Aperçu de l’interface VOYO sur ordinateur](assets/voyo-desktop-preview.svg)
-
-### Version mobile
-
-![Aperçu de l’interface VOYO sur mobile](assets/voyo-mobile-preview.svg)
-
-> Ces visuels sont des aperçus illustrés de l’interface, intégrés au README pour présenter la direction visuelle du projet. Ils ne sont pas des captures d’écran prises sur un appareil réel.
+<p align="center">
+  <a href="https://mansstyle59.github.io/voyo-streaming/"><strong>▶ Ouvrir la démo</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/mansstyle59/voyo-streaming/actions">État du déploiement</a>
+  &nbsp;·&nbsp;
+  <a href="index.html">Code de l’application</a>
+</p>
 
 ---
 
-## Fonctionnalités du prototype
+## ✨ Aperçus de l’application
 
-- **Identité VOYO** avec un dégradé cyan, bleu et violet sur un thème sombre.
-- **Navigation** entre Accueil, Films, Séries, TV en direct et Ma liste.
-- **Catalogue de démonstration** avec des fiches, genres et visuels illustratifs.
-- **Recherche** par titre, genre ou type de contenu.
-- **Filtres de genres** pour parcourir plus facilement les suggestions.
-- **Liste personnelle** avec favoris conservés dans le navigateur utilisé.
-- **Interface responsive** pensée pour les écrans d’ordinateur et de téléphone.
-- **GitHub Actions** pour automatiser la publication statique via GitHub Pages.
+### 🖥️ Expérience ordinateur
 
-## Essayer VOYO
+<p align="center">
+  <img src="assets/voyo-desktop-preview.svg" alt="VOYO sur ordinateur : accueil, bannière et catalogue" width="100%">
+</p>
 
-Ouvrir la [démo web VOYO](https://mansstyle59.github.io/voyo-streaming/).
+### 📱 Expérience mobile
 
-Le site peut aussi être consulté localement : télécharger le dépôt, puis ouvrir `index.html` dans un navigateur récent.
+<p align="center">
+  <img src="assets/voyo-mobile-preview.svg" alt="VOYO sur mobile : recherche, filtres et catalogue" width="360">
+</p>
 
-## Structure du dépôt
+<sub>Les illustrations ci-dessus sont des maquettes visuelles créées pour présenter le projet. Elles ne sont pas des captures d’écran prises sur un appareil réel.</sub>
+
+---
+
+## 🚀 Fonctionnalités du prototype
+
+- **Identité VOYO** — thème sombre et dégradé cyan, bleu et violet.
+- **Navigation** — Accueil, Films, Séries, TV en direct et Ma liste.
+- **Catalogue de démonstration** — fiches de titres et genres.
+- **Recherche** — recherche par titre, genre ou type de contenu.
+- **Filtres** — parcours du catalogue par genre.
+- **Ma liste** — favoris enregistrés dans le navigateur actuel.
+- **Responsive** — mise en page adaptée aux écrans mobiles et ordinateurs.
+- **Publication automatisée** — workflow GitHub Actions pour GitHub Pages.
+
+## ▶ Essayer VOYO
+
+**[Lancer la démo web](https://mansstyle59.github.io/voyo-streaming/)**
+
+Pour tester en local, téléchargez ou clonez le dépôt, puis ouvrez `index.html` dans un navigateur récent.
+
+## 🗂️ Structure du projet
 
 ```text
 voyo-streaming/
@@ -53,20 +68,26 @@ voyo-streaming/
 └── README.md
 ```
 
-## Déploiement
+## ⚙️ Publication
 
-Le workflow `.github/workflows/deploy.yml` se déclenche à chaque mise à jour de la branche `main` et peut également être lancé manuellement.
+Le workflow `.github/workflows/deploy.yml` se déclenche lors des mises à jour de la branche `main`. Il peut aussi être lancé manuellement depuis l’onglet **Actions**.
 
-Pour vérifier son état, consulter l’onglet [GitHub Actions](https://github.com/mansstyle59/voyo-streaming/actions).
+- [Consulter les exécutions GitHub Actions](https://github.com/mansstyle59/voyo-streaming/actions)
+- [Ouvrir les paramètres GitHub Pages](https://github.com/mansstyle59/voyo-streaming/settings/pages)
 
-## À propos des contenus vidéo
+## 🛠️ Prochaines étapes
 
-VOYO est actuellement un **prototype d’interface** : le catalogue, les affiches et les emplacements de chaînes sont des exemples de démonstration. Aucun film, épisode ou flux TV réel n’est relié à cette version.
+1. Intégrer un lecteur vidéo pour les sources prises en charge.
+2. Connecter des sources et flux **autorisés**.
+3. Améliorer les fiches et les visuels du catalogue.
+4. Étudier la synchronisation de la liste entre appareils et la prise en charge des téléviseurs.
 
-Les prochaines étapes pourront inclure l’intégration de sources vidéo autorisées, un lecteur adapté aux formats pris en charge, ainsi que des fonctions de gestion de bibliothèque.
+## ℹ️ État actuel et droits des contenus
 
-N’utilisez que des contenus et des flux que vous êtes autorisé à consulter ou diffuser.
+VOYO est actuellement un **prototype d’interface**. Les titres et chaînes affichés sont des exemples de démonstration : aucun film, épisode ou flux TV réel n’est connecté à cette version.
+
+N’ajoutez que des contenus et des flux que vous êtes autorisé à consulter ou diffuser. Les marques et œuvres citées ou représentées appartiennent à leurs propriétaires respectifs.
 
 ---
 
-**VOYO** · Projet indépendant en développement.
+<p align="center"><strong>VOYO</strong> · Projet indépendant en développement</p>
