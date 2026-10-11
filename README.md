@@ -236,3 +236,15 @@ Le CSS est appliqué au fichier compilé `dist/css/bundle.css` pendant le workfl
 La couche responsive a été ajoutée au workflow de production et le README a été corrigé pour refléter l'état réel du projet. Le dernier build a réussi les étapes de compilation, de validation des fichiers, d'application du thème et de préparation des fichiers publiés. La vérification finale du déploiement GitHub Pages est consultable dans [GitHub Actions](https://github.com/mansstyle59/voyo-streaming/actions).
 
 **À tester sur appareils réels :** iPhone Safari (portrait et paysage), Android si disponible, et Smart TV avec télécommande. La règle responsive vise à réduire les débordements de l'écran d'appairage, mais les écrans d'authentification exacts peuvent dépendre du code applicatif amont et des API propres à chaque téléviseur.
+
+
+### Correctif ciblé d’après les captures iPhone — 12 octobre 2026
+
+Les captures ont montré deux problèmes concrets : la sélection de profil utilisait des avatars trop grands pour un téléphone, et l’écran d’accueil conservait la navigation verticale prévue pour une TV. Le CSS du build cible maintenant les classes réelles de NuvioTVSmart :
+- cartes et avatars de profil réduits avec une grille adaptable ;
+- navigation mobile fixée en bas, avec icônes et libellés ;
+- contenu principal limité à la largeur du téléphone et espace réservé à la navigation basse ;
+- navigation latérale et tailles de focus grand écran conservées sur TV ;
+- couleurs de marque VOYO préservées.
+
+Ces règles sont ajoutées au CSS généré lors du build. Le résultat doit être vérifié sur iPhone et sur une TV réelle ; une capture du site ou un build réussi ne suffit pas à garantir tous les parcours interactifs.
