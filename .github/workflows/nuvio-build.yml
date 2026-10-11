@@ -39,12 +39,12 @@ jobs:
         run: |
           test -s nuvio-source/dist/index.html
           test -s nuvio-source/dist/app.bundle.js
-          test -s nuvio-source/dist/css/themes.css
+          test -s nuvio-source/dist/css/bundle.css
           test -s nuvio-source/LICENSE
           test -s nuvio-source/README.md
       - name: Apply VOYO theme to compiled Nuvio UI
         run: |
-          cat >> nuvio-source/dist/css/themes.css <<'CSS'
+          cat >> nuvio-source/dist/css/bundle.css <<'CSS'
 
           /* VOYO brand override — custom theme on the NuvioTVSmart build. */
           :root {
@@ -78,8 +78,8 @@ jobs:
           EOF
           test -s site/index.html
           test -s site/app.bundle.js
-          test -s site/css/themes.css
-          grep -q '#2de0df' site/css/themes.css
+          test -s site/css/bundle.css
+          grep -q '#2de0df' site/css/bundle.css
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
