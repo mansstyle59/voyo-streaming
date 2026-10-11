@@ -486,6 +486,7 @@ function liveItem(meta,index){
 function stripMarkup(value){const el=document.createElement("div");el.innerHTML=String(value||"");return (el.textContent||el.innerText||"").trim()}
 async function loadRealCatalog(){
  const sections=$("sections");
+ const addonTask=renderConnectedAddonCatalogs(true);
  try{
   const responses=await Promise.all(LIVE_CATALOGS.map(async c=>{
    const response=await fetch(c.url,{headers:{Accept:"application/json"}});
