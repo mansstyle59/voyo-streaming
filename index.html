@@ -224,7 +224,6 @@ async function renderConnectedAddonCatalogs(force){
  if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
   savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
  }
- // A preconfigured record left disabled by an earlier failed verification must retry on the next home visit.
  for(const item of savedAddons){if(item&&item.url===FEATURED_STREMIO_ADDON_URL&&item.pending)item.enabled=true;}
  writeConnectedAddons(savedAddons);
  let addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
@@ -234,28 +233,50 @@ async function renderConnectedAddonCatalogs(force){
  for(let i=0;i<addons.length;i++){
   let addon=addons[i],manifest=addon.manifest;
   try{
-   if(!manifest||!Array.isArray(addon.catalogs)||addon.pending){manifest=await getAddonJson(addon.url);if(!manifest||typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste non valide");addon=normalizeManifestRecord(addon,manifest);const all=readConnectedAddons();const at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all)}
+   if(!manifest||!Array.isArray(addon.catalogs)||addon.pending){
+    manifest=await getAddonJson(addon.url,8000);
+    if(!manifest||typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste non valide");
+    addon=normalizeManifestRecord(addon,manifest);
+    const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);
+    if(at>=0)all[at]=addon;else all.unshift(addon);
+    writeConnectedAddons(all);
+   }
    if(!addon.enabled)continue;
    const catalogs=Array.isArray(addon.catalogs)?addon.catalogs:[];
    if(!catalogs.length){rows.push({addon,name:"Aucun catalogue",error:"Le manifeste est valide, mais ne déclare pas de catalogues de navigation."});continue}
-   for(const catalog of catalogs.slice(0,8)){
+   const catalogRows=await Promise.all(catalogs.slice(0,8).map(async catalog=>{
     const extras={};
-    (catalog.extra||[]).forEach(x=>{if(x&&x.name){if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}}});
+    (catalog.extra||[]).forEach(x=>{
+      if(!x||!x.name)return;
+      if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];
+      else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}
+    });
     const url=stremioResourceUrl(addon.url,"catalog/"+encodeURIComponent(catalog.type)+"/"+encodeURIComponent(catalog.id),extras);
     try{
-     let result=(!force&&externalFetchCache[url])||await getAddonJson(url);
+     const cached=!force&&externalFetchCache[url];
+     const result=cached||await getAddonJson(url,7500);
      externalFetchCache[url]=result;
-     let metas=Array.isArray(result.metas)?result.metas:(Array.isArray(result.metasDetailed)?result.metasDetailed:[]);
-     rows.push({addon,catalog,name:catalog.name||catalog.id,metas:metas.slice(0,18),error:metas.length?null:"L’addon a répondu sans titre pour ce catalogue."});
-    }catch(error){rows.push({addon,catalog,name:catalog.name||catalog.id,error:error.message||"Catalogue inaccessible"})}
-   }
-  }catch(error){addon.pending=true;addon.enabled=true;addon.lastError=error.message||"Erreur de connexion";const all=readConnectedAddons();const at=all.findIndex(a=>a.url===addon.url);if(at>=0)all[at]=addon;else all.unshift(addon);writeConnectedAddons(all);rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."})}
+     const metas=Array.isArray(result.metas)?result.metas:(Array.isArray(result.metasDetailed)?result.metasDetailed:[]);
+     return {addon,catalog,name:catalog.name||catalog.id,metas:metas.slice(0,18),error:metas.length?null:"L’addon a répondu sans titre pour ce catalogue."};
+    }catch(error){
+     return {addon,catalog,name:catalog.name||catalog.id,error:error.message||"Catalogue inaccessible"};
+    }
+   }));
+   rows.push(...catalogRows);
+  }catch(error){
+   addon.pending=true;addon.enabled=true;addon.lastError=error.message||"Erreur de connexion";
+   const all=readConnectedAddons(),at=all.findIndex(a=>a.url===addon.url);
+   if(at>=0)all[at]=addon;else all.unshift(addon);
+   writeConnectedAddons(all);
+   rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."});
+  }
  }
  if(!rows.length){host.innerHTML="";return}
  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
   const sub=escapeExternal(row.addon.name||"Addon");
   const cards=(row.metas||[]).map(meta=>{
-   const title=meta.name||meta.title||"Sans titre";const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
+   const title=meta.name||meta.title||"Sans titre";
+   const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
    if(poster)style+='background-image:linear-gradient(0deg,#000d,transparent 72%),url(&quot;'+escapeExternal(poster)+'&quot;);background-size:cover;background-position:center;';
    const payload=btoa(unescape(encodeURIComponent(JSON.stringify({addonUrl:row.addon.url,type:meta.type||row.catalog?.type||"movie",id:meta.id||"",title,poster:poster,year:meta.year||"",description:meta.description||meta.plot||"",releaseInfo:meta.releaseInfo||""})))).replace(/"/g,"&quot;");
    return '<article class="card"><button class="poster" data-addon-meta="'+payload+'" aria-label="Voir '+escapeExternal(title)+'" style="'+style+'"><span class="poster-title">'+escapeExternal(title)+'</span></button><div class="card-name">'+escapeExternal(title)+'</div><div class="card-meta">'+escapeExternal([meta.year,meta.type,meta.releaseInfo].filter(Boolean).join(" · "))+'</div></article>'
