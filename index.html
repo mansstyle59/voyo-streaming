@@ -218,21 +218,22 @@ function isFeaturedSource(a){return a&&a.url===FEATURED_STREMIO_ADDON_URL}
 function normalizeManifestRecord(a,manifest){return {url:a.url,id:manifest.id,name:manifest.name,description:manifest.description||"",version:manifest.version||"",manifest,catalogs:(manifest.catalogs||[]).filter(c=>c&&c.type&&c.id).map(c=>({type:c.type,id:c.id,name:c.name||c.id,extra:c.extra||[],extraSupported:c.extraSupported||[]})),enabled:true,pending:false,lastError:"",installedAt:a.installedAt||new Date().toISOString()}}
 async function initializeFeaturedAddon(){let list=readConnectedAddons();let found=list.findIndex(a=>isFeaturedSource(a));if(found<0){list.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});writeConnectedAddons(list);found=0}const item=list[found];if(item.manifest&&Array.isArray(item.catalogs)&&item.catalogs.length&&!item.pending)return;try{const manifest=await getAddonJson(FEATURED_STREMIO_ADDON_URL);if(typeof manifest.id!=="string"||typeof manifest.name!=="string"||!Array.isArray(manifest.resources))throw Error("manifeste invalide (id, name ou resources manquant)");list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));const normalized=normalizeManifestRecord(found>=0?list[found]:item,manifest);if(found>=0)list[found]=normalized;else list.unshift(normalized);writeConnectedAddons(list);return normalized}catch(error){list=readConnectedAddons();found=list.findIndex(a=>isFeaturedSource(a));if(found>=0){list[found].pending=true;list[found].enabled=false;list[found].lastError=error.message||"Manifeste inaccessible";writeConnectedAddons(list)}return null}}
 function renderAddonState(message,error){const host=$("addonExternalSections");if(!host)return;host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><span class="section-caption">Sources externes</span></div><div class="addon-connection-state '+(error?"error":"")+'">'+escapeExternal(message)+' <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>'}
-let addonCatalogsPromise=null;
+let addonCatalogsPromise=null,addonCatalogRequestId=0;
 async function renderConnectedAddonCatalogs(force){
  const host=$("addonExternalSections");if(!host)return;
  if(addonCatalogsPromise&&!force)return addonCatalogsPromise;
+ const requestId=++addonCatalogRequestId;
+ const query=$("search").value.trim();
  addonCatalogsPromise=(async()=>{
   let savedAddons=readConnectedAddons();
   if(!savedAddons.some(a=>a&&a.url===FEATURED_STREMIO_ADDON_URL)){
    savedAddons.unshift({url:FEATURED_STREMIO_ADDON_URL,id:"featured-pending",name:"Films & séries",manifest:null,catalogs:[],enabled:true,pending:true,installedAt:new Date().toISOString()});
   }
-  // Retry previous automatic failures, but respect a deliberate off switch on a verified addon.
   for(const item of savedAddons){if(item&&item.url===FEATURED_STREMIO_ADDON_URL&&item.pending)item.enabled=true;}
   writeConnectedAddons(savedAddons);
   const addons=savedAddons.filter(a=>a&&a.enabled&&a.url);
-  if(!addons.length){host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
-  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Films &amp; séries de tes addons</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
+  if(!addons.length){if(requestId===addonCatalogRequestId)host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2></div><div class="addon-connection-state">Aucun addon actif. <a href="./addons.html" style="color:#b8b3ff;font-weight:750">Gérer les addons ↗</a></div></section>';return}
+  if(requestId===addonCatalogRequestId)host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+(query?'Résultats des addons':'Films &amp; séries de tes addons')+'</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div><div class="addon-connection-state">Connexion aux catalogues…</div></section>';
   const rows=[];
   for(const initial of addons){
    let addon=initial,manifest=addon.manifest;
@@ -245,12 +246,26 @@ async function renderConnectedAddonCatalogs(force){
     }
     if(!addon.enabled)continue;
     const catalogs=Array.isArray(addon.catalogs)?addon.catalogs:[];
-    // Search catalogs need a query term; keep the home screen focused on browsable catalogs.
-    const browsable=catalogs.filter(c=>!/(^|[- _])(search|recherche)([- _]|$)/i.test(String((c.id||"")+" "+(c.name||""))));
-    if(!browsable.length){rows.push({addon,name:"Aucun catalogue de navigation",error:"Le manifeste n’a pas déclaré de catalogue navigable sans recherche."});continue}
-    const catalogRows=await Promise.all(browsable.slice(0,8).map(async catalog=>{
+    const isSearchCatalog=c=>/(^|[- _])(search|recherche)([- _]|$)/i.test(String((c.id||"")+" "+(c.name||"")));
+    let chosen;
+    if(query){
+     chosen=catalogs.filter(isSearchCatalog);
+     if(!chosen.length){
+      rows.push({addon,name:"Recherche non disponible",error:"Cet addon ne déclare pas de catalogue de recherche. Essaie le catalogue de navigation ou un autre addon."});
+      continue;
+     }
+    }else{
+     chosen=catalogs.filter(c=>!isSearchCatalog(c));
+    }
+    if(!chosen.length){if(!query)rows.push({addon,name:"Aucun catalogue de navigation",error:"Le manifeste ne déclare pas de catalogue navigable sans recherche."});continue}
+    const catalogRows=await Promise.all(chosen.slice(0,8).map(async catalog=>{
      const extras={};
      (catalog.extra||[]).forEach(x=>{if(x&&x.name){if(Array.isArray(x.options)&&x.options.length)extras[x.name]=x.options[0];else if(x.options&&typeof x.options==="object"){const keys=Object.keys(x.options);if(keys.length)extras[x.name]=keys[0]}}});
+     if(query){
+      const declared=Array.isArray(manifest.extraSupported)?manifest.extraSupported:[];
+      const declaredExtra=(catalog.extra||[]).map(x=>x&&x.name).filter(Boolean);
+      if(declared.includes("search")||declaredExtra.includes("search")||isSearchCatalog(catalog))extras.search=query;
+     }
      const url=stremioResourceUrl(addon.url,"catalog/"+encodeURIComponent(catalog.type)+"/"+encodeURIComponent(catalog.id),extras);
      try{
       let result=(!force&&externalFetchCache[url])||await getAddonJson(url,7500);
@@ -266,8 +281,9 @@ async function renderConnectedAddonCatalogs(force){
     rows.push({addon,name:"Connexion impossible",error:(error.message||"Erreur de connexion")+". Ouvre Addons pour réessayer ou vérifier le manifeste."});
    }
   }
-  if(!rows.length){host.innerHTML="";return}
-  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">Catalogues connectés</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
+  if(requestId!==addonCatalogRequestId)return;
+  if(!rows.length){host.innerHTML=query?'<section class="section"><div class="empty-state"><strong>Aucun résultat d’addon</strong>Essaie une autre recherche ou vérifie que l’addon propose la recherche.</div></section>':"";return}
+  host.innerHTML='<section class="section"><div class="section-head"><h2 class="section-title">'+(query?'Résultats des addons pour « '+escapeExternal(query)+' »':'Catalogues connectés')+'</h2><button class="quick" data-refresh-addons>↻ Actualiser</button></div></section>'+rows.map(row=>{
    const sub=escapeExternal(row.addon.name||"Addon");
    const cards=(row.metas||[]).map(meta=>{
     const title=meta.name||meta.title||"Sans titre";const poster=safeHttpUrl(meta.poster||meta.background||"");let style="--c1:#345c8a;--c2:#151426;";
@@ -349,7 +365,7 @@ if(e.target.id==="settings"||e.target.id==="manageProfiles"){ $("profileMenu").c
 if(e.target.closest(".modal-backdrop")===e.target){e.target.classList.remove("open");return}
 if(!e.target.closest("#profileMenu"))$("profileMenu").classList.remove("open")
 });
-$("search").addEventListener("input",function(){if(this.value.trim())this.classList.add("has-text");else this.classList.remove("has-text");if(view==="tv")view="home";render()});
+$("search").addEventListener("input",function(){if(this.value.trim())this.classList.add("has-text");else this.classList.remove("has-text");if(view==="tv")view="home";render();if(view==="home")renderConnectedAddonCatalogs(true)});
 $("search").addEventListener("focus",function(){this.classList.add("has-text")});
 $("logoHome").addEventListener("click",function(e){e.preventDefault();chooseView("home")});
 $("heroPlay").addEventListener("click",()=>playTitle(activeTitle.id));
