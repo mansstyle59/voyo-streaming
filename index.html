@@ -239,7 +239,7 @@ body{background:#07080d;letter-spacing:.005em}
 <script>
 (function(){
 "use strict";
-const titles=[
+let titles=[
 {id:"signal",title:"Le Dernier Signal",kind:"Série",year:2025,genre:"Science-fiction",age:"16+",duration:"1 saison",score:98,tag:"À LA UNE",c1:"#b65d54",c2:"#17102f",summary:"Quand un signal inconnu traverse le ciel, une petite équipe découvre qu’il pourrait changer le destin de la Terre.",cast:"Maya Sorel, Hugo Varenne, Lina Moreau",progress:68,popularity:1},
 {id:"port",title:"Les Ombres du Port",kind:"Film",year:2025,genre:"Thriller",age:"12+",duration:"1 h 52",score:94,tag:"NOUVEAUTÉ",c1:"#277c9b",c2:"#111326",summary:"Une inspectrice revient dans sa ville natale et rouvre une affaire que tout le monde pensait oubliée.",cast:"Élise Maran, Théo Delcourt",progress:24,popularity:2},
 {id:"horizon",title:"Horizon Zéro",kind:"Film",year:2024,genre:"Aventure",age:"10+",duration:"2 h 04",score:91,tag:"POPULAIRE",c1:"#cb9752",c2:"#20314c",summary:"Deux explorateurs se lancent dans une expédition où chaque décision peut tout changer.",cast:"Noé Valmont, Sarah Lenoir",progress:0,popularity:3},
@@ -270,7 +270,7 @@ function byId(id){return titles.find(t=>t.id===id)||titles[0]}
 function isSaved(t){return userList.includes(t.id)}
 function iconName(view){return view==="films"?"Films":view==="series"?"Séries":view==="tv"?"TV en direct":view==="mylist"?"Ma liste":"Pour vous"}
 function continueMarkup(t){return '<article class="card continue-card" style="--c1:'+t.c1+';--c2:'+t.c2+'"><button class="continue-card" data-detail="'+t.id+'" aria-label="Ouvrir '+esc(t.title)+'" style="position:absolute;inset:0;border:0;background:transparent;width:100%;height:100%;color:inherit"><span class="continue-shape"></span><span class="continue-resume">'+Math.max(1,Math.round((100-t.progress)*1.2))+' min restantes</span><span class="continue-info"><small>S1 · E'+(t.progress>50?"5":"3")+'</small><strong>'+esc(t.title)+'</strong><span>'+esc(t.genre)+'</span><span class="continue-progress"><i style="width:'+t.progress+'%"></i></span></span></button></article>'}
-function cardMarkup(t,options){options=options||{};const resume=options.resume||false;const rank=options.rank||0;const label=esc(t.title.toUpperCase()).replace(/ &amp; /g," & ");let art='<button class="poster" data-detail="'+t.id+'" aria-label="Afficher la fiche de '+esc(t.title)+'" style="--c1:'+t.c1+';--c2:'+t.c2+'"><span class="poster-badge">'+esc(t.tag)+'</span><span class="poster-rating">'+t.age+'</span><span class="poster-title">'+label+'</span></button>';if(rank)art='<article class="card top-card"><span class="rank-number">'+rank+'</span>'+art+'</article>';else art='<article class="card">'+art;
+function cardMarkup(t,options){options=options||{};const resume=options.resume||false;const rank=options.rank||0;const label=esc(t.title.toUpperCase()).replace(/ &amp; /g," & ");let posterStyle="--c1:"+t.c1+";--c2:"+t.c2;if(t.poster)posterStyle+=';background-image:linear-gradient(0deg,#05060ce8 0%,#05060c18 62%,#05060c08 100%),url("'+esc(t.poster)+'");background-size:cover;background-position:center top';let art='<button class="poster" data-detail="'+t.id+'" aria-label="Afficher la fiche de '+esc(t.title)+'" style="'+posterStyle+'"><span class="poster-badge">'+esc(t.tag)+'</span><span class="poster-rating">'+esc(t.age)+'</span><span class="poster-title">'+label+'</span></button>'if(rank)art='<article class="card top-card"><span class="rank-number">'+rank+'</span>'+art+'</article>';else art='<article class="card">'+art;
 if(rank) {art=art.replace('</article><article','</article><article');}
 if(resume)art=art.replace('</button>','<span></span></button>');
 let extras='<div class="card-name">'+esc(t.title)+'</div><div class="card-meta">'+t.year+' · '+esc(t.genre)+' · '+esc(t.duration)+'</div>';
@@ -472,7 +472,51 @@ $("explore");
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".modal-backdrop").forEach(m=>m.classList.remove("open"));$("profileMenu").classList.remove("open")}if(e.key==="/"&&document.activeElement!==$("search")){e.preventDefault();$("search").focus()}});
 const initialProfile=activeProfile==="family"?"F":activeProfile==="kids"?"K":"D";$("profileBtn").textContent=initialProfile;
 window.addEventListener("storage",e=>{if(e.key==="voyo-addons-v1")renderConnectedAddonCatalogs(true)});
+const LIVE_CATALOGS=[
+ {type:"movie",url:"https://v3-cinemeta.strem.io/catalog/movie/top.json",label:"Films populaires"},
+ {type:"series",url:"https://v3-cinemeta.strem.io/catalog/series/top.json",label:"Séries populaires"}
+];
+function liveItem(meta,index){
+ const type=meta.type==="series"?"Série":"Film";
+ const genres=Array.isArray(meta.genres)?meta.genres:[];
+ const year=Number(String(meta.releaseInfo||meta.year||"").match(/\\d{4}/)?.[0])||new Date().getFullYear();
+ const score=Number(meta.imdbRating)||0;
+ return {id:"live-"+String(meta.type||"movie")+"-"+String(meta.id||index).replace(/[^a-zA-Z0-9_-]/g,"-"),sourceId:String(meta.id||""),sourceType:meta.type||"movie",isLive:true,title:meta.name||meta.title||"Sans titre",kind:type,year,genre:genres[0]||type,age:"—",duration:meta.runtime?String(meta.runtime)+" min":"—",score:Math.max(0,Math.min(100,Math.round(score*10)||0)),tag:index<5?"POPULAIRE":"CATALOGUE",c1:"#293b5d",c2:"#111421",summary:stripMarkup(meta.description||meta.plot||"Fiche de catalogue. Les informations sont fournies par Cinemeta."),cast:"",progress:0,popularity:index+1,poster:safeHttpUrl(meta.poster||""),background:safeHttpUrl(meta.background||""),imdbRating:meta.imdbRating||"",externalUrl:meta.imdb_id?"https://www.imdb.com/title/"+encodeURIComponent(meta.imdb_id)+"/":""};
+}
+function stripMarkup(value){const el=document.createElement("div");el.innerHTML=String(value||"");return (el.textContent||el.innerText||"").trim()}
+async function loadRealCatalog(){
+ const sections=$("sections");
+ try{
+  const responses=await Promise.all(LIVE_CATALOGS.map(async c=>{
+   const response=await fetch(c.url,{headers:{Accept:"application/json"}});
+   if(!response.ok)throw Error(c.label+": HTTP "+response.status);
+   const data=await response.json();
+   if(!Array.isArray(data.metas))throw Error(c.label+": réponse sans catalogue");
+   return {type:c.type,metas:data.metas};
+  }));
+  const incoming=responses.flatMap(group=>group.metas.map((meta,index)=>liveItem(meta,index)));
+  const unique=new Map();
+  for(const item of incoming)if(item.sourceId&&!unique.has(item.id))unique.set(item.id,item);
+  const real=[...unique.values()];
+  if(real.length<10)throw Error("Le catalogue a renvoyé trop peu de titres.");
+  titles=real;
+  const filmCount=titles.filter(t=>t.kind==="Film").length;
+  const seriesCount=titles.filter(t=>t.kind==="Série").length;
+  const notice=document.querySelector(".notice");
+  if(notice)notice.innerHTML="Catalogue réel connecté : <strong>"+filmCount+" films</strong> et <strong>"+seriesCount+" séries</strong>, avec affiches et fiches fournies par <a href="https://www.cinemeta.strem.io/" target="_blank" rel="noopener noreferrer">Cinemeta</a>. La disponibilité en lecture dépend d’une source vidéo autorisée.";
+  if(view==="home")setHero(titles[0]);
+  render();
+ }catch(error){
+  const notice=document.querySelector(".notice");
+  if(notice)notice.innerHTML="Le catalogue réel est temporairement indisponible. Réessaie dans quelques instants. <a href="https://github.com/mansstyle59/voyo-streaming/actions" target="_blank" rel="noopener noreferrer">État technique</a>. Aucun contenu fictif n’est présenté comme un film réel.";
+  titles=[];
+  const hero=$("hero");if(hero)hero.hidden=true;
+  if(sections)sections.innerHTML='<section class="section"><div class="empty-state"><strong>Catalogue indisponible</strong>VOYO n’a pas pu joindre le fournisseur de métadonnées. Recharge la page pour réessayer.</div></section>';
+  const tv=$("tvGrid");if(tv)tv.innerHTML='<div class="empty-state">Le catalogue TV réel est indisponible.</div>';
+ }
+}
 render();
+loadRealCatalog();
 })();
 </script>
 </body>
