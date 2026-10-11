@@ -50,8 +50,10 @@
 - **Gestionnaire d’addons prévu** : l’objectif est de permettre l’ajout de manifestes par URL, l’activation/désactivation, l’import/export de configuration et la découverte des catalogues.
 - **Compatibilité Stremio/Nuvio en cours d’étude** : la priorité est le protocole d’addons distant Stremio (`manifest.json`, `catalog`, `meta`, `stream`), sans prétendre couvrir toutes les extensions.
 - **Interface responsive** adaptée aux écrans mobiles et ordinateurs.
-- **Gestionnaire d’addons expérimental** : ajout par URL de manifeste, vérification, activation/désactivation, suppression, import/export JSON et aperçu des catalogues déclarés.
-- **Catalogues d’addons sur l’accueil** : VOYO tente d’afficher les titres des addons activés, d’ouvrir leurs fiches et de demander les flux déclarés par l’addon.
+- **Gestionnaire d’addons Stremio expérimental** : ajout par URL de manifeste, vérification, activation/désactivation, suppression, import/export JSON et aperçu des catalogues déclarés.
+- **Catalogues communautaires sur l’accueil** : VOYO tente de récupérer les listes de films et de séries exposées par le manifeste public French Stream, avec cartes navigables et état d’erreur lisible.
+- **Fiches de catalogue externe** : affichage des métadonnées renvoyées par un addon et demande de la ressource `stream` lorsqu’elle est proposée.
+- **Tests de non-régression GitHub Actions** : validation syntaxique du JavaScript, tests simulés de l’accueil, de la page Addons et du traitement d’un manifeste inaccessible.
 - **Publication automatisée** via GitHub Actions et GitHub Pages.
 
 ## 🧩 Compatibilité d’addons — prochaine étape
@@ -60,7 +62,7 @@ La prochaine grande fonction envisagée est une page de gestion d’addons compa
 
 ### Limites techniques à prévoir
 
-- Un addon doit être accessible depuis le navigateur et autoriser les requêtes CORS ; sinon, un service intermédiaire peut être nécessaire.
+- Le manifeste public testé autorise CORS, mais la disponibilité de chaque catalogue peut varier. Un addon tiers peut répondre lentement, refuser certaines requêtes ou changer son protocole.
 - La compatibilité sera **partielle tant que chaque ressource et format n’aura pas été testé**. Les catalogues dynamiques, identifiants d’épisode, sous-titres et paramètres propres à chaque addon peuvent nécessiter des adaptations.
 - Une URL de flux ne garantit pas que le navigateur puisse la lire. HLS, DASH, torrents, flux protégés, DRM ou formats natifs peuvent demander un lecteur dédié ou un backend.
 - Les extensions qui exécutent du code local ne peuvent pas être exécutées directement par cette application statique.
@@ -72,9 +74,9 @@ VOYO **n’inclut pas automatiquement** un catalogue complet de films, de série
 
 **[Ouvrir la page Addons](https://mansstyle59.github.io/voyo-streaming/addons.html)**
 
-La page permet d’ajouter un addon distant en lisant son `manifest.json`, de conserver la liste dans le navigateur, d’activer/désactiver les entrées, de supprimer un addon, de réimporter/exporter une configuration et de consulter les catalogues déclarés. L’accueil tente également de charger les catalogues activés, puis leurs fiches et flux. Un raccourci discret propose aussi l’installation de l’addon communautaire fourni dans la configuration de VOYO ; son installation est déclenchée par l’utilisateur après vérification du manifeste. Lorsqu’un catalogue est sélectionné, VOYO tente de lire les métadonnées exposées par l’addon.
+La page permet d’ajouter un addon distant en lisant son `manifest.json`, de conserver la liste dans le navigateur, d’activer/désactiver les entrées, de supprimer un addon, de réimporter/exporter une configuration et de consulter les catalogues déclarés. L’addon public French Stream est préconfiguré avec son manifeste public sans clé API dans l’URL. L’accueil tente ensuite de charger les catalogues activés, puis leurs fiches et les flux déclarés par le service. Un raccourci discret propose aussi l’installation de l’addon communautaire fourni dans la configuration de VOYO ; son installation est déclenchée par l’utilisateur après vérification du manifeste. Lorsqu’un catalogue est sélectionné, VOYO tente de lire les métadonnées exposées par l’addon.
 
-**Compatibilité partielle :** l’addon mis en raccourci est un service tiers et n’a pas pu être vérifié depuis l’environnement de développement. L’installation réelle doit confirmer qu’il expose un manifeste valide. Il doit autoriser les requêtes CORS et respecter les ressources du protocole attendu. Les catalogues et paramètres spécifiques, les sous-titres et la lecture de flux ne sont pas garantis. La page ne lance pas de code local fourni par un addon et ne fournit aucun film ou flux TV par elle-même. N’ajoute que des sources de confiance et autorisées.
+**Résultat du test de connexion :** lors de la dernière vérification GitHub Actions, `https://addon-stremio-fs-public.stremio-fs-public.workers.dev/manifest.json` a renvoyé HTTP 200, `Access-Control-Allow-Origin: *`, le manifeste `community.french-stream-public` et des catalogues films/séries. Plusieurs catalogues de test ont renvoyé des titres ; un catalogue a précédemment expiré et peut être temporairement indisponible. La réussite de ce test réseau ne garantit pas que toutes les requêtes répondront toujours. Les catalogues et paramètres spécifiques, les sous-titres et la lecture de flux ne sont pas garantis. La page ne lance pas de code local fourni par un addon et ne fournit aucun film ou flux TV par elle-même. N’ajoute que des sources de confiance et autorisées.
 
 ## ▶ Essayer VOYO
 
@@ -116,7 +118,7 @@ Le workflow `.github/workflows/deploy.yml` se lance lors des mises à jour de la
 
 ## ℹ️ État actuel et droits des contenus
 
-VOYO reste un **prototype en développement**. Les films, séries et chaînes affichés dans le catalogue principal sont fictifs. Le gestionnaire d’addons est expérimental : il prend en charge les opérations de base du manifeste et l’exploration de catalogues, mais ne garantit pas une compatibilité universelle avec Stremio ou Nuvio. Les profils ne sont pas des comptes sécurisés et les paramètres sont stockés localement dans le navigateur.
+VOYO reste un **prototype en développement**. Les films, séries et chaînes affichés dans le catalogue principal sont fictifs. Le gestionnaire d’addons est expérimental : il prend en charge les opérations de base du manifeste et l’exploration de catalogues. La vérification GitHub Actions valide le code et utilise des fixtures pour tester le parcours, mais ne certifie pas tous les addons tiers ni tous les formats de vidéo. Les profils ne sont pas des comptes sécurisés et les paramètres sont stockés localement dans le navigateur.
 
 N’utilise que des contenus et des flux que tu es autorisé à consulter ou diffuser. Les marques, logiciels tiers et contenus cités ou intégrés appartiennent à leurs propriétaires respectifs.
 
