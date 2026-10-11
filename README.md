@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Votre univers de divertissement, dans une interface moderne et intuitive.</strong><br>
-  Un prototype responsive pour explorer films, séries et télévision depuis un même endroit.
+  Une interface responsive de découverte inspirée des grands services de streaming, avec une identité VOYO originale.
 </p>
 
 <p align="center">
@@ -40,12 +40,15 @@
 ## 🚀 Fonctionnalités du prototype
 
 - **Identité VOYO** — thème sombre et dégradé cyan, bleu et violet.
+- **Accueil éditorial** avec sélection à la une et rangées de contenus horizontales.
+- **Reprendre la lecture** avec indicateurs de progression de démonstration.
+- **Top 10 VOYO**, nouveautés et rangées par genre ou type de contenu.
 - **Navigation** — Accueil, Films, Séries, TV en direct et Ma liste.
-- **Catalogue de démonstration** — fiches de titres et genres.
-- **Recherche** — recherche par titre, genre ou type de contenu.
-- **Filtres** — parcours du catalogue par genre.
-- **Ma liste** — favoris enregistrés dans le navigateur actuel.
-- **Responsive** — mise en page adaptée aux écrans mobiles et ordinateurs.
+- **Recherche** sur les titres, genres et descriptions du catalogue de démonstration.
+- **Fiches détaillées** avec synopsis, année, durée, classification indicative et distribution fictive.
+- **Ma liste** et évaluations enregistrées dans le navigateur.
+- **Sélecteur de profils de démonstration** : principal, famille et enfants.
+- **Responsive** : rails horizontaux sur ordinateur et mobile, avec navigation mobile adaptée.
 - **Publication automatisée** — workflow GitHub Actions pour GitHub Pages.
 
 ## ▶ Essayer VOYO
@@ -84,7 +87,7 @@ Le workflow `.github/workflows/deploy.yml` se déclenche lors des mises à jour 
 
 ## ℹ️ État actuel et droits des contenus
 
-VOYO est actuellement un **prototype d’interface**. Les titres et chaînes affichés sont des exemples de démonstration : aucun film, épisode ou flux TV réel n’est connecté à cette version.
+VOYO est actuellement un **prototype d’interface**. Les titres, descriptions, notes, progrès de lecture et chaînes affichés sont des exemples de démonstration : aucun film, épisode ou flux TV réel n’est connecté. Le bouton « Lire » explique cette limite au lieu de simuler une lecture réelle. Les profils ne sont pas des comptes sécurisés et les préférences sont stockées localement dans le navigateur.
 
 N’ajoutez que des contenus et des flux que vous êtes autorisé à consulter ou diffuser. Les marques et œuvres citées ou représentées appartiennent à leurs propriétaires respectifs.
 
