@@ -85,6 +85,7 @@ function loadPage(html, pathname, fetcher, storageSeed = []) {
     beforeParse(window) {
       window.fetch = fetcher;
       window.scrollTo = () => {};
+      window.HTMLElement.prototype.scrollIntoView = () => {};
       window.confirm = () => true;
       window.localStorage.setItem("voyo-addons-v1", JSON.stringify(storageSeed));
     }
