@@ -12,6 +12,8 @@
 <p align="center">
   <a href="https://mansstyle59.github.io/voyo-streaming/"><strong>▶ Ouvrir VOYO</strong></a>
   &nbsp;·&nbsp;
+  <a href="https://mansstyle59.github.io/voyo-streaming/addons.html"><strong>🧩 Gestion des addons</strong></a>
+  &nbsp;·&nbsp;
   <a href="https://github.com/mansstyle59/voyo-streaming/actions">État du déploiement</a>
 </p>
 
@@ -48,6 +50,7 @@
 - **Gestionnaire d’addons prévu** : l’objectif est de permettre l’ajout de manifestes par URL, l’activation/désactivation, l’import/export de configuration et la découverte des catalogues.
 - **Compatibilité Stremio/Nuvio en cours d’étude** : la priorité est le protocole d’addons distant Stremio (`manifest.json`, `catalog`, `meta`, `stream`), sans prétendre couvrir toutes les extensions.
 - **Interface responsive** adaptée aux écrans mobiles et ordinateurs.
+- **Gestionnaire d’addons expérimental** : ajout par URL de manifeste, vérification, activation/désactivation, suppression, import/export JSON et aperçu des catalogues déclarés.
 - **Publication automatisée** via GitHub Actions et GitHub Pages.
 
 ## 🧩 Compatibilité d’addons — prochaine étape
@@ -64,9 +67,18 @@ La prochaine grande fonction envisagée est une page de gestion d’addons compa
 
 VOYO **n’inclut pas automatiquement** un catalogue complet de films, de séries ou de chaînes. Aucun contenu vidéo n’est fourni par le projet lui-même.
 
+## 🧩 Gestion des addons
+
+**[Ouvrir la page Addons](https://mansstyle59.github.io/voyo-streaming/addons.html)**
+
+La page permet d’ajouter un addon distant en lisant son `manifest.json`, de conserver la liste dans le navigateur, d’activer/désactiver les entrées, de supprimer un addon, de réimporter/exporter une configuration et de consulter les catalogues déclarés. Lorsqu’un catalogue est sélectionné, VOYO tente de lire les métadonnées exposées par l’addon.
+
+**Compatibilité partielle :** l’addon doit autoriser les requêtes CORS et respecter les ressources du protocole attendu. Les catalogues et paramètres spécifiques, les sous-titres et la lecture de flux ne sont pas garantis. La page ne lance pas de code local fourni par un addon et ne fournit aucun film ou flux TV par elle-même. N’ajoute que des sources de confiance et autorisées.
+
 ## ▶ Essayer VOYO
 
 - [Lancer l’application](https://mansstyle59.github.io/voyo-streaming/)
+- [Gestion des addons](https://mansstyle59.github.io/voyo-streaming/addons.html)
 - [Consulter les exécutions GitHub Actions](https://github.com/mansstyle59/voyo-streaming/actions)
 
 Pour travailler en local, clone ou télécharge le dépôt, puis ouvre `index.html` dans un navigateur récent. Pour l’installation d’addons, l’application doit être servie via HTTPS ou un serveur local adapté.
@@ -82,6 +94,7 @@ voyo-streaming/
 │   ├── voyo-desktop-preview.svg
 │   └── voyo-mobile-preview.svg
 ├── index.html
+├── addons.html
 └── README.md
 ```
 
@@ -102,7 +115,7 @@ Le workflow `.github/workflows/deploy.yml` se lance lors des mises à jour de la
 
 ## ℹ️ État actuel et droits des contenus
 
-VOYO reste un **prototype en développement**. Les films, séries et chaînes affichés dans le catalogue principal sont fictifs. La compatibilité Stremio/Nuvio n’est pas encore intégrée dans la version actuelle et ne devra être annoncée qu’après des tests réels par addon. Les profils ne sont pas des comptes sécurisés et les paramètres sont stockés localement dans le navigateur.
+VOYO reste un **prototype en développement**. Les films, séries et chaînes affichés dans le catalogue principal sont fictifs. Le gestionnaire d’addons est expérimental : il prend en charge les opérations de base du manifeste et l’exploration de catalogues, mais ne garantit pas une compatibilité universelle avec Stremio ou Nuvio. Les profils ne sont pas des comptes sécurisés et les paramètres sont stockés localement dans le navigateur.
 
 N’utilise que des contenus et des flux que tu es autorisé à consulter ou diffuser. Les marques, logiciels tiers et contenus cités ou intégrés appartiennent à leurs propriétaires respectifs.
 
