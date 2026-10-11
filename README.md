@@ -248,3 +248,8 @@ Les captures ont montré deux problèmes concrets : la sélection de profil util
 - couleurs de marque VOYO préservées.
 
 Ces règles sont ajoutées au CSS généré lors du build. Le résultat doit être vérifié sur iPhone et sur une TV réelle ; une capture du site ou un build réussi ne suffit pas à garantir tous les parcours interactifs.
+
+
+### Correctif de publication — 12 octobre 2026
+
+Le diagnostic a révélé la cause du changement invisible : l’ancienne règle ajoutait les styles responsive à `css/bundle.css`, alors que le HTML de NuvioTVSmart charge réellement `css/base.css`, `css/layout.css`, `css/components.css` et surtout `css/themes.css` en dernier. Le workflow applique maintenant le thème VOYO et les règles responsive à `css/themes.css`, puis vérifie la présence de la couleur VOYO dans ce fichier effectivement chargé. Le nouveau build et déploiement est déclenché par cette correction.
