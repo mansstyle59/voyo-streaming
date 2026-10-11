@@ -49,21 +49,23 @@ jobs:
           test -n "$CSS_FILE"
           cat >> "$CSS_FILE" <<'CSS'
 
-          /* VOYO brand override — custom theme on the NuvioTVSmart build. */
+          /* VOYO brand override — cyan, blue and violet. */
           :root {
-            --focus-color: #4d8dff;
-            --focus-color-rgb: 77 141 255;
+            --focus-color: #438bff;
+            --focus-color-rgb: 67 139 255;
             --focus-bg: #13233e;
-            --secondary-color: #4d8dff;
-            --secondary-color-rgb: 77 141 255;
+            --secondary-color: #438bff;
+            --secondary-color-rgb: 67 139 255;
             --secondary-variant: #a78bfa;
             --on-secondary: #08090d;
+            --voyo-cyan: #2de0df;
+            --voyo-blue: #438bff;
+            --voyo-violet: #762dff;
           }
           a:focus, button:focus, input:focus, select:focus, textarea:focus,
           .focusable:focus, .focused, .selected, [aria-selected="true"] {
             outline-color: #438bff !important;
           }
-          /* Keep the recognizable VOYO cyan-blue-violet gradient on selected and primary controls. */
           .home-nav-item.selected,
           .modern-sidebar-nav-item.selected,
           .library-picker-option.focused,
